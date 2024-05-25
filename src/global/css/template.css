@@ -1,0 +1,21 @@
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+#topnav .navigation-menu>li>a ,
+body {
+    font-family: Muli;
+}
+
+#topnav .navigation-menu>li>a{
+    @apply !px-2 !uppercase !font-normal;
+    /* display:block;background-color:transparent;padding-left:15px;padding-right:15px; */
+}

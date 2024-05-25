@@ -1,0 +1,34 @@
+[
+	{
+		"title": "Home",
+		"path": "/"
+	},
+	{
+		"title": "Profil",
+		"path": "/profil"
+	},
+	{
+		"title": "Lembaga",
+		"path": "/lembaga"
+	},
+	{
+		"title": "Kegiatan",
+		"path": "/kegiatan"
+	},
+	{
+		"title": "Pendaftaran",
+		"path": "/pendaftaran"
+	},
+	{
+		"title": "Galeri",
+		"path": "/galeri"
+	},
+	{
+		"title": "Berita",
+		"path": "/berita"
+	},
+	{
+		"title": "Kontak",
+		"path": "/kontak"
+	}
+]
