@@ -2,17 +2,12 @@ const Navigation = ({webNavigationList})=>{
     const cls12 = "cls-12 dropdown inline-block relative pe-1"
 
 		const cls29 = "cls-29 navigation-menu justify-end nav-light"
-		const cls30 = "cls-30 has-submenu parent-menu-item"
-		const cls31 = "cls-31 menu-arrow"
-		const cls32 = "cls-32 submenu"
 		const cls33 = "cls-33 sub-menu-item"
-		const cls34 = "cls-34 has-submenu parent-parent-menu-item"
-		const cls35 = "cls-35 submenu-arrow"
     return <div id="navigation"> 
     {/*<!-- Navigation Menu-->*/} 
     <ul className={cls29}> 
     {webNavigationList.map((item,index)=>{
-        return  <li key={index}> <a href={item.path} className={cls33}> {item.title} </a> </li> 
+        return  <li key={index}> <a href={`${item.path}/index.html`} className={cls33}> {item.title} </a> </li> 
     })}
         {/* <li className={cls30}> 
             <a href="javascript:void(0)"> Hero </a> <span className={cls31}> </span> 

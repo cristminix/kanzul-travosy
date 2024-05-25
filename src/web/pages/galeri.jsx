@@ -1,0 +1,1 @@
+console.log('C:\projects\kanzul-travosy\src\web\pages\galeri.jsx')

@@ -1,0 +1,86 @@
+{
+  "homepage": {
+    "entry": "src/web/pages/homepage.jsx",
+    "filename": "/index.html",
+    "template": "index.html",
+    "inject": {
+      "data": {
+        "title": "Home Page Title",
+        "meta": {
+          "description": "Homepage meta description",
+          "keyword": "keyword"
+        }
+      }
+    }
+  },
+  "profil": {
+    "entry": "src/web/pages/profil.jsx",
+    "filename": "/profil/index.html",
+    "template": "profil/index.html",
+    "inject": {
+      "data": {
+        "title": "profil Page"
+      }
+    }
+  },
+  "lembaga": {
+    "entry": "src/web/pages/lembaga.jsx",
+    "filename": "/lembaga/index.html",
+    "template": "lembaga/index.html",
+    "inject": {
+      "data": {
+        "title": "lembaga Page"
+      }
+    }
+  },
+  "kegiatan": {
+    "entry": "src/web/pages/kegiatan.jsx",
+    "filename": "/kegiatan/index.html",
+    "template": "kegiatan/index.html",
+    "inject": {
+      "data": {
+        "title": "kegiatan Page"
+      }
+    }
+  },
+  "pendaftaran": {
+    "entry": "src/web/pages/pendaftaran.jsx",
+    "filename": "/pendaftaran/index.html",
+    "template": "pendaftaran/index.html",
+    "inject": {
+      "data": {
+        "title": "pendaftaran Page"
+      }
+    }
+  },
+  "galeri": {
+    "entry": "src/web/pages/galeri.jsx",
+    "filename": "/galeri/index.html",
+    "template": "galeri/index.html",
+    "inject": {
+      "data": {
+        "title": "galeri Page"
+      }
+    }
+  },
+  "berita": {
+    "entry": "src/web/pages/berita.jsx",
+    "filename": "/berita/index.html",
+    "template": "berita/index.html",
+    "inject": {
+      "data": {
+        "title": "berita Page"
+      }
+    }
+  },
+  "kontak": {
+    "entry": "src/web/pages/kontak.jsx",
+    "filename": "/kontak/index.html",
+    "template": "kontak/index.html",
+    "inject": {
+      "data": {
+        "title": "kontak Page"
+      }
+    }
+  }
+}

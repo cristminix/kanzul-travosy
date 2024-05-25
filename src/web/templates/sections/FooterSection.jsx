@@ -91,7 +91,7 @@ const FooterSection = ({footerData,companyData, contactPersonList, socialNetwork
 
                          <div className={cls13}> 
                              <h5 className={cls15}> Kontak Person </h5> 
-                             <p className={cls26}> Anda bisa menghubungi kapan saja. </p> 
+                             <p className={cls26}> Anda bisa menghubungi kami kapan saja. </p> 
                              {contactPersonList.map((item,index)=>{
                                  return <div className={cls17} key={index}> 
                                  <i data-feather="phone" className={cls18}> </i> 

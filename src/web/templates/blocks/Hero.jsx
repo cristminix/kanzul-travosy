@@ -126,8 +126,7 @@ try {
                                  <p className={cls11}> Berencana memondokkan buah hati? Kami siap membantu anda, kami menyiapkan guru dan pengajar yang mumpuni dalam menunjang pendidikan dan akhlak buah hati anda! </p> 
 
                                  <div className={cls12}> 
-                                     <a href="" className={cls13}> See
-                                        More </a> 
+                                     <a href="" className={cls13}> Selengkapnya </a> 
                                  </div> 
                              </div> 
                          </div> {/*<!--end grid-->*/} 
