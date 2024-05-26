@@ -7,7 +7,11 @@ export default {
   darkMode: "selector",
 
   theme: {
-    extend: {},
+    extend: {
+      zIndex: {
+        '1000': '1000',
+      }
+    },
   },
   plugins: [
     // require("@tailwindcss/forms"), 

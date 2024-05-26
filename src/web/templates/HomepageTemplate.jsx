@@ -5,6 +5,8 @@ import companyData from "@/web/data/company.json"
 import contactPersonList from "@/web/data/contact-person-list.json"
 import socialNetworkLinks from "@/web/data/social-network-links.json"
 import webNavigationList from  "@/web/data/web-navigation-list.json"
+import galeryList from  "@/web/data/galery-list.json"
+import beritaList from  "@/web/data/berita-list.json"
 import "@/global/css/template.css"
 
 import HomepageMainContent from "./sections/HomepageMainContent"
@@ -17,7 +19,7 @@ const HomepageTemplate = ({})=>{
     companyData={companyData} 
     contactPersonList={contactPersonList} 
     socialNetworkLinks={socialNetworkLinks}>
-    <HomepageMainContent/>
+    <HomepageMainContent galeryList={galeryList} beritaList={beritaList}/>
     </ColumnLayout>
 }
 
