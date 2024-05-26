@@ -1,5 +1,4 @@
-{
-  "list": [
+[
     {
       "name": "galery-item-00",
       "description": "Description of item galery-item-00",
@@ -91,4 +90,3 @@
       "image": "/assets/images/galery/croped/galery-item-17.jpg"
     }
   ]
-}
