@@ -1,27 +1,35 @@
-import Button from '@mui/material/Button';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
-import Paper from '@mui/material/Paper';
-import Popper from '@mui/material/Popper';
-import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
-import Stack from '@mui/material/Stack';
 
 import {Link} from "react-router-dom"
 const Sidebar = ({})=>{
 	return <>
-	 <Stack direction="row" spacing={2}>
-      <Paper>
-        <MenuList>
-          <MenuItem>
-          	<Link to="/admin/dashboard">Dasboard</Link>
-          </MenuItem>
-          <MenuItem>
-          	<Link to="/admin/company">Company</Link>
-          </MenuItem>
-        </MenuList>
-      </Paper>
-      </Stack>
+	 <div className="twx-border-solid twx-border twx-p-4">
+      <ul className="twx-list-none">
+        <li>
+          	<Link to="/dashboard">Dasboard</Link>
+          </li>
+          <li>
+          	<Link to="/company">Company</Link>
+          </li>
+          <li>
+          	<Link to="/contents">Konten</Link>
+          </li>
+          <li>
+          	<Link to="/settings">Setting</Link>
+          </li>
+          <li>
+          	<Link to="/docs">Docs</Link>
+          </li>
+          <li>
+          	<Link to="/login">Login</Link>
+          </li>
+          <li>
+          	<Link to="/logout">Logout</Link>
+          </li>
+          <li>
+          	<Link to="/profile">Profile</Link>
+          </li>
+        </ul>
+      </div>
 	</>
 }
 

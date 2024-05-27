@@ -34,7 +34,7 @@
                  <div className={cls4}> 
                  {beritaList.map((post,index)=>{
                     const postUrl=`/berita/${post.slug}.html`
-                    return <div className={cls5}> 
+                    return <div className={cls5} key={index}> 
                          <div className={cls6}> 
                              <img src={post.cover} alt={post.title} className={cls7}/> 
                              <div className={cls8}> 

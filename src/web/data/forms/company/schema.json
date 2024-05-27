@@ -13,33 +13,27 @@
   "properties": {
     "name": {
       "type": "string",
-      "title": "Name",
-      "default": "Pondok Pesantren Kanzululum"
+      "title": "Name"
     },
     "address": {
       "type": "string",
-      "title": "Address",
-      "default": "Jl. Perjuangan No.77 RT.01/RW.10 Karyabakti Kelurahan Karyamulya Kecamatan Kesambi Kota Cirebon 45131"
+      "title": "Address"
     },
     "shortAddress": {
       "type": "string",
-      "title": "Short Address",
-      "default": "Kesambi, Cirebon"
+      "title": "Short Address"
     },
     "whatsapp": {
       "type": "string",
-      "title": "Whatapp Number",
-      "default": "085295855514"
+      "title": "Whatapp Number"
     },
     "phone": {
       "type": "string",
-      "title": "Phone Number",
-      "default": "085295855514"
+      "title": "Phone Number"
     },
     "email": {
       "type": "string",
-      "title": "Email",
-      "default": "Ponpeskanzululum21@gmail.com"
+      "title": "Email"
     }
   }
 }

@@ -1,16 +1,25 @@
-import { useEffect } from "react"
+import { useEffect,useState } from "react"
 import ColumnLayout from "./layouts/ColumnLayout"
-import footerData from "@/web/data/templates/sections/footer.json"
-import companyData from "@/web/data/company.json"
-import contactPersonList from "@/web/data/contact-person-list.json"
-import socialNetworkLinks from "@/web/data/social-network-links.json"
-import webNavigationList from  "@/web/data/web-navigation-list.json"
-import galeryList from  "@/web/data/galery-list.json"
-import beritaList from  "@/web/data/berita-list.json"
+import footerDataDefault from "@/web/data/templates/sections/footer.json"
+import companyDataDefault from "@/web/data/company.json"
+import contactPersonListDefault from "@/web/data/contact-person-list.json"
+import socialNetworkLinksDefault from "@/web/data/social-network-links.json"
+import webNavigationListDefault from  "@/web/data/web-navigation-list.json"
+import galeryListDefault from  "@/web/data/galery-list.json"
+import beritaListDefault from  "@/web/data/berita-list.json"
+
 import "@/global/css/template.css"
 
 import HomepageMainContent from "./sections/HomepageMainContent"
 const HomepageTemplate = ({})=>{
+
+    const [footerData,setFooterData]=useState(footerDataDefault)
+    const [companyData,setCompanyData]=useState(companyDataDefault)
+    const [contactPersonList,setContactPersonList]=useState(contactPersonListDefault)
+    const [socialNetworkLinks,setSocialNetworkLinks]=useState(socialNetworkLinksDefault)
+    const [webNavigationList,setWebNavigationList]=useState(webNavigationListDefault)
+    const [galeryList,setGaleryList]=useState(galeryListDefault)
+    const [beritaList,setBeritaList]=useState(beritaListDefault)
     useEffect(()=>{
         feather.replace()
     },[])
