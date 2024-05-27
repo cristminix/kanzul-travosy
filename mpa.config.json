@@ -5,10 +5,10 @@
     "template": "index.html",
     "inject": {
       "data": {
-        "title": "Home Page Title",
+        "title": "Pondok Pesantren Kanzululum",
         "meta": {
-          "description": "Homepage meta description",
-          "keyword": "keyword"
+          "description": "Pondok Pesantren Kanzululum",
+          "keyword": "ponpes kanzul ulum"
         }
       }
     }
@@ -80,6 +80,16 @@
     "inject": {
       "data": {
         "title": "kontak Page"
+      }
+    }
+  },
+  "admin": {
+    "entry": "src/admin/main.jsx",
+    "filename": "/admin/index.html",
+    "template": "admin/index.html",
+    "inject": {
+      "data": {
+        "title": "Admin Page"
       }
     }
   }

@@ -99,9 +99,20 @@ const main = async()=>{
             }
         addViteConfig_pages[menuPath] = config
         // console.log(menuPath)
-        console.log(addViteConfig_pages)
-        
     }
+    // add admin page
+    addViteConfig_pages['admin'] = {
+        entry : `src/admin/main.jsx`,
+        filename : '/admin/index.html',
+        template : 'admin/index.html',
+        inject :{
+            data: {
+                title:`Admin Page`
+            }
+        }
+    }
+    console.log(addViteConfig_pages)
+
     const mpaConfigPath = path.join(CWD,'mpa.config.json')
     console.log(`WRITE:${mpaConfigPath}`)
     fs.writeFileSync(mpaConfigPath,JSON.stringify(addViteConfig_pages,null,2))

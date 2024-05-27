@@ -1,0 +1,32 @@
+{
+  "name": {
+    "ui:autofocus": true,
+    "ui:emptyValue": "",
+    "ui:placeholder": "ui:emptyValue required",
+    "ui:enableMarkdownInDescription": true,
+    "ui:description": "Nama company atau perusahaan"
+  },
+  "address": {
+    "ui:placeholder": "ui:emptyValue required",
+    "ui:description": "Alamat lengkap",
+    "ui:widget": "textarea"
+  },
+  "shortAddress": {
+    "ui:placeholder": "ui:emptyValue required",
+    "ui:description": "Alamat singkat",
+    "ui:widget": "textarea"
+  },
+  "whatsapp": {
+    "ui:placeholder": "ui:emptyValue required",
+    "ui:description": "Nomor whatsapp"
+  },
+  "phone": {
+    "ui:options": {
+      "inputType": "tel"
+    }
+  },
+  "email": {
+    "ui:placeholder": "ui:emptyValue required",
+    "ui:description": "Alamat email"
+  }
+}

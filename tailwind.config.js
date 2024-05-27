@@ -1,7 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  prefix: 'twx-', 
+  corePlugins: {
+    preflight: false,
+  },
+  important: '#root',
   content: [
     "./index.html",
+    "./admin/index.html",
     "src/**/*.jsx",
   ],
   darkMode: "selector",

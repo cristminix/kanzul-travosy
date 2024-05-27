@@ -1,0 +1,45 @@
+{
+  "title": "Company form",
+  "description": "Form untuk data company.",
+  "type": "object",
+  "required": [
+    "name",
+    "shortAddress",
+    "address",
+    "whatsapp",
+    "phone",
+    "email"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Name",
+      "default": "Pondok Pesantren Kanzululum"
+    },
+    "address": {
+      "type": "string",
+      "title": "Address",
+      "default": "Jl. Perjuangan No.77 RT.01/RW.10 Karyabakti Kelurahan Karyamulya Kecamatan Kesambi Kota Cirebon 45131"
+    },
+    "shortAddress": {
+      "type": "string",
+      "title": "Short Address",
+      "default": "Kesambi, Cirebon"
+    },
+    "whatsapp": {
+      "type": "string",
+      "title": "Whatapp Number",
+      "default": "085295855514"
+    },
+    "phone": {
+      "type": "string",
+      "title": "Phone Number",
+      "default": "085295855514"
+    },
+    "email": {
+      "type": "string",
+      "title": "Email",
+      "default": "Ponpeskanzululum21@gmail.com"
+    }
+  }
+}
