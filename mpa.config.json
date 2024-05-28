@@ -93,13 +93,13 @@
       }
     }
   },
-  "berry": {
-    "entry": "src/admin/berry/index.jsx",
-    "filename": "/berry/index.html",
-    "template": "berry/index.html",
+  "purple": {
+    "entry": "src/index.jsx",
+    "filename": "/purple/index.html",
+    "template": "purple/index.html",
     "inject": {
       "data": {
-        "title": "Berry Admin Page"
+        "title": "Purple Admin Page"
       }
     }
   }
