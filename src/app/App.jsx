@@ -12,6 +12,7 @@ import { withTranslation } from "react-i18next";
 import "@mdi/font/css/materialdesignicons.min.css";
 // import "bootstrap/dist/css/bootstrap.min.css"
 import "@/global/fn/reachHideWarning"
+import "@/global/css/tailwind.css"
 
 class App extends Component {
   state = {}

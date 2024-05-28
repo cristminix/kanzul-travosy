@@ -18,7 +18,7 @@ const CompanyForm = ({ formData }) => {
   useEffect(() => {}, [])
 
   return (
-    <div className="twx-border-solid twx-border twx-p-4">
+    <div className="twx-p-4">
       <Form
         formData={formData}
         schema={schema}

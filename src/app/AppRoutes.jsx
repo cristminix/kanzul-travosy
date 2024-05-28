@@ -31,6 +31,7 @@ const Register1 = lazy(() => import('./user-pages/Register'));
 const Lockscreen = lazy(() => import('./user-pages/Lockscreen'));
 
 const BlankPage = lazy(() => import('./general-pages/BlankPage'));
+const ContentPage = lazy(() => import('./content-pages/ContentPage'));
 
 
 
@@ -47,6 +48,8 @@ class AppRoutes extends Component {
 
 
       <Route path="/basic-ui/buttons" element={ <Buttons/> } />
+      <Route path="/contents" element={ <ContentPage/> } />
+      <Route path="/contents/:module" element={ <ContentPage/> } />
           <Route path="/basic-ui/dropdowns" element={ <Dropdowns/> } />
           <Route path="/basic-ui/typography" element={ <Typography/> } />
 

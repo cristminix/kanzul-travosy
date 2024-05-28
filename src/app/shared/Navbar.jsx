@@ -13,15 +13,17 @@ class Navbar extends Component {
   render () {
     return (
       <nav className="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-        <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <Link className="navbar-brand brand-logo" to="/"><img src={('/assets/images/logo.svg')} alt="logo" /></Link>
-          <Link className="navbar-brand brand-logo-mini" to="/"><img src={('/assets/images/logo-mini.svg')} alt="logo" /></Link>
-        </div>
-        <div className="navbar-menu-wrapper d-flex align-items-stretch">
-          <button className="navbar-toggler navbar-toggler align-self-center" type="button" onClick={ () => document.body.classList.toggle('sidebar-icon-only') }>
+
+        <div className="text-center navbar-brand-wrapper d-flex align-items-center !twx-p-0">
+        <button className="navbar-toggler navbar-toggler align-self-center !twx-px-6" type="button" onClick={ () => document.body.classList.toggle('sidebar-icon-only') }>
             <span className="mdi mdi-menu"></span>
           </button>
-          <div className="search-field d-none d-md-block">
+          <Link className="navbar-brand brand-logo twx-flex !twx-items-start" to="/"><img className="twx-object-contain !-twx-ml-[20px]" src={('/assets/images/logo/logo-dark.png')} alt="logo" /></Link>
+          <Link className="navbar-brand brand-logo-mini !-twx-ml-[20px]" to="/"><img className="!twx-object-contain !twx-max-w-[140px] !twx-h-[28px] !twx-w-[140px]  !twx-duraton-700 " src={('/assets/images/logo/logo-dark.png')} alt="logo" /></Link>
+        </div>
+        <div className="navbar-menu-wrapper d-flex align-items-stretch">
+          
+          <div className="search-field d-none d-md-block !twx-hidden">
             <form className="d-flex align-items-center h-100" action="#">
               <div className="input-group">
                 <div className="input-group-prepend bg-transparent">
@@ -36,27 +38,27 @@ class Navbar extends Component {
               <Dropdown alignRight>
                 <Dropdown.Toggle className="nav-link">
                   <div className="nav-profile-img">
-                    <img src={("../../assets/images/faces/face1.jpg")} alt="user"/>
+                    <img src={("/assets/images/faces/kintel.jpg")} alt="user"/>
                     <span className="availability-status online"></span>
                   </div>
                   <div className="nav-profile-text">
-                    <p className="mb-1 text-black"><Trans>David Greymaax</Trans></p>
+                    <p className="mb-1 text-black"><Trans>@kintel</Trans></p>
                   </div>
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu className="navbar-dropdown">
-                  <Dropdown.Item href="!#" onClick={evt =>evt.preventDefault()}>
+                  {/*<Dropdown.Item href="!#" onClick={evt =>evt.preventDefault()}>
                     <i className="mdi mdi-cached mr-2 text-success"></i>
                     <Trans>Activity Log</Trans>
-                  </Dropdown.Item>
+                  </Dropdown.Item>*/}
                   <Dropdown.Item href="!#" onClick={evt =>evt.preventDefault()}>
                     <i className="mdi mdi-logout mr-2 text-primary"></i>
-                    <Trans>Signout</Trans>
+                    <Trans>Keluar</Trans>
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </li>
-            <li className="nav-item">
+            <li className="nav-item twx-hidden">
               <Dropdown alignRight>
                 <Dropdown.Toggle className="nav-link count-indicator">
                   <i className="mdi mdi-email-outline"></i>
@@ -106,7 +108,7 @@ class Navbar extends Component {
                 </Dropdown.Menu>
               </Dropdown>
             </li>
-            <li className="nav-item">
+            <li className="nav-item twx-hidden">
               <Dropdown alignRight>
                 <Dropdown.Toggle className="nav-link count-indicator">
                   <i className="mdi mdi-bell-outline"></i>
@@ -161,12 +163,12 @@ class Navbar extends Component {
                 </Dropdown.Menu>
               </Dropdown>
             </li>
-            <li className="nav-item nav-logout d-none d-lg-block">
+            <li className="nav-item nav-logout d-none d-lg-block !twx-hidden">
               <a className="nav-link" href="!#" onClick={event => event.preventDefault()}>
                 <i className="mdi mdi-power"></i>
               </a>
             </li>
-            <li className="nav-item nav-settings d-none d-lg-block">
+            <li className="nav-item nav-settings d-none d-lg-block !twx-hidden">
               <button type="button" className="nav-link border-0" onClick={this.toggleRightSidebar} >
                 <i className="mdi mdi-format-line-spacing"></i>
               </button>

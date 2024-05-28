@@ -36,6 +36,7 @@ class Sidebar extends Component {
     const dropdownPaths = [
       {path:'/apps', state: 'appsMenuOpen'},
       {path:'/basic-ui', state: 'basicUiMenuOpen'},
+      {path:'/contents', state: 'contentMenuOpen'},
       {path:'/advanced-ui', state: 'advancedUiMenuOpen'},
       {path:'/form-elements', state: 'formElementsMenuOpen'},
       {path:'/tables', state: 'tablesMenuOpen'},
@@ -60,7 +61,7 @@ class Sidebar extends Component {
     return (
       <nav className="sidebar sidebar-offcanvas" id="sidebar">
         <ul className="nav">
-          <li className="nav-item nav-profile">
+          <li className="nav-item nav-profile !twx-hidden">
             <a href="!#" className="nav-link" onClick={evt =>evt.preventDefault()}>
               <div className="nav-profile-image">
                 <img src={ ("../../assets/images/faces/face1.jpg") } alt="profile" />
@@ -73,13 +74,27 @@ class Sidebar extends Component {
               <i className="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
             </a>
           </li>
-          <li className={ this.isPathActive('/dashboard') ? 'nav-item active' : 'nav-item' }>
+         {/* <li className={ this.isPathActive('/dashboard') ? 'nav-item active' : 'nav-item' }>
             <Link className="nav-link" to="/dashboard">
               <span className="menu-title"><Trans>Dashboard</Trans></span>
               <i className="mdi mdi-home menu-icon"></i>
             </Link>
+          </li>*/}
+          <li className={ this.isPathActive('/contents') ? 'nav-item active' : 'nav-item' }>
+            <div className={ this.state.contentMenuOpen ? 'nav-link menu-expanded' : 'nav-link' } onClick={ () => this.toggleMenuState('contentMenuOpen') } data-toggle="collapse">
+              <span className="menu-title"><Trans>Konten</Trans></span>
+              <i className="menu-arrow"></i>
+              <i className="mdi mdi-table-of-contents menu-icon"></i>
+            </div>
+            <Collapse in={ this.state.contentMenuOpen }>
+              <ul className="nav flex-column sub-menu">
+                <li className="nav-item"> <Link className={ this.isPathActive('/contents/company') ? 'nav-link active' : 'nav-link' } to="/contents/company"><Trans>Company</Trans></Link></li>
+                <li className="nav-item"> <Link className={ this.isPathActive('/contents/homepage') ? 'nav-link active' : 'nav-link' } to="/contents/homepage"><Trans>Homepage</Trans></Link></li>
+                <li className="nav-item"> <Link className={ this.isPathActive('/contents/welcome-message') ? 'nav-link active' : 'nav-link' } to="/contents/welcome-message"><Trans>Welcome Message</Trans></Link></li>
+              </ul>
+            </Collapse>
           </li>
-          <li className={ this.isPathActive('/basic-ui') ? 'nav-item active' : 'nav-item' }>
+          {/*<li className={ this.isPathActive('/basic-ui') ? 'nav-item active' : 'nav-item' }>
             <div className={ this.state.basicUiMenuOpen ? 'nav-link menu-expanded' : 'nav-link' } onClick={ () => this.toggleMenuState('basicUiMenuOpen') } data-toggle="collapse">
               <span className="menu-title"><Trans>Basic UI Elements</Trans></span>
               <i className="menu-arrow"></i>
@@ -92,8 +107,8 @@ class Sidebar extends Component {
                 <li className="nav-item"> <Link className={ this.isPathActive('/basic-ui/typography') ? 'nav-link active' : 'nav-link' } to="/basic-ui/typography"><Trans>Typography</Trans></Link></li>
               </ul>
             </Collapse>
-          </li>
-          <li className={ this.isPathActive('/form-elements') ? 'nav-item active' : 'nav-item' }>
+          </li>*/}
+          {/*<li className={ this.isPathActive('/form-elements') ? 'nav-item active' : 'nav-item' }>
             <div className={ this.state.formElementsMenuOpen ? 'nav-link menu-expanded' : 'nav-link' } onClick={ () => this.toggleMenuState('formElementsMenuOpen') } data-toggle="collapse">
               <span className="menu-title"><Trans>Form Elements</Trans></span>
               <i className="menu-arrow"></i>
@@ -185,7 +200,7 @@ class Sidebar extends Component {
               <span className="menu-title"><Trans>Documentation</Trans></span>
               <i className="mdi mdi-file-document-box menu-icon"></i>
             </a>
-          </li>
+          </li>*/}
         </ul>
       </nav>
     );
