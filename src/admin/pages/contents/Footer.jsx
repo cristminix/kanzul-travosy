@@ -1,4 +1,3 @@
-
 import { useDispatch, useSelector } from "react-redux"
 import FooterForm from "@/admin/components/forms/FooterForm"
 import footerSlice, { fetchFooter } from "@/global/store/features/footerSlice"
@@ -17,14 +16,11 @@ const Footer = ({}) => {
   return (
     <>
       <h4>Edit Footer</h4>
-      {company.fetchStatus == "loading" && <LoadingDot />}
-      {company.fetchStatus == "success" && <FooterForm formData={footer.data} />}
+      {footer.fetchStatus == "loading" && <LoadingDot />}
+      {footer.fetchStatus == "success" && <FooterForm formData={footer.data} />}
       <div>{/* <FooterForm/> */}</div>
     </>
   )
 }
 
 export default Footer
-
-  
-  

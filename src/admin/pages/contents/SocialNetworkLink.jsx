@@ -1,4 +1,3 @@
-
 import { useDispatch, useSelector } from "react-redux"
 import SocialNetworkLinkForm from "@/admin/components/forms/SocialNetworkLinkForm"
 import socialNetworkLinkSlice, { fetchSocialNetworkLink } from "@/global/store/features/socialNetworkLinkSlice"
@@ -17,14 +16,11 @@ const SocialNetworkLink = ({}) => {
   return (
     <>
       <h4>Edit SocialNetworkLink</h4>
-      {company.fetchStatus == "loading" && <LoadingDot />}
-      {company.fetchStatus == "success" && <SocialNetworkLinkForm formData={socialNetworkLink.data} />}
+      {socialNetworkLink.fetchStatus == "loading" && <LoadingDot />}
+      {socialNetworkLink.fetchStatus == "success" && <SocialNetworkLinkForm formData={socialNetworkLink.data} />}
       <div>{/* <SocialNetworkLinkForm/> */}</div>
     </>
   )
 }
 
 export default SocialNetworkLink
-
-  
-  

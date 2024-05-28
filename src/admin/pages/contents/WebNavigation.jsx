@@ -1,4 +1,3 @@
-
 import { useDispatch, useSelector } from "react-redux"
 import WebNavigationForm from "@/admin/components/forms/WebNavigationForm"
 import webNavigationSlice, { fetchWebNavigation } from "@/global/store/features/webNavigationSlice"
@@ -17,14 +16,16 @@ const WebNavigation = ({}) => {
   return (
     <>
       <h4>Edit WebNavigation</h4>
-      {company.fetchStatus == "loading" && <LoadingDot />}
-      {company.fetchStatus == "success" && <WebNavigationForm formData={webNavigation.data} />}
+      {webNavigation ? (
+        <>
+          {webNavigation.fetchStatus == "loading" && <LoadingDot />}
+          {webNavigation.fetchStatus == "success" && <WebNavigationForm formData={webNavigation.data} />}
+        </>
+      ) : null}
+
       <div>{/* <WebNavigationForm/> */}</div>
     </>
   )
 }
 
 export default WebNavigation
-
-  
-  

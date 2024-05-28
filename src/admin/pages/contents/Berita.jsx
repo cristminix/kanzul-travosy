@@ -1,4 +1,3 @@
-
 import { useDispatch, useSelector } from "react-redux"
 import BeritaForm from "@/admin/components/forms/BeritaForm"
 import beritaSlice, { fetchBerita } from "@/global/store/features/beritaSlice"
@@ -17,14 +16,11 @@ const Berita = ({}) => {
   return (
     <>
       <h4>Edit Berita</h4>
-      {company.fetchStatus == "loading" && <LoadingDot />}
-      {company.fetchStatus == "success" && <BeritaForm formData={berita.data} />}
+      {berita.fetchStatus == "loading" && <LoadingDot />}
+      {berita.fetchStatus == "success" && <BeritaForm formData={berita.data} />}
       <div>{/* <BeritaForm/> */}</div>
     </>
   )
 }
 
 export default Berita
-
-  
-  

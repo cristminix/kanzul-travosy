@@ -1,4 +1,3 @@
-
 import { useDispatch, useSelector } from "react-redux"
 import GaleryForm from "@/admin/components/forms/GaleryForm"
 import galerySlice, { fetchGalery } from "@/global/store/features/galerySlice"
@@ -17,14 +16,11 @@ const Galery = ({}) => {
   return (
     <>
       <h4>Edit Galery</h4>
-      {company.fetchStatus == "loading" && <LoadingDot />}
-      {company.fetchStatus == "success" && <GaleryForm formData={galery.data} />}
+      {galery.fetchStatus == "loading" && <LoadingDot />}
+      {galery.fetchStatus == "success" && <GaleryForm formData={galery.data} />}
       <div>{/* <GaleryForm/> */}</div>
     </>
   )
 }
 
 export default Galery
-
-  
-  

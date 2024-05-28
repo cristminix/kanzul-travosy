@@ -1,4 +1,3 @@
-
 import { useDispatch, useSelector } from "react-redux"
 import ContactPersonForm from "@/admin/components/forms/ContactPersonForm"
 import contactPersonSlice, { fetchContactPerson } from "@/global/store/features/contactPersonSlice"
@@ -17,14 +16,11 @@ const ContactPerson = ({}) => {
   return (
     <>
       <h4>Edit ContactPerson</h4>
-      {company.fetchStatus == "loading" && <LoadingDot />}
-      {company.fetchStatus == "success" && <ContactPersonForm formData={contactPerson.data} />}
+      {contactPerson.fetchStatus == "loading" && <LoadingDot />}
+      {contactPerson.fetchStatus == "success" && <ContactPersonForm formData={contactPerson.data} />}
       <div>{/* <ContactPersonForm/> */}</div>
     </>
   )
 }
 
 export default ContactPerson
-
-  
-  

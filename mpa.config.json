@@ -92,5 +92,15 @@
         "title": "Admin Page"
       }
     }
+  },
+  "berry": {
+    "entry": "src/admin/berry/index.jsx",
+    "filename": "/berry/index.html",
+    "template": "berry/index.html",
+    "inject": {
+      "data": {
+        "title": "Berry Admin Page"
+      }
+    }
   }
 }

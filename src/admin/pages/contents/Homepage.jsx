@@ -1,4 +1,3 @@
-
 import { useDispatch, useSelector } from "react-redux"
 import HomepageForm from "@/admin/components/forms/HomepageForm"
 import homepageSlice, { fetchHomepage } from "@/global/store/features/homepageSlice"
@@ -17,14 +16,11 @@ const Homepage = ({}) => {
   return (
     <>
       <h4>Edit Homepage</h4>
-      {company.fetchStatus == "loading" && <LoadingDot />}
-      {company.fetchStatus == "success" && <HomepageForm formData={homepage.data} />}
+      {homepage.fetchStatus == "loading" && <LoadingDot />}
+      {homepage.fetchStatus == "success" && <HomepageForm formData={homepage.data} />}
       <div>{/* <HomepageForm/> */}</div>
     </>
   )
 }
 
 export default Homepage
-
-  
-  

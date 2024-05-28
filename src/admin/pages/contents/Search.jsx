@@ -1,4 +1,3 @@
-
 import { useDispatch, useSelector } from "react-redux"
 import SearchForm from "@/admin/components/forms/SearchForm"
 import searchSlice, { fetchSearch } from "@/global/store/features/searchSlice"
@@ -17,14 +16,11 @@ const Search = ({}) => {
   return (
     <>
       <h4>Edit Search</h4>
-      {company.fetchStatus == "loading" && <LoadingDot />}
-      {company.fetchStatus == "success" && <SearchForm formData={search.data} />}
+      {search.fetchStatus == "loading" && <LoadingDot />}
+      {search.fetchStatus == "success" && <SearchForm formData={search.data} />}
       <div>{/* <SearchForm/> */}</div>
     </>
   )
 }
 
 export default Search
-
-  
-  
