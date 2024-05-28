@@ -1,0 +1,19 @@
+{
+  "title": "contactPerson Form",
+  "description": "Form untuk data contactPerson",
+  "type": "object",
+  "required": [
+    "name",
+    "phone"
+  ],
+  "properties": {
+    "name": {
+      "title": "contactPerson",
+      "type": "string"
+    },
+    "phone": {
+      "title": "contactPerson",
+      "type": "string"
+    }
+  }
+}

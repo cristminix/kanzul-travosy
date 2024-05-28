@@ -1,0 +1,9 @@
+{
+  "title": {
+    "ui:description": "Title",
+    "ui:autofocus": true
+  },
+  "content": {
+    "ui:description": "Content"
+  }
+}

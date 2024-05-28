@@ -1,0 +1,9 @@
+{
+  "title": {
+    "ui:description": "Title",
+    "ui:autofocus": true
+  },
+  "path": {
+    "ui:description": "Path"
+  }
+}

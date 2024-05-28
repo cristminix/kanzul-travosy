@@ -1,0 +1,19 @@
+{
+  "title": "homepage Form",
+  "description": "Form untuk data homepage",
+  "type": "object",
+  "required": [
+    "title",
+    "meta"
+  ],
+  "properties": {
+    "title": {
+      "title": "homepage",
+      "type": "string"
+    },
+    "meta": {
+      "title": "homepage",
+      "type": "string"
+    }
+  }
+}

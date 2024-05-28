@@ -1,0 +1,18 @@
+{
+  "fb": {
+    "ui:description": "Fb",
+    "ui:autofocus": true
+  },
+  "twitter": {
+    "ui:description": "Twitter"
+  },
+  "tiktok": {
+    "ui:description": "Tiktok"
+  },
+  "youtube": {
+    "ui:description": "Youtube"
+  },
+  "ig": {
+    "ui:description": "Ig"
+  }
+}

@@ -1,1 +1,1 @@
-export {mountApp} from "./mountApp"
+export { randStamp } from "./randStamp"

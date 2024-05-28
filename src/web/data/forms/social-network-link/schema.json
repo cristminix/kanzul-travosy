@@ -1,0 +1,34 @@
+{
+  "title": "socialNetworkLink Form",
+  "description": "Form untuk data socialNetworkLink",
+  "type": "object",
+  "required": [
+    "fb",
+    "twitter",
+    "tiktok",
+    "youtube",
+    "ig"
+  ],
+  "properties": {
+    "fb": {
+      "title": "socialNetworkLink",
+      "type": "string"
+    },
+    "twitter": {
+      "title": "socialNetworkLink",
+      "type": "string"
+    },
+    "tiktok": {
+      "title": "socialNetworkLink",
+      "type": "string"
+    },
+    "youtube": {
+      "title": "socialNetworkLink",
+      "type": "string"
+    },
+    "ig": {
+      "title": "socialNetworkLink",
+      "type": "string"
+    }
+  }
+}

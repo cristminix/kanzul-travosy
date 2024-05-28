@@ -1,0 +1,12 @@
+{
+  "name": {
+    "ui:description": "Name",
+    "ui:autofocus": true
+  },
+  "description": {
+    "ui:description": "Description"
+  },
+  "image": {
+    "ui:description": "Image"
+  }
+}

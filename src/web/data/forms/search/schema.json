@@ -1,0 +1,14 @@
+{
+  "title": "search Form",
+  "description": "Form untuk data search",
+  "type": "object",
+  "required": [
+    "action"
+  ],
+  "properties": {
+    "action": {
+      "title": "search",
+      "type": "string"
+    }
+  }
+}

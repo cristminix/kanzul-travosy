@@ -1,0 +1,9 @@
+{
+  "name": {
+    "ui:description": "Name",
+    "ui:autofocus": true
+  },
+  "phone": {
+    "ui:description": "Phone"
+  }
+}

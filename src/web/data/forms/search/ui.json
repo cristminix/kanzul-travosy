@@ -1,0 +1,6 @@
+{
+  "action": {
+    "ui:description": "Action",
+    "ui:autofocus": true
+  }
+}

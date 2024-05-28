@@ -1,0 +1,24 @@
+{
+  "title": "galery Form",
+  "description": "Form untuk data galery",
+  "type": "object",
+  "required": [
+    "name",
+    "description",
+    "image"
+  ],
+  "properties": {
+    "name": {
+      "title": "galery",
+      "type": "string"
+    },
+    "description": {
+      "title": "galery",
+      "type": "string"
+    },
+    "image": {
+      "title": "galery",
+      "type": "string"
+    }
+  }
+}

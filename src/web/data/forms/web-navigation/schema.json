@@ -1,0 +1,19 @@
+{
+  "title": "webNavigation Form",
+  "description": "Form untuk data webNavigation",
+  "type": "object",
+  "required": [
+    "title",
+    "path"
+  ],
+  "properties": {
+    "title": {
+      "title": "webNavigation",
+      "type": "string"
+    },
+    "path": {
+      "title": "webNavigation",
+      "type": "string"
+    }
+  }
+}

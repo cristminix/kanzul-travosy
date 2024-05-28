@@ -1,8 +1,7 @@
 import Layout from "./layouts/Layout"
-
-const AdminTemplate = ({})=>{
-	return <Layout>
-	</Layout>
+import "@/global/css/admin.css"
+const AdminTemplate = ({}) => {
+  return <Layout></Layout>
 }
 
 export default AdminTemplate
