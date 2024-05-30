@@ -1,83 +1,90 @@
-import React, { Component } from 'react';
+import React, { Component } from "react"
 
-import {withRouter} from "@/global/fn/withRouter"
+import { withRouter } from "@/global/fn/withRouter"
 
-import './App.scss';
-import AppRoutes from './AppRoutes';
-import Navbar from './shared/Navbar';
-import Sidebar from './shared/Sidebar';
-import SettingsPanel from './shared/SettingsPanel';
-import Footer from './shared/Footer';
-import { withTranslation } from "react-i18next";
-import "@mdi/font/css/materialdesignicons.min.css";
-// import "bootstrap/dist/css/bootstrap.min.css"
+import "./App.scss"
+import AppRoutes from "./AppRoutes"
+import Navbar from "./shared/Navbar"
+import Sidebar from "./shared/Sidebar"
+import SettingsPanel from "./shared/SettingsPanel"
+import Footer from "./shared/Footer"
+import { withTranslation } from "react-i18next"
+import "@mdi/font/css/materialdesignicons.min.css"
 import "@/global/fn/reachHideWarning"
 import "@/global/css/tailwind.css"
+import "@/global/css/purple.css"
+// import "bootstrap/dist/css/bootstrap.min.css"
+// import "bootstrap/dist/js/bootstrap.min.js"
 
 class App extends Component {
   state = {}
   componentDidMount() {
-    this.onRouteChanged();
+    this.onRouteChanged()
   }
-  render () {
-    let navbarComponent = !this.state.isFullPageLayout ? <Navbar/> : '';
-    let sidebarComponent = !this.state.isFullPageLayout ? <Sidebar/> : '';
-    let SettingsPanelComponent = !this.state.isFullPageLayout ? <SettingsPanel/> : '';
-    let footerComponent = !this.state.isFullPageLayout ? <Footer/> : '';
+  render() {
+    let navbarComponent = !this.state.isFullPageLayout ? <Navbar /> : ""
+    let sidebarComponent = !this.state.isFullPageLayout ? <Sidebar /> : ""
+    let SettingsPanelComponent = !this.state.isFullPageLayout ? <SettingsPanel /> : ""
+    let footerComponent = !this.state.isFullPageLayout ? <Footer /> : ""
     return (
       <div className="container-scroller">
-        { navbarComponent }
+        {navbarComponent}
         <div className="container-fluid page-body-wrapper">
-          { sidebarComponent }
+          {sidebarComponent}
           <div className="main-panel">
             <div className="content-wrapper">
-              <AppRoutes/>
-              { SettingsPanelComponent }
+              <AppRoutes />
+              {SettingsPanelComponent}
             </div>
-            { footerComponent }
+            {footerComponent}
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
-      this.onRouteChanged();
+      this.onRouteChanged()
     }
   }
 
   onRouteChanged() {
-    console.log("ROUTE CHANGED");
+    console.log("ROUTE CHANGED")
     console.log(this.props)
-    const { i18n } = this.props;
-    const body = document.querySelector('body');
-    if(this.props.location.pathname === '/layout/RtlLayout') {
-      body.classList.add('rtl');
-      i18n.changeLanguage('ar');
+    const { i18n } = this.props
+    const body = document.querySelector("body")
+    if (this.props.location.pathname === "/layout/RtlLayout") {
+      body.classList.add("rtl")
+      i18n.changeLanguage("ar")
+    } else {
+      body.classList.remove("rtl")
+      i18n.changeLanguage("en")
     }
-    else {
-      body.classList.remove('rtl')
-      i18n.changeLanguage('en');
-    }
-    window.scrollTo(0, 0);
-    const fullPageLayoutRoutes = ['/user-pages/login-1', '/user-pages/register-1', '/user-pages/lockscreen', '/error-pages/error-404', '/error-pages/error-500', '/general-pages/landing-page'];
-    for ( let i = 0; i < fullPageLayoutRoutes.length; i++ ) {
+    window.scrollTo(0, 0)
+    const fullPageLayoutRoutes = [
+      "/user-pages/login-1",
+      "/user-pages/register-1",
+      "/user-pages/lockscreen",
+      "/error-pages/error-404",
+      "/error-pages/error-500",
+      "/general-pages/landing-page",
+    ]
+    for (let i = 0; i < fullPageLayoutRoutes.length; i++) {
       if (this.props.location.pathname === fullPageLayoutRoutes[i]) {
         this.setState({
-          isFullPageLayout: true
+          isFullPageLayout: true,
         })
-        document.querySelector('.page-body-wrapper').classList.add('full-page-wrapper');
-        break;
+        document.querySelector(".page-body-wrapper").classList.add("full-page-wrapper")
+        break
       } else {
         this.setState({
-          isFullPageLayout: false
+          isFullPageLayout: false,
         })
-        document.querySelector('.page-body-wrapper').classList.remove('full-page-wrapper');
+        document.querySelector(".page-body-wrapper").classList.remove("full-page-wrapper")
       }
     }
   }
-
 }
 
-export default withTranslation() (withRouter(App));
+export default withTranslation()(withRouter(App))

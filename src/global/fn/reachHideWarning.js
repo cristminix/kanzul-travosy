@@ -1,7 +1,8 @@
 const error = console.error
 const info = console.info
 function logError(...parameters) {
-  let filter = parameters.find((parameter) => {
+  try{
+      let filter = parameters.find((parameter) => {
     return (
       // Filter error because XXX
       parameter.includes("Warning: %s is deprecated in StrictMode") ||
@@ -9,7 +10,11 @@ function logError(...parameters) {
       parameter.includes("Warning:")
     )
   })
-  if (!filter) error(...parameters)
+  if (!filter) error(...parameters)   
+  }catch(e){
+    error(...parameters)
+  }
+  
 }
 //i18next::translator:
 function logInfo(...parameters) { 

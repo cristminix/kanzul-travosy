@@ -15,7 +15,6 @@ const Company = ({}) => {
   }, [dispatch])
   return (
     <>
-      <h4>Edit Company</h4>
       {company.fetchStatus == "loading" && <LoadingDot />}
       {company.fetchStatus == "success" && <CompanyForm formData={company.data} />}
       <div>{/* <CompanyForm/> */}</div>

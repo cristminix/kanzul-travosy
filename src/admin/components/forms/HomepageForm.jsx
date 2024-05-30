@@ -1,6 +1,6 @@
 
   import { useEffect } from "react"
-  import Form from "@rjsf/material-ui"
+  import Form from "@rjsf/bootstrap-4"
   import validator from "@rjsf/validator-ajv8"
   import schema from "@/web/data/forms/homepage/schema.json"
   import uiSchema from "@/web/data/forms/homepage/ui.json"
