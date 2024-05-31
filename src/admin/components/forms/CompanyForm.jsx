@@ -12,10 +12,11 @@ const mCompay = new MCompany(git, schema)
 const CompanyForm = ({ formData }) => {
   const [company, setCompany] = useState({ ...mCompay.defaultData })
   const onFormChange = (e) => {
-    console.log(e)
+    // console.log(e)
   }
   const onFormSubmit = (e) => {
-    console.log(e)
+    const {formData} = e
+    console.log(formData)
   }
   const onFormError = (e) => {
     console.log(e)

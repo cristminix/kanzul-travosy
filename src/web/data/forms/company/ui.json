@@ -14,7 +14,10 @@
     "ui:widget": "textarea"
   },
   "whatsapp": {
-    "ui:description": "Nomor whatsapp"
+    "ui:description": "Nomor whatsapp",
+    "ui:options": {
+      "inputType": "tel"
+    }
   },
   "phone": {
     "ui:options": {
@@ -22,6 +25,9 @@
     }
   },
   "email": {
-    "ui:description": "Alamat email"
+    "ui:description": "Alamat email",
+    "ui:options": {
+      "inputType": "email"
+    }
   }
 }

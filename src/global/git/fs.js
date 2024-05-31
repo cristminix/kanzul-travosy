@@ -22,7 +22,9 @@ class Fs extends LightningFs {
     try {
       if (await this.promises.stat(path)) return true
     } catch (e) {
-      console.error(e)
+      // console.error(e)
+      console.log(`lfs: ${path} not found`)
+
     }
     return false
   }

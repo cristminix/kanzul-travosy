@@ -42,3 +42,12 @@
     @apply !twx-ml-[0px]
   }
 }
+
+.spinner-wrapper{
+    @apply twx-z-[100] twx-flex twx-flex-col;
+
+}
+
+.content-is-loading{
+    @apply twx-opacity-[.5] ;
+}

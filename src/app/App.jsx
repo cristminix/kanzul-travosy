@@ -3,7 +3,7 @@ import React, { Component } from "react"
 import { withRouter } from "@/global/fn/withRouter"
 
 import "./App.scss"
-import AppRoutes from "./AppRoutes"
+// import AppRoutes from "./AppRoutes"
 import Navbar from "./shared/Navbar"
 import Sidebar from "./shared/Sidebar"
 import SettingsPanel from "./shared/SettingsPanel"
@@ -13,53 +13,37 @@ import "@mdi/font/css/materialdesignicons.min.css"
 import "@/global/fn/reachHideWarning"
 import "@/global/css/tailwind.css"
 import "@/global/css/purple.css"
+import { Outlet } from "react-router-dom"
+import { useLocation } from "react-router-dom"
+import { useState } from "react"
+import { useEffect } from "react"
+import { useSelector } from "react-redux"
+// import contentSlice from "@/global/store/features/contentSlice"
+import Spinner from "@/app/shared/Spinner"
+
 // import "bootstrap/dist/css/bootstrap.min.css"
 // import "bootstrap/dist/js/bootstrap.min.js"
 
-class App extends Component {
-  state = {}
-  componentDidMount() {
-    this.onRouteChanged()
-  }
-  render() {
-    let navbarComponent = !this.state.isFullPageLayout ? <Navbar /> : ""
-    let sidebarComponent = !this.state.isFullPageLayout ? <Sidebar /> : ""
-    let SettingsPanelComponent = !this.state.isFullPageLayout ? <SettingsPanel /> : ""
-    let footerComponent = !this.state.isFullPageLayout ? <Footer /> : ""
-    return (
-      <div className="container-scroller">
-        {navbarComponent}
-        <div className="container-fluid page-body-wrapper">
-          {sidebarComponent}
-          <div className="main-panel">
-            <div className="content-wrapper">
-              <AppRoutes />
-              {SettingsPanelComponent}
-            </div>
-            {footerComponent}
-          </div>
-        </div>
-      </div>
-    )
-  }
+const App = ({ props }) => {
+  const location = useLocation()
+  const [isFullPageLayout, setIsFullPageLayout] = useState(false)
+  const [contentIsLoading,setContentIsLoading]=useState(true)
 
-  componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
-      this.onRouteChanged()
-    }
-  }
+   // const dispatch = useDispatch()
+  const contentState = useSelector((state) => state.content)
+  // const {setLoading} = contentSlice.actions
 
-  onRouteChanged() {
+  const onRouteChanged = () => {
     console.log("ROUTE CHANGED")
-    console.log(this.props)
-    const { i18n } = this.props
+    console.log(props)
+    // const { i18n } = props
     const body = document.querySelector("body")
-    if (this.props.location.pathname === "/layout/RtlLayout") {
+    if (location.pathname === "/layout/RtlLayout") {
       body.classList.add("rtl")
-      i18n.changeLanguage("ar")
+      // i18n.changeLanguage("ar")
     } else {
       body.classList.remove("rtl")
-      i18n.changeLanguage("en")
+      // i18n.changeLanguage("en")
     }
     window.scrollTo(0, 0)
     const fullPageLayoutRoutes = [
@@ -71,20 +55,51 @@ class App extends Component {
       "/general-pages/landing-page",
     ]
     for (let i = 0; i < fullPageLayoutRoutes.length; i++) {
-      if (this.props.location.pathname === fullPageLayoutRoutes[i]) {
-        this.setState({
-          isFullPageLayout: true,
-        })
+      if (location.pathname === fullPageLayoutRoutes[i]) {
+        setIsFullPageLayout(true)
+
         document.querySelector(".page-body-wrapper").classList.add("full-page-wrapper")
         break
       } else {
-        this.setState({
-          isFullPageLayout: false,
-        })
+        setIsFullPageLayout(false)
         document.querySelector(".page-body-wrapper").classList.remove("full-page-wrapper")
       }
     }
   }
+  useEffect(() => {
+    onRouteChanged()
+  }, [])
+  let navbarComponent = !isFullPageLayout ? <Navbar /> : ""
+  let sidebarComponent = !isFullPageLayout ? <Sidebar /> : ""
+  let SettingsPanelComponent = !isFullPageLayout ? <SettingsPanel /> : ""
+  let footerComponent = !isFullPageLayout ? <Footer /> : ""
+  return (
+    <div className="container-scroller">
+      {navbarComponent}
+      <div className="container-fluid page-body-wrapper">
+        {sidebarComponent}
+        <div className="main-panel">
+          <div className="content-wrapper">
+            {
+              contentState.isLoading ? <Spinner message={contentState.loadingMessage}/> : null
+            }
+            {/*<div className={`${contentIsLoading?'spinner-wrapper':''}`}>*/}
+              <Outlet />
+            {/*</div>*/}
+            
+            {SettingsPanelComponent}
+          </div>
+          {footerComponent}
+        </div>
+      </div>
+    </div>
+  )
+
+  // componentDidUpdate(prevProps) {
+  //   if (location !== prevProps.location) {
+  //     this.onRouteChanged()
+  //   }
+  // }
 }
 
-export default withTranslation()(withRouter(App))
+export default App

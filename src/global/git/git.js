@@ -1,8 +1,8 @@
 import git from "isomorphic-git"
-import http from "isomorphic-git/http/web/index.js"
+import http from "isomorphic-git/http/web"
 import Fs from "./fs"
-
-import { getRepoDir } from "./getRepoDir.js"
+import {createRandomInt} from "@/global/fn/createRandomInt"
+import { getRepoDir } from "./getRepoDir"
 
 const config = {
   repoUrl: "http://localhost:3000/sutoyocutez/kanzululum.github.io.git",
@@ -11,6 +11,7 @@ const config = {
     email: "sutoyocutez@gmail.com",
   },
   token: "e05db2320178761249774568fa1882d3c0e21cfa",
+  corsProxyUrl: "http://127.0.0.1:8787",
 }
 
 class Git {
@@ -21,6 +22,8 @@ class Git {
   corsProxyUrl = null
   author = null
   token = null
+
+  onCloneCallback = (f) => f
   constructor(config) {
     this.fs = new Fs("fs")
     this.repoUrl = config.repoUrl
@@ -42,7 +45,7 @@ class Git {
       if (ls.length === 0) return false
       if (await this.fs.existsSync(`${this.dir}/.git`)) return true
     } catch (e) {
-      console.error(e)
+      console.log(`lfs: ${this.dir}/.git not found`)
     }
 
     return false
@@ -57,6 +60,11 @@ class Git {
       // ref: "main",
       singleBranch: true,
       // noCheckout: true,
+      onProgress: (event) => {
+        if (typeof this.onCloneCallback === "function") {
+          this.onCloneCallback(event)
+        }
+      },
     }
     if (this.corsProxyUrl) {
       option.corsProxy = this.corsProxyUrl
@@ -78,21 +86,24 @@ class Git {
     }
     return option
   }
-  commitOption(message) {
-    let remoteUrl = null
-    if (this.repoUrl.startsWith("http://")) {
-      repoUrl = repoUrl.replace("http://", `http://${this.token}@`)
-    } else {
-      repoUrl = repoUrl.replace("https://", `https://${this.token}@`)
-    }
-    const option = {
-      remote: remoteUrl,
-      fs: this.fs,
-      dir: this.dir,
-      message,
-      author: this.author,
-    }
-  }
+  // commitOption(message) {
+  //   // let remoteUrl = null
+  //   // if (this.repoUrl.startsWith("http://")) {
+  //   //   repoUrl = repoUrl.replace("http://", `http://${this.token}@`)
+  //   // } else {
+  //   //   repoUrl = repoUrl.replace("https://", `https://${this.token}@`)
+  //   // }
+  //   // const option = {
+  //   //   fs: this.fs,
+  //   //   dir: this.dir,
+  //   //   author: this.author,
+  //   //   message
+  //   // }
+  //   // if (this.corsProxyUrl) {
+  //   //   option.corsProxy = this.corsProxyUrl
+  //   // }
+  //   return option
+  // }
   async commit(filepaths, message) {
     let messages = []
     for (const fileItem of filepaths) {
@@ -110,12 +121,16 @@ class Git {
     return sha
   }
   async push() {
-    let pushResult = await git.push({
+    let option = {
       fs: this.fs,
       http,
       dir: this.dir,
       onAuth: () => ({ username: this.token }),
-    })
+    }
+    if (this.corsProxyUrl) {
+      option.corsProxy = this.corsProxyUrl
+    }
+    let pushResult = await git.push(option)
     return pushResult
   }
   /*async checkout(filepaths) {
@@ -142,13 +157,17 @@ class Git {
   async fastForward() {
     let pullSuccess = false
     let error = "false"
+    let option = {
+      fs: this.fs,
+      http,
+      dir: this.dir,
+      singleBranch: true,
+    }
+    if (this.corsProxyUrl) {
+      option.corsProxy = this.corsProxyUrl
+    }
     try {
-      await git.fastForward({
-        fs: this.fs,
-        http,
-        dir: this.dir,
-        singleBranch: true,
-      })
+      await git.fastForward(option)
       pullSuccess = true
     } catch (e) {
       error = e
@@ -168,7 +187,22 @@ class Git {
     await this.fs.wipe()
     // await this.fs.mkdirSync(this.dir)
   }
-  async init() {
+  setOnCloneProgressHandler(dispatch,setLoading,setLoadingMessage){
+    this.onCloneCallback = (progressEvent)=>{
+        let loadingMessage = ''
+        if (progressEvent.total) {
+          const pctg = (progressEvent.loaded / progressEvent.total).toFixed(2) * 100
+          loadingMessage= `${progressEvent.phase}  ${pctg} %`
+        } else {
+          loadingMessage= `Sedang memproses ...`
+        }
+        dispatch(setLoadingMessage(loadingMessage))
+      }
+  }
+  async init(onCloneCallback) {
+    if (typeof onCloneCallback === "function") {
+      this.onCloneCallback = onCloneCallback
+    }
     const alreadyCloned = await this.isCloned()
     if (!alreadyCloned) {
       console.log("Cloning repo ")
