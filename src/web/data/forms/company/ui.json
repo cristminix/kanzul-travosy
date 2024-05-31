@@ -2,19 +2,15 @@
   "name": {
     "ui:autofocus": true,
     "ui:emptyValue": "",
-    "ui:enableMarkdownInDescription": true,
-    "ui:description": "Nama company atau perusahaan"
+    "ui:enableMarkdownInDescription": true
   },
   "address": {
-    "ui:description": "Alamat lengkap",
     "ui:widget": "textarea"
   },
   "shortAddress": {
-    "ui:description": "Alamat singkat",
     "ui:widget": "textarea"
   },
   "whatsapp": {
-    "ui:description": "Nomor whatsapp",
     "ui:options": {
       "inputType": "tel"
     }
@@ -25,7 +21,6 @@
     }
   },
   "email": {
-    "ui:description": "Alamat email",
     "ui:options": {
       "inputType": "email"
     }

@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 unused
 instagram-feeds
+/pnpm-lock.yaml
+/src/tests/repo-dir

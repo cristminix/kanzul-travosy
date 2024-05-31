@@ -23,6 +23,7 @@ import Spinner from "@/app/shared/Spinner"
 
 // import "bootstrap/dist/css/bootstrap.min.css"
 // import "bootstrap/dist/js/bootstrap.min.js"
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const App = ({ props }) => {
   const location = useLocation()

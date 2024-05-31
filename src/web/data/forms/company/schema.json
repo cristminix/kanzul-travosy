@@ -1,6 +1,4 @@
 {
-  "title": "Company form",
-  "description": "Form untuk data company.",
   "type": "object",
   "required": [
     "name",
@@ -13,27 +11,27 @@
   "properties": {
     "name": {
       "type": "string",
-      "title": "Name"
+      "title": "Nama Instansi / Perusahaan"
     },
     "address": {
       "type": "string",
-      "title": "Address"
+      "title": "Alamat Lengkap"
     },
     "shortAddress": {
       "type": "string",
-      "title": "Short Address"
+      "title": "Alamat Singkat"
     },
     "whatsapp": {
       "type": "string",
-      "title": "Whatapp Number"
+      "title": "Nomor Whatapp"
     },
     "phone": {
       "type": "string",
-      "title": "Phone Number"
+      "title": "Number Telepon"
     },
     "email": {
       "type": "string",
-      "title": "Email"
+      "title": "Alamat Email"
     }
   }
 }

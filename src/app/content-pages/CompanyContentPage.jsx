@@ -1,5 +1,6 @@
 import formSchema from "@/web/data/forms/company/schema.json"
-import formUiSchema from "@/web/data/forms/company/ui.json"
+import CompanyForm from "./company-content-page/CompanyForm"
+
 
 import contentSlice from "@/global/store/features/contentSlice"
 import settingSlice from "@/global/store/features/settingSlice"
@@ -28,6 +29,7 @@ const CompanyContentPage = ({}) => {
   const { setHideGitNotReadyMessage } = settingSlice.actions
   
   const [company, setCompany] = useState(mCompay.defaultValue)
+  const [formShown,showForm] = useState(false)
 
   const pageTitle = "Company Content Page"
   const breadcrumbs = [
@@ -84,6 +86,21 @@ const CompanyContentPage = ({}) => {
           proses ini mungkin memerlukan waktu beberapa detik bergantung pada koneksi
           Internet Anda saat ini. 
       </SweetAlert>)
+  const showEditForm = ()=>{
+    showForm(true)
+  }
+  const onSaveForm = async(formEvent)=>{
+    const {formData} = formEvent
+    dispatch(setLoading(true))
+    dispatch(setLoadingMessage("Menyimpan Data"))
+    await mCompay.update(formData)
+    await mCompay.commit(true)
+    console.log(formEvent)
+    dispatch(setLoading(false))
+    showForm(false)
+    loadFormData()
+
+  }
   useEffect(() => {
     git.setOnCloneProgressHandler(dispatch, setLoading, setLoadingMessage)
     const performGit = async () => {
@@ -114,10 +131,14 @@ const CompanyContentPage = ({}) => {
         <div className="card">
           <div className="card-body">
             {alert}
+            {formShown?<CompanyForm formData={company} schema={formSchema} onSubmit={e=>onSaveForm(e)} onCancel={e=>showForm(false)}/>:
             <CompanyDisplay company={company} schema={formSchema} />
+         }
           </div>
-          <div className="card-body">
-            <Button size="sm" onClick={(e) => createAlert()}>Ubah</Button>
+          <div className="card-body twx-flex twx-justify-end">
+          {!formShown?
+            <Button size="sm" onClick={(e) => showEditForm()}><i className="mdi mdi-pencil-box-outline"/> Ubah</Button>
+          :null}
           </div>
         </div>
       </div>

@@ -27,7 +27,7 @@ class DBGit {
     return result
   }
   async getData() {
-    await this.git.fastForward()
+    // await this.git.fastForward()
     let data = {}
     try {
       const bufferData = await this.fs.readFileSync(this.getFilePath(), "utf-8")
