@@ -1,0 +1,7 @@
+git clone with noCheckout option
+git checkout current file 
+
+commit cant be specified by git add
+
+but the whole of drectory list, instead of expected git add only, commit will
+check the list of directory tree automatically, if they were deleted they are also added to git rm -> so to test if git rm called before we run commit, we can just modify the git remove command to another or our function to replace original git rm function
