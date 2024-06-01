@@ -4,7 +4,7 @@ import path from "node:path"
 import mpaPlugin from "vite-plugin-mpa-plus"
 // import devServer from "@hono/vite-dev-server"
 // import mix from "vite-plugin-mix"
-import { pluginAPIRoutes } from "vite-plugin-api-routes"
+// import { pluginAPIRoutes } from "vite-plugin-api-routes"
 
 // https://vitejs.dev/config/
 import mpaConfig from "./mpa.config.json" assert { type: "json" }

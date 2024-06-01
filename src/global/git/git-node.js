@@ -11,7 +11,7 @@ import { getRepoDir } from "./getRepoDir.js"
 const CWD = process.cwd()
 const repoDir = path.join(CWD, "src/tests/repo-dir")
 
-console.log({ repoDir })
+// console.log({ repoDir })
 const config = {
   repoUrl: "http://localhost:3000/sutoyocutez/kanzululum.github.io.git",
   author: {
@@ -19,6 +19,7 @@ const config = {
     email: "sutoyocutez@gmail.com",
   },
   token: "e05db2320178761249774568fa1882d3c0e21cfa",
+  corsProxyUrl: "http://127.0.0.1:8787",
 }
 
 class Git {
@@ -32,7 +33,6 @@ class Git {
   token = null
   constructor(config) {
     this.fs = fs
-    this.pfs = this.fs.promises
     this.repoUrl = config.repoUrl
     if (config.corsProxyUrl) {
       this.corsProxyUrl = config.corsProxyUrl
@@ -46,20 +46,19 @@ class Git {
   }
 
   async isCloned() {
+    if (!(await this.fs.existsSync(this.dir))) return false
     try {
-      const ls = await this.pfs.readdir(this.dir)
+      const ls = await this.fs.readdirSync(this.dir)
       if (ls.length === 0) return false
-      if (await this.pfs.stat(`${this.dir}/.git`)) {
-        return true
-      }
+      if (await this.fs.existsSync(`${this.dir}/.git`)) return true
     } catch (e) {
-      // console.error(e)
+      console.log(`lfs: ${this.dir}/.git not found`)
     }
 
     return false
   }
 
-  cloneOption() {
+  cloneOption(noCheckout=false) {
     const option = {
       fs: this.fs,
       http,
@@ -67,14 +66,21 @@ class Git {
       url: this.repoUrl,
       // ref: "main",
       singleBranch: true,
-      // noCheckout: true,
+      onProgress: (event) => {
+        if (typeof this.onCloneCallback === "function") {
+          this.onCloneCallback(event)
+        }
+      },
     }
     if (this.corsProxyUrl) {
       option.corsProxy = this.corsProxyUrl
     }
+    if(noCheckout){
+      option.noCheckout = true
+    }
     return option
   }
-  fetchOption() {
+   fetchOption() {
     const option = {
       fs: this.fs,
       http,
@@ -89,21 +95,6 @@ class Git {
     }
     return option
   }
-  commitOption(message) {
-    let remoteUrl = null
-    if (this.repoUrl.startsWith("http://")) {
-      repoUrl = repoUrl.replace("http://", `http://${this.token}@`)
-    } else {
-      repoUrl = repoUrl.replace("https://", `https://${this.token}@`)
-    }
-    const option = {
-      remote: remoteUrl,
-      fs: this.fs,
-      dir: this.dir,
-      message,
-      author: this.author,
-    }
-  }
   async commit(filepaths, message) {
     let messages = []
     for (const fileItem of filepaths) {
@@ -111,7 +102,7 @@ class Git {
       const dateUpdated = new Date()
       messages.push(`Edit ${fileItem} at ${dateUpdated}`)
     }
-    let sha = await git.commit({
+    const sha = await git.commit({
       fs: this.fs,
       dir: this.dir,
       author: this.author,
@@ -121,15 +112,17 @@ class Git {
     return sha
   }
   async push() {
-    let pushResult = await git.push({
+    let option = {
       fs: this.fs,
       http,
       dir: this.dir,
-      // remote: 'origin',
-      // ref: 'main',
       onAuth: () => ({ username: this.token }),
-    })
-    console.log(pushResult)
+    }
+    if (this.corsProxyUrl) {
+      option.corsProxy = this.corsProxyUrl
+    }
+    let pushResult = await git.push(option)
+    return pushResult
   }
   async checkout(filepaths) {
     await git.checkout({
@@ -157,29 +150,39 @@ class Git {
     let result = await git.fetch(this.fetchOption())
     console.log(result)
   }
-  async listFiles() {}
   async fastForward() {
-    await git.fastForward({
+    let pullSuccess = false
+    let error = "false"
+    let option = {
       fs: this.fs,
       http,
       dir: this.dir,
-      // ref: 'main',
       singleBranch: true,
-    })
+    }
+    if (this.corsProxyUrl) {
+      option.corsProxy = this.corsProxyUrl
+    }
+    try {
+      await git.fastForward(option)
+      pullSuccess = true
+    } catch (e) {
+      error = e
+      console.error(e)
+    }
+    if (!pullSuccess) {
+      console.log('Pull not succed')
+    }
   }
   async cleanup() {
-    rimrafSync(this.dir)
+    await rimrafSync(this.dir)
   }
-  async init() {
+  async init(noCheckout=false) {
     const alreadyCloned = await this.isCloned()
     if (!alreadyCloned) {
-      // await this.fs.init("fs", {
-      // 	wipe: true,
-      // })
-      // //
+      
       console.log("Cloning repo ")
-      await this.pfs.mkdir(this.dir)
-      await git.clone(this.cloneOption())
+      await this.fs.mkdirSync(this.dir)
+      await git.clone(this.cloneOption(noCheckout))
     }
   }
 }

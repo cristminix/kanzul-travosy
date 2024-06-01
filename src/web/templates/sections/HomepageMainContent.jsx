@@ -8,7 +8,7 @@ import ShortBeritaList from "../blocks/ShortBeritaList"
 
 // import Counter from "@/global/store/features/counter/Counter"
 
-const HomepageMainContent = ({ galeryList, beritaList }) => {
+const HomepageMainContent = ({ profileData, galeryList, beritaList }) => {
   return (
     <>
       <Hero />
@@ -16,7 +16,7 @@ const HomepageMainContent = ({ galeryList, beritaList }) => {
       <section className="relative md:py-24 py-16 overflow-hidden">
         <WelcomeMessage />
 
-        <ShortProfile className="mt-12" />
+        <ShortProfile profile={profileData} className="mt-12" />
         <ShortLembaga />
         <ShortGalerySlider galeryList={galeryList} />
         <ShortBeritaList beritaList={beritaList} />

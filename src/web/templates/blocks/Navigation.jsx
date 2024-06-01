@@ -1,4 +1,5 @@
 const Navigation = ({webNavigationList})=>{
+    // console.log(webNavigationList)
     const cls12 = "cls-12 dropdown inline-block relative pe-1"
 
 		const cls29 = "cls-29 navigation-menu justify-end nav-light"
@@ -6,7 +7,7 @@ const Navigation = ({webNavigationList})=>{
     return <div id="navigation"> 
     {/*<!-- Navigation Menu-->*/} 
     <ul className={cls29}> 
-    {webNavigationList.map((item,index)=>{
+    {Array.isArray(webNavigationList)&&webNavigationList.map((item,index)=>{
         return  <li key={index}> <a href={`${item.path}/index.html`} className={cls33}> {item.title} </a> </li> 
     })}
         {/* <li className={cls30}> 

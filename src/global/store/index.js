@@ -8,9 +8,13 @@ import galerySlice from "./features/galerySlice"
 import homepageSlice from "./features/homepageSlice"
 import searchSlice from "./features/searchSlice"
 import socialNetworkLinkSlice from "./features/socialNetworkLinkSlice"
+import webNavigationSlice from "./features/webNavigationSlice"
 import welcomMessageSlice from "./features/welcomeMessageSlice"
 import contentSlice from "./features/contentSlice"
 import settingSlice from "./features/settingSlice"
+import profileSlice from "./features/profileSlice"
+import lembagaSlice from "./features/lembagaSlice"
+import pendaftaranSlice from "./features/pendaftaranSlice"
 
 /*
 // import storage from 'redux-persist/lib/storage';
@@ -41,6 +45,10 @@ export const store = configureStore({
     search: searchSlice.reducer,
     socialNetworkLink: socialNetworkLinkSlice.reducer,
     content: contentSlice.reducer,
-    setting: settingSlice.reducer
+    setting: settingSlice.reducer,
+    webNavigation: webNavigationSlice.reducer,
+    profile: profileSlice.reducer,
+    lembaga: lembagaSlice.reducer,
+    pendaftaran: pendaftaranSlice.reducer,
   },
 })

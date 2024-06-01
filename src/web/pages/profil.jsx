@@ -1,1 +1,4 @@
-console.log('C:\projects\kanzul-travosy\src\web\pages\profil.jsx')
+import "@/global/css/tailwind.css"
+import WebApp from "@/web/WebApp"
+import { mountApp } from "@/global/fn/mountApp"
+mountApp(<WebApp template="profile" />)

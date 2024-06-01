@@ -63,8 +63,8 @@ const createCompany = () => {
 
 const main = async () => {
   const git = createGit()
-  // await git.cleanup()
-  await git.init()
+  await git.cleanup()
+  await git.init(true)
   // await git.fastForward()
   // const filePath = "web/data/company.json"
   // await git.checkout([filePath])
@@ -74,10 +74,10 @@ const main = async () => {
   // // await git.fastForward("web/data")
   // console.log(git)
 
-  const mCompany = new DBCompany(git)
-  const companyData = await mCompany.get()
-  await mCompany.update(createCompany())
-  await mCompany.commit(true)
+  // const mCompany = new DBCompany(git)
+  // const companyData = await mCompany.get()
+  // await mCompany.update(createCompany())
+  // await mCompany.commit(true)
   await git.log()
 
   // console.log({ companyData })
