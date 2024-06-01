@@ -51,8 +51,8 @@ const FooterSection = ({footerData,companyData, contactPersonList, socialNetwork
                  <div className={cls4}> 
                      <div className={cls5}> 
                          <div className={cls6}> 
-                             <a href="#" className={cls7}> 
-                                 <img src="/assets/images/logo/logo-light.png" alt="Ponpes Kanzululum" className="max-w-[50%]"/> 
+                             <a href="/" className={cls7}> 
+                                 <img src="/assets/images/logo/logo-light.png" alt="Ponpes Kanzululum" className="twx-max-w-[50%]"/> 
                              </a> 
                              <p className={cls8}> Merencanakan pendidikan pesantren? Kami akan mengatur pendidikan Anda dengan kurikulum terbaik dan biaya yang terjangkau! </p> 
                              <FooterSocialLinkList socialNetworkLinks={socialNetworkLinks}/>

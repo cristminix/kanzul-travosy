@@ -18,7 +18,9 @@ const FullProfile = ({className,profile}) => {
     const fullProfile= profile.full
     return (
       <>
+
         <div className={`${cls0} ${className}`}>
+        
           <div className={cls1}>
             <div className={cls2}>
               <div className={cls3}>

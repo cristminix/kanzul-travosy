@@ -18,7 +18,7 @@ const FullLembaga = ({ className, lembaga }) => {
   return (
     <>
       {lembaga.contents.map((item, index) => {
-        const genap = (index + 1) % 2 !== 0
+        const genap = (index + 1) % 2 === 0
         return (
           <div className={`${cls0} ${className}`}>
             <div className={cls1}>

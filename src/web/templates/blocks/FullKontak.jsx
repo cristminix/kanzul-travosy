@@ -1,6 +1,6 @@
 import { LazyLoadImage } from "react-lazy-load-image-component"
 
-const FullLembaga = ({ className, lembaga }) => {
+const FullLembaga = ({ className, kontak }) => {
   const cls0 = "cls-0 cls-1 container relative twx-mb-8"
   const cls1 = "cls-1 cls-2 grid md:grid-cols-12 grid-cols-1 items-center gap-6 relative"
   const cls2 = "cls-2 cls-3 md:col-span-5"
@@ -15,10 +15,13 @@ const FullLembaga = ({ className, lembaga }) => {
   const cls18 = "cls-18 cls-19 mdi mdi-chevron-right align-middle ms-0.5"
   const cls19 = "cls-19 cls-20 absolute bottom-0 start-1/3 -z-1"
   const cls20 = "cls-20 cls-21 lg:w-[600px] w-96"
+  
+
+  
   return (
     <>
-      {lembaga.contents.map((item, index) => {
-        const genap = (index + 1) % 2 !== 0
+      {kegiatan.contents.map((item, index) => {
+        const genap = (index + 1) % 2 === 0
         return (
           <div className={`${cls0} ${className}`}>
             <div className={cls1}>

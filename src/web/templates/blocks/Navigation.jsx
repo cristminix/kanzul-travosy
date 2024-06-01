@@ -8,7 +8,12 @@ const Navigation = ({webNavigationList})=>{
     {/*<!-- Navigation Menu-->*/} 
     <ul className={cls29}> 
     {Array.isArray(webNavigationList)&&webNavigationList.map((item,index)=>{
-        return  <li key={index}> <a href={`${item.path}/index.html`} className={cls33}> {item.title} </a> </li> 
+        let isActive = item.path === '/' ? item.path === location.pathname : location.pathname.startsWith(item.path)
+        if(item.path.includes('/index.html')){
+        isActive = item.path === '/' ? `${item.path}/index.html` === `${location.pathname}/index.html` : `${location.pathname}/index.html`.startsWith(`${item.path}/index.html`)
+
+        }
+        return  <li key={index} className={`${isActive?'active':''}`}> <a href={`${item.path}`} className={`${cls33}`}> {item.title} </a> </li> 
     })}
         {/* <li className={cls30}> 
             <a href="javascript:void(0)"> Hero </a> <span className={cls31}> </span> 

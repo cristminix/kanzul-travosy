@@ -15,6 +15,8 @@ import settingSlice from "./features/settingSlice"
 import profileSlice from "./features/profileSlice"
 import lembagaSlice from "./features/lembagaSlice"
 import pendaftaranSlice from "./features/pendaftaranSlice"
+import kontakSlice from "./features/kontakSlice"
+import kegiatanSlice from "./features/kegiatanSlice"
 
 /*
 // import storage from 'redux-persist/lib/storage';
@@ -50,5 +52,7 @@ export const store = configureStore({
     profile: profileSlice.reducer,
     lembaga: lembagaSlice.reducer,
     pendaftaran: pendaftaranSlice.reducer,
+    kontak:kontakSlice.reducer,
+    kegiatan:kegiatanSlice.reducer
   },
 })

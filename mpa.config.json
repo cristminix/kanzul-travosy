@@ -13,10 +13,10 @@
       }
     }
   },
-  "profil": {
-    "entry": "src/web/pages/profil.jsx",
-    "filename": "/profil/index.html",
-    "template": "profil/index.html",
+  "profile": {
+    "entry": "src/web/pages/profile.jsx",
+    "filename": "/profile/index.html",
+    "template": "profile/index.html",
     "inject": {
       "data": {
         "title": "profil Page"
