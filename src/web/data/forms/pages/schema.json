@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "required": [
+    "title",
+    "meta-description",
+    "meta-keyword"
+  ],
+  "properties": {
+    "title": {
+      "title": "Page Title",
+      "type": "string"
+    },
+    "meta-description": {
+      "title": "Page Meta Description",
+      "type": "string"
+    },
+    "meta-keyword": {
+      "title": "Page Meta Keyword",
+      "type": "string"
+    }
+  }
+}

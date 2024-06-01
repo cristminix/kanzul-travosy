@@ -13,7 +13,36 @@ import fg from "fast-glob"
 import { nodePolyfills } from "vite-plugin-node-polyfills"
 import { chunkSplitPlugin } from "vite-plugin-chunk-split"
 
-const copyAssetsFileList = fg.globSync("./src/web/data/**/*.json", { ignore: ["schema.json", "data.json", "ui.json"] })
+let jsonDataFileList = fg.globSync("./src/web/data/**/*.json")
+let pages_jsonFileList = []
+let templates_jsonFileList = []
+let forms_jsonFileList = []
+let default_jsonFileList = []
+
+for(const jsonFile of jsonDataFileList){
+  console.log(jsonFile)
+  if(jsonFile.match(/\web\/data\/pages/)){
+    pages_jsonFileList.push(jsonFile)
+  }
+  //web/data/forms/
+  else if(jsonFile.match(/\web\/data\/forms/)){
+    forms_jsonFileList.push(jsonFile)
+  }
+  else if(jsonFile.match(/\web\/data\/templates/)){
+    forms_jsonFileList.push(jsonFile)
+  }else{
+    default_jsonFileList.push(jsonFile)
+  }
+  // web/data/templates
+}
+let autoConfigStaticCopy = []
+
+/*
+let templateSubDir = []
+for(const jsonFile of templates_jsonFileList){
+
+}
+*/
 // console.log(src)
 // process.exit(0)
 export default defineConfig({
@@ -29,8 +58,12 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: copyAssetsFileList,
+          src: default_jsonFileList,
           dest: "web/data",
+        },
+        {
+          src: pages_jsonFileList,
+          dest: "web/data/pages",
         },
       ],
     }),

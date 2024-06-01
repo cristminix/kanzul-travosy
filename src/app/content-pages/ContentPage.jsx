@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 
 import CompanyContentPage from "./CompanyContentPage"
+import PagesContentPage from "./PagesContentPage"
 import { useLoaderData } from "react-router-dom"
 
 export async function loader({ params }) {
@@ -14,6 +15,9 @@ const ContentPage = ({}) => {
 
   if (module == "company") {
     return <CompanyContentPage />
+  }
+  else if (module == "pages") {
+    return <PagesContentPage />
   }
   // else if (module == "berita") {
   //   return <Berita />
