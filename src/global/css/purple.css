@@ -53,6 +53,9 @@
 }
 
 
+button.btn-sm.xs {
+    @apply twx-px-[8px] twx-py-[2px] twx-font-normal
+}
 button.btn {
     @apply !twx-flex !twx-items-center
 }

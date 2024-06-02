@@ -11,7 +11,7 @@
   "properties": {
     "name": {
       "type": "string",
-      "title": "Nama Instansi / Perusahaan"
+      "title": "Nama"
     },
     "address": {
       "type": "string",
@@ -27,7 +27,7 @@
     },
     "phone": {
       "type": "string",
-      "title": "Number Telepon"
+      "title": "Nomor Telepon"
     },
     "email": {
       "type": "string",

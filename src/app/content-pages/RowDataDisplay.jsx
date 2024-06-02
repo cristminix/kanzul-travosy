@@ -1,8 +1,8 @@
 import Table from "react-bootstrap/Table"
-const CompanyDisplay = ({ company, schema }) => {
+const RowDataDisplay = ({ rowData,title, schema }) => {
   return (
-    <div className="company-display">
-      <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Detail Pondok Pesantren</h4>
+    <div className="row-data-display">
+      <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">{title}</h4>
       <Table striped bordered hover>
         {/*<thead>
           <tr>
@@ -15,7 +15,7 @@ const CompanyDisplay = ({ company, schema }) => {
             return (
               <tr>
                 <td>{schema.properties[prop].title}</td>
-                <td>{company[prop]}</td>
+                <td>{rowData[prop]}</td>
               </tr>
             )
           })}
@@ -25,4 +25,4 @@ const CompanyDisplay = ({ company, schema }) => {
   )
 }
 
-export default CompanyDisplay
+export default RowDataDisplay

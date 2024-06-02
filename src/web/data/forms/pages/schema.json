@@ -7,15 +7,15 @@
   ],
   "properties": {
     "title": {
-      "title": "Page Title",
+      "title": "Judul",
       "type": "string"
     },
     "meta-description": {
-      "title": "Page Meta Description",
+      "title": "Meta Description",
       "type": "string"
     },
     "meta-keyword": {
-      "title": "Page Meta Keyword",
+      "title": "Meta Keyword",
       "type": "string"
     }
   }

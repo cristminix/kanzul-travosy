@@ -2,7 +2,9 @@ import git from "isomorphic-git"
 import http from "isomorphic-git/http/web"
 import Fs from "./fs"
 import {createRandomInt} from "@/global/fn/createRandomInt"
+import {arrayBufferToBase64} from "@/global/fn/arrayBufferToBase64"
 import { getRepoDir } from "./getRepoDir"
+import { parse as parseMimeType } from 'file-type-mime';
 
 const config = {
   repoUrl: "http://localhost:3000/sutoyocutez/kanzululum.github.io.git",
@@ -22,6 +24,17 @@ class Git {
   corsProxyUrl = null
   author = null
   token = null
+
+   async getFile64Data(path){
+    const fileGitPath = `${this.dir}${path}`
+    // console.log(fileGitPath)
+    const buffer = await this.fs.readFileSync(fileGitPath)
+    const mimeType = parseMimeType(buffer);
+
+    let output = `data:image/png;charset=utf-8;base64,${arrayBufferToBase64(buffer)}`
+    // console.log(output)
+    return output
+   }
 
   getRelativePath(fullPath){
     return fullPath.replace(`${this.dir}/`,'')
@@ -165,6 +178,15 @@ class Git {
       http,
       dir: this.dir,
       singleBranch: true,
+      onProgress: event => {
+    console.log(event.phase)
+    if (event.total) {
+      console.log(event.loaded / event.total)
+    } else {
+      console.log(event.loaded)
+    }
+  }
+
     }
     if (this.corsProxyUrl) {
       option.corsProxy = this.corsProxyUrl

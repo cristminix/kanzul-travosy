@@ -35,8 +35,20 @@ for(const jsonFile of jsonDataFileList){
   }
   // web/data/templates
 }
-let autoConfigStaticCopy = []
+let template_sectionFileList = []
+let template_blockFileList = []
+let template_rootFileList = []
 
+for(const jsonFile of templates_jsonFileList){
+  if(jsonFile.match(/\web\/data\/templates\/sections/)){
+    template_sectionFileList.push(jsonFile)
+  }
+  else if(jsonFile.match(/\web\/data\/templates\/blocks/)){
+    template_sectionFileList.push(jsonFile)
+  }else{
+    template_rootFileList.push(jsonFile)
+  }
+}
 /*
 let templateSubDir = []
 for(const jsonFile of templates_jsonFileList){
@@ -65,6 +77,18 @@ export default defineConfig({
           src: pages_jsonFileList,
           dest: "web/data/pages",
         },
+        {
+          src: template_rootFileList,
+          dest:"web/data/templates"
+        },
+        {
+          src: template_sectionFileList,
+          dest:"web/data/templates/sections"
+        },
+        {
+          src: template_blockFileList,
+          dest:"web/data/templates/blocks"
+        }
       ],
     }),
     mpaPlugin({

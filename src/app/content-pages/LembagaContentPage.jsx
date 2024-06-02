@@ -15,30 +15,48 @@ const git = createGit()
 
 // git.cleanup()
 /*-------------------EP--------------------------*/
-import PageList from "./components/PageList"
-import MPages from "@/global/git/models/MPages"
+import LembagaList from "./components/LembagaList"
+import MLembaga from "@/global/git/models/MLembaga"
 
 import JsonForm from "./JsonForm"
 import pageFormSchema from "@/web/data/forms/pages/schema.json"
 import pageFormUiSchema from "@/web/data/forms/pages/ui.json"
 
-const mPages = new MPages(git,pageFormSchema)
+const mLembaga = new MLembaga(git,pageFormSchema)
+/*
+const setThumbnailFile = async (target) => {
+    const file64 = await getFile64(target.files[0])
+    const [file] = target.files
+    setThumbnail(file.name)
+    const fileType = file.type.split("/")[0]
+    if (fileType === "image") {
+      setThumbnailValid(true)
+      setThumbnailUrl(file64)
+      const newValidationErrors = { ...validationErrors }
+      delete newValidationErrors.thumbnail
+      setValidationErrors(newValidationErrors)
+    } else {
+      alert("Only image file is allowed")
+      thumbnailRef.current.value = ""
+    }
+  }
+*/
 /*-------------------EP--------------------------*/
 
-const PagesContentPage = ({}) => {
+const LembagaContentPage = ({}) => {
   const dispatch = useDispatch()
   const contentState = useSelector((state) => state.content)
   const settingState = useSelector((state) => state.setting)
   const { setLoading, setLoadingMessage } = contentSlice.actions
   const { setHideGitNotReadyMessage } = settingSlice.actions
   
-  const [formData, setFormData] = useState(mPages.defaultValue)
+  const [formData, setFormData] = useState(mLembaga.defaultValue)
   const [formShown,showForm] = useState(false)
 
-  const pageTitle = "Edit Meta Halaman"
+  const pageTitle = "Edit Lembaga"
   const breadcrumbs = [
     { title: "Konten", path: "contents" },
-    { title: "Meta Halaman", path: "content/pages" },
+    { title: "Lembaga", path: "content/lembaga" },
   ]
   const [alert, setAlert] = useState(null)
   
@@ -106,7 +124,7 @@ const PagesContentPage = ({}) => {
     dispatch(setLoadingMessage("Menyimpan Data"))
     
     console.log('implement DBGitFileList.update')
-    await mPages.updateRow(formData,true)
+    await mLembaga.updateRow(formData,true)
     // await mCompay.commit(true)
     
     // console.log(formEvent)
@@ -120,7 +138,7 @@ const PagesContentPage = ({}) => {
   }
 
   const updateList = async()=>{
-    const listData = await mPages.getData()
+    const listData = await mLembaga.getData()
     setPages(oPages=>listData)
     console.log(listData)
   }
@@ -165,8 +183,8 @@ const PagesContentPage = ({}) => {
 
             </>:
             <>
-            <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Daftar Halaman</h4>
-            <PageList className="twx-border twx-border-slate-200 twx-border-solid" pages={pages} onEditRow={row=>showEditForm(row)}/>
+            <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Daftar Lembaga</h4>
+            <LembagaList git={git} className="twx-border twx-border-slate-200 twx-border-solid" pages={pages} onEditRow={row=>showEditForm(row)}/>
 
             {/*<CompanyDisplay company={company} schema={formSchema} />*/}</>
          }
@@ -183,4 +201,4 @@ const PagesContentPage = ({}) => {
   )
 }
 
-export default PagesContentPage
+export default LembagaContentPage

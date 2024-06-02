@@ -1,7 +1,9 @@
 import React, { Component } from "react"
 
 import CompanyContentPage from "./CompanyContentPage"
+import FooterContentPage from "./FooterContentPage"
 import PagesContentPage from "./PagesContentPage"
+import LembagaContentPage from "./LembagaContentPage"
 import { useLoaderData } from "react-router-dom"
 
 export async function loader({ params }) {
@@ -19,9 +21,13 @@ const ContentPage = ({}) => {
   else if (module == "pages") {
     return <PagesContentPage />
   }
-  // else if (module == "berita") {
-  //   return <Berita />
-  // } else if (module == "contact-person") {
+  else if (module == "footer") {
+    return <FooterContentPage />
+  } 
+  else if (module == "lembaga") {
+    return <LembagaContentPage />
+  } 
+  //else if (module == "contact-person") {
   //   return <ContactPerson />
   // } else if (module == "galery") {
   //   return <Galery />

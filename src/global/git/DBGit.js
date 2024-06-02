@@ -5,6 +5,17 @@ class DBGit {
   defaultValue = null
   data = null
   path = null
+
+  // if specified data will be  from this json fields
+  /*
+  {
+    "a":"",
+    "dataRootField":[
+        ... this will be the list data ...
+    ]
+  }
+  */
+  dataRootField = null
   
   reservedFieldValues = ['@path']
   constructor(git, schema, path = null) {
@@ -64,6 +75,9 @@ class DBGit {
       try {
         const bufferData = await this.fs.readFileSync(this.getFilePath(), "utf-8")
         data = JSON.parse(bufferData)
+        if(this.dataRootField){
+          data = data[this.dataRootField]
+        }
       } catch (e) {
         console.error(e)
         if (this.type === "single") data = { ...this.defaultData }

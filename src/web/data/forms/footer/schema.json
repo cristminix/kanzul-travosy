@@ -1,13 +1,12 @@
 {
-  "title": "footer Form",
-  "description": "Form untuk data footer",
+
   "type": "object",
   "required": [
     "footerText"
   ],
   "properties": {
     "footerText": {
-      "title": "footer",
+      "title": "Text Footer",
       "type": "string"
     }
   }

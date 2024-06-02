@@ -56,15 +56,16 @@ class Sidebar extends Component {
     })
   }
   contentMenus = [
-    {title:"Company",path:"contents/company"},
-    {title:"Homepage",path:"contents/homepage"},
-    {title:"Pages",path:"contents/pages"},
-    {title:"Footer",path:"contents/footer"},
-    {title:"Lembaga",path:"contents/lembaga"},
-    {title:"Kegiatan",path:"contents/kegiatan"},
-    {title:"Pendaftaran",path:"contents/pendaftaran"},
-    {title:"Berita",path:"contents/berita"},
-    {title:"Files",path:"contents/files"},
+    {title:"Detail Pesantren",path:"contents/company"},
+    {title:"Edit Halaman Depan",path:"contents/homepage"},
+    {title:"Edit Meta Halaman",path:"contents/pages"},
+    {title:"Edit Isi Footer",path:"contents/footer"},
+    {title:"Daftar Lembaga",path:"contents/lembaga"},
+    {title:"Daftar Kegiatan",path:"contents/kegiatan"},
+    {title:"Edit Isi Pendaftaran",path:"contents/pendaftaran"},
+    {title:"Edit Galeri",path:"contents/galery"},
+    {title:"Daftar Berita",path:"contents/berita"},
+    {title:"Daftar File",path:"contents/files"},
   ]
   render() {
     return (

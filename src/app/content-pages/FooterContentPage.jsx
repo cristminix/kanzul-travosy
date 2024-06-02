@@ -1,3 +1,9 @@
+import formSchema from "@/web/data/forms/footer/schema.json"
+import uiSchema from "@/web/data/forms/footer/ui.json"
+
+import JsonForm from "./JsonForm"
+
+
 import contentSlice from "@/global/store/features/contentSlice"
 import settingSlice from "@/global/store/features/settingSlice"
 
@@ -7,45 +13,34 @@ import SweetAlert from "react-bootstrap-sweetalert"
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
 import MainContentLayout from "./MainContentLayout"
+
+import RowDataDisplay from "./RowDataDisplay"
+
 import { Button } from "react-bootstrap"
 
 import { createGit } from "@/global/git"
+import MFooter from "@/global/git/models/MFooter"
+import defaultFooter from "@/web/data/templates/sections/footer.json"
 
 const git = createGit()
+const mFooter = new MFooter(git, formSchema)
 
-// git.cleanup()
-/*-------------------EP--------------------------*/
-import PageList from "./components/PageList"
-import MPages from "@/global/git/models/MPages"
-
-import JsonForm from "./JsonForm"
-import pageFormSchema from "@/web/data/forms/pages/schema.json"
-import pageFormUiSchema from "@/web/data/forms/pages/ui.json"
-
-const mPages = new MPages(git,pageFormSchema)
-/*-------------------EP--------------------------*/
-
-const PagesContentPage = ({}) => {
+const FooterContentPage = ({}) => {
   const dispatch = useDispatch()
   const contentState = useSelector((state) => state.content)
   const settingState = useSelector((state) => state.setting)
   const { setLoading, setLoadingMessage } = contentSlice.actions
   const { setHideGitNotReadyMessage } = settingSlice.actions
   
-  const [formData, setFormData] = useState(mPages.defaultValue)
+  const [footer, setFooter] = useState(mFooter.defaultValue)
   const [formShown,showForm] = useState(false)
 
-  const pageTitle = "Edit Meta Halaman"
+  const pageTitle = "Edit Footer"
   const breadcrumbs = [
     { title: "Konten", path: "contents" },
-    { title: "Meta Halaman", path: "content/pages" },
+    { title: "Footer", path: "content/footer" },
   ]
   const [alert, setAlert] = useState(null)
-  
-  /*-----------------------------------------------------------*/
-  const [pages,setPages] = useState([])
-  /*-----------------------------------------------------------*/
-
   const hideAlert = () => setAlert(null)
   const createAlert = () => {
     setAlert(
@@ -62,17 +57,15 @@ const PagesContentPage = ({}) => {
     )
   }
 
-  /*
-  not used
   const loadFormData = async () => {
     // await git.cleanup()
     dispatch(setLoading(true))
     // await git.init()
-    const companyData = await mCompay.get()
+    const footerData = await mFooter.get()
     dispatch(setLoading(false))
-    console.log(companyData)
-    setCompany(companyData)
-  }*/
+    console.log(footerData)
+    setFooter(footerData)
+  }
 
   const displayAlertGitNotReady = ()=> setAlert(<SweetAlert
           showCancel
@@ -83,9 +76,7 @@ const PagesContentPage = ({}) => {
           title="Unduh Git Repository ?"
           onCancel={e=>{
             dispatch(setHideGitNotReadyMessage(true ))
-            // do nothing
-            // setCompany(defaultCompany)
-
+            setFooter(defaultFooter)
             hideAlert()
           }}
           onConfirm={async(e)=>{
@@ -93,63 +84,47 @@ const PagesContentPage = ({}) => {
             dispatch(setLoading(true))
             await git.init()
             dispatch(setLoading(false))
-            updateList()
+            loadFormData()
           }}>
           Database repository Anda masih kosong, Anda perlu mengunduhnya sekarang, 
           proses ini mungkin memerlukan waktu beberapa detik bergantung pada koneksi
           Internet Anda saat ini. 
       </SweetAlert>)
- 
+  const showEditForm = ()=>{
+    showForm(true)
+  }
   const onSaveForm = async(formEvent)=>{
     const {formData} = formEvent
     dispatch(setLoading(true))
     dispatch(setLoadingMessage("Menyimpan Data"))
-    
-    console.log('implement DBGitFileList.update')
-    await mPages.updateRow(formData,true)
-    // await mCompay.commit(true)
-    
-    // console.log(formEvent)
+    await mFooter.update(formData)
+    await mFooter.commit(true)
+    console.log(formEvent)
     dispatch(setLoading(false))
     showForm(false)
-
-    console.log('Back to list')
-    await updateList()
-    // loadFormData()
+    loadFormData()
 
   }
-
-  const updateList = async()=>{
-    const listData = await mPages.getData()
-    setPages(oPages=>listData)
-    console.log(listData)
-  }
-  const prepareUpdateList = async()=>{
+  useEffect(() => {
     git.setOnCloneProgressHandler(dispatch, setLoading, setLoadingMessage)
+    const performGit = async () => {
+      // await git.cleanup()
+      // console.log(settingState)
+      // await git.cleanup()
       const isCloned = await git.isCloned()
       // console.log(isCloned)
       if (!isCloned) {
         if(!settingState.hideGitNotReadyMessage){
           displayAlertGitNotReady()
-          // setCompany(defaultCompany)
-          console.log('SET DEFAULT LIST DATA')
+          setFooter(defaultFooter)
         }
       }else{
-          // loadFormData()
-          console.log('SET LIST DATA')
-          updateList()
-      }
-  }
+          loadFormData()
+        }
+    }
 
-  const showEditForm = (row)=>{
-    setFormData(oFormData=>({...oFormData, ...row}))
-    showForm(true)
-  }
-  useEffect(() => {
-    
-    prepareUpdateList()
-    // performGit()
-  }, [])
+    performGit()
+  }, [setFooter])
 
   return (
     <MainContentLayout
@@ -160,22 +135,14 @@ const PagesContentPage = ({}) => {
         <div className="card">
           <div className="card-body">
             {alert}
-            {formShown?<>
-            <JsonForm title={`Edit Page Data for ${formData.name}`} formData={formData} schema={pageFormSchema} uiSchema={pageFormUiSchema} onSubmit={e=>onSaveForm(e)} onCancel={e=>showForm(false)}/>
-
-            </>:
-            <>
-            <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Daftar Halaman</h4>
-            <PageList className="twx-border twx-border-slate-200 twx-border-solid" pages={pages} onEditRow={row=>showEditForm(row)}/>
-
-            {/*<CompanyDisplay company={company} schema={formSchema} />*/}</>
+            {formShown?<JsonForm title={pageTitle} formData={footer} uiSchema={uiSchema} schema={formSchema} onSubmit={e=>onSaveForm(e)} onCancel={e=>showForm(false)}/>:
+            <RowDataDisplay title="Isi Footer" rowData={footer} schema={formSchema} />
          }
           </div>
           <div className="card-body twx-flex twx-justify-end">
-          {!formShown?<>
-            DISPLAY BUTTON ON LIST
-            {/*<Button size="sm" onClick={(e) => showEditForm()}><i className="mdi mdi-pencil-box-outline"/> Ubah</Button>*/}
-          </>:null}
+          {!formShown?
+            <Button size="sm" onClick={(e) => showEditForm()}><i className="mdi mdi-pencil-box-outline"/> Ubah</Button>
+          :null}
           </div>
         </div>
       </div>
@@ -183,4 +150,4 @@ const PagesContentPage = ({}) => {
   )
 }
 
-export default PagesContentPage
+export default FooterContentPage

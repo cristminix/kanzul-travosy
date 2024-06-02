@@ -31,10 +31,10 @@ const CompanyContentPage = ({}) => {
   const [company, setCompany] = useState(mCompay.defaultValue)
   const [formShown,showForm] = useState(false)
 
-  const pageTitle = "Company Content Page"
+  const pageTitle = "Detail Pondok Pesantren"
   const breadcrumbs = [
     { title: "Konten", path: "contents" },
-    { title: "Company", path: "content/company" },
+    { title: "Pesantren", path: "content/company" },
   ]
   const [alert, setAlert] = useState(null)
   const hideAlert = () => setAlert(null)
