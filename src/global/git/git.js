@@ -23,6 +23,9 @@ class Git {
   author = null
   token = null
 
+  getRelativePath(fullPath){
+    return fullPath.replace(`${this.dir}/`,'')
+  }
   onCloneCallback = (f) => f
   constructor(config) {
     this.fs = new Fs("fs")

@@ -1,12 +1,13 @@
 {
   "title": {
-    "ui:description": "Page Title",
     "ui:autofocus": true
   },
   "meta-description":{
-
+    "ui:widget": "textarea"
+    
   },
   "meta-keyword":{
+    "ui:widget": "textarea"
     
   }
 }

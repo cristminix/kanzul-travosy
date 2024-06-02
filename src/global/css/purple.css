@@ -51,3 +51,11 @@
 .content-is-loading{
     @apply twx-opacity-[.5] ;
 }
+
+
+button.btn {
+    @apply !twx-flex !twx-items-center
+}
+button.btn > svg {
+    @apply twx-w-[18px] twx-mr-[1]
+}

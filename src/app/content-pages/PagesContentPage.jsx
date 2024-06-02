@@ -1,7 +1,3 @@
-import formSchema from "@/web/data/forms/company/schema.json"
-import CompanyForm from "./company-content-page/CompanyForm"
-
-
 import contentSlice from "@/global/store/features/contentSlice"
 import settingSlice from "@/global/store/features/settingSlice"
 
@@ -11,22 +7,20 @@ import SweetAlert from "react-bootstrap-sweetalert"
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
 import MainContentLayout from "./MainContentLayout"
-import CompanyDisplay from "./company-content-page/CompanyDisplay"
 import { Button } from "react-bootstrap"
 
 import { createGit } from "@/global/git"
-import MCompany from "@/global/git/models/MCompany"
-import defaultCompany from "@/web/data/company.json"
 
 const git = createGit()
-const mCompay = new MCompany(git, formSchema)
 
 // git.cleanup()
 /*-------------------EP--------------------------*/
 import PageList from "./pages-content-page/PageList"
 import MPages from "@/global/git/models/MPages"
 
+import JsonForm from "./JsonForm"
 import pageFormSchema from "@/web/data/forms/pages/schema.json"
+import pageFormUiSchema from "@/web/data/forms/pages/ui.json"
 
 const mPages = new MPages(git,pageFormSchema)
 /*-------------------EP--------------------------*/
@@ -38,13 +32,13 @@ const PagesContentPage = ({}) => {
   const { setLoading, setLoadingMessage } = contentSlice.actions
   const { setHideGitNotReadyMessage } = settingSlice.actions
   
-  const [company, setCompany] = useState(mCompay.defaultValue)
+  const [formData, setFormData] = useState(mPages.defaultValue)
   const [formShown,showForm] = useState(false)
 
-  const pageTitle = "Company Content Page"
+  const pageTitle = "Pages Content Page"
   const breadcrumbs = [
     { title: "Konten", path: "contents" },
-    { title: "Company", path: "content/company" },
+    { title: "Pages", path: "content/pages" },
   ]
   const [alert, setAlert] = useState(null)
   
@@ -68,6 +62,8 @@ const PagesContentPage = ({}) => {
     )
   }
 
+  /*
+  not used
   const loadFormData = async () => {
     // await git.cleanup()
     dispatch(setLoading(true))
@@ -76,7 +72,7 @@ const PagesContentPage = ({}) => {
     dispatch(setLoading(false))
     console.log(companyData)
     setCompany(companyData)
-  }
+  }*/
 
   const displayAlertGitNotReady = ()=> setAlert(<SweetAlert
           showCancel
@@ -87,7 +83,9 @@ const PagesContentPage = ({}) => {
           title="Unduh Git Repository ?"
           onCancel={e=>{
             dispatch(setHideGitNotReadyMessage(true ))
-            setCompany(defaultCompany)
+            // do nothing
+            // setCompany(defaultCompany)
+
             hideAlert()
           }}
           onConfirm={async(e)=>{
@@ -101,19 +99,22 @@ const PagesContentPage = ({}) => {
           proses ini mungkin memerlukan waktu beberapa detik bergantung pada koneksi
           Internet Anda saat ini. 
       </SweetAlert>)
-  const showEditForm = ()=>{
-    showForm(true)
-  }
+ 
   const onSaveForm = async(formEvent)=>{
     const {formData} = formEvent
     dispatch(setLoading(true))
     dispatch(setLoadingMessage("Menyimpan Data"))
-    await mCompay.update(formData)
-    await mCompay.commit(true)
-    console.log(formEvent)
+    
+    console.log('implement DBGitFileList.update')
+    await mPages.updateRow(formData,true)
+    // await mCompay.commit(true)
+    
+    // console.log(formEvent)
     dispatch(setLoading(false))
     showForm(false)
-    loadFormData()
+
+    console.log('Back to list')
+    // loadFormData()
 
   }
 
@@ -138,6 +139,11 @@ const PagesContentPage = ({}) => {
           updateList()
       }
   }
+
+  const showEditForm = (row)=>{
+    setFormData(oFormData=>({...oFormData, ...row}))
+    showForm(true)
+  }
   useEffect(() => {
     
     prepareUpdateList()
@@ -154,13 +160,12 @@ const PagesContentPage = ({}) => {
           <div className="card-body">
             {alert}
             {formShown?<>
-            DISPLAY FORM
-            {/*<CompanyForm formData={company} schema={formSchema} onSubmit={e=>onSaveForm(e)} onCancel={e=>showForm(false)}/>*/}
+            <JsonForm title={`Edit Page Data for ${formData.name}`} formData={formData} schema={pageFormSchema} uiSchema={pageFormUiSchema} onSubmit={e=>onSaveForm(e)} onCancel={e=>showForm(false)}/>
 
             </>:
             <>
             <h4>DISPLAY LIST</h4>
-            <PageList pages={pages}/>
+            <PageList pages={pages} onEditRow={row=>showEditForm(row)}/>
 
             {/*<CompanyDisplay company={company} schema={formSchema} />*/}</>
          }

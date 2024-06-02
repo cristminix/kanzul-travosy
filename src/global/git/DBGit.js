@@ -5,6 +5,8 @@ class DBGit {
   defaultValue = null
   data = null
   path = null
+  
+  reservedFieldValues = ['@path']
   constructor(git, schema, path = null) {
     this.git = git
     this.fs = git.fs
@@ -14,18 +16,12 @@ class DBGit {
 
   initDefaultValue(schema) {
     this.defaultValue = {}
-    for (const prop of Object.keys(schema)) {
+    for (const prop of Object.keys(schema.properties)) {
       this.defaultValue[prop] = ""
     }
   }
 
-  async commit(push = false) {
-    let result = await this.git.commit([this.path])
-    if (push) {
-      result = await this.push()
-    }
-    return result
-  }
+  
   async getData() {
     // await this.git.fastForward()
     let data = {}
@@ -45,7 +41,7 @@ class DBGit {
               itemData = {
                 id,
                 name,
-                path:itemPath,
+                ['@path']:itemPath,
                 ...itemData
               }
             }
@@ -61,6 +57,7 @@ class DBGit {
             }
           }
         }
+      this.data = data  
       return data  
       
     } else {
