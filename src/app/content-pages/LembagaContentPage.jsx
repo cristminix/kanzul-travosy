@@ -19,10 +19,10 @@ import LembagaList from "./components/LembagaList"
 import MLembaga from "@/global/git/models/MLembaga"
 
 import JsonForm from "./JsonForm"
-import pageFormSchema from "@/web/data/forms/pages/schema.json"
-import pageFormUiSchema from "@/web/data/forms/pages/ui.json"
+import formSchema from "@/web/data/forms/lembaga/schema.json"
+import uiSchema from "@/web/data/forms/lembaga/ui.json"
 
-const mLembaga = new MLembaga(git,pageFormSchema)
+const mLembaga = new MLembaga(git,formSchema)
 /*
 const setThumbnailFile = async (target) => {
     const file64 = await getFile64(target.files[0])
@@ -129,7 +129,7 @@ const LembagaContentPage = ({}) => {
     
     // console.log(formEvent)
     dispatch(setLoading(false))
-    showForm(false)
+    // showForm(false)
 
     console.log('Back to list')
     await updateList()
@@ -160,6 +160,7 @@ const LembagaContentPage = ({}) => {
   }
 
   const showEditForm = (row)=>{
+    // console.log(row)
     setFormData(oFormData=>({...oFormData, ...row}))
     showForm(true)
   }
@@ -179,7 +180,8 @@ const LembagaContentPage = ({}) => {
           <div className="card-body">
             {alert}
             {formShown?<>
-            <JsonForm title={`Edit Page Data for ${formData.name}`} formData={formData} schema={pageFormSchema} uiSchema={pageFormUiSchema} onSubmit={e=>onSaveForm(e)} onCancel={e=>showForm(false)}/>
+            <JsonForm title={`Edit Page Data for ${formData.name}`} formData={formData} 
+            schema={formSchema} uiSchema={uiSchema} onSubmit={e=>onSaveForm(e)} onCancel={e=>showForm(false)}/>
 
             </>:
             <>

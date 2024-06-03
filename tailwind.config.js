@@ -9,6 +9,7 @@ export default {
     "./index.html",
     "./admin/index.html",
     "src/**/*.jsx",
+    "src/**/*.tsx",
     "src/**/*.css",
   ],
   darkMode: "selector",

@@ -1,8 +1,23 @@
 import Form from "@rjsf/bootstrap-4"
-import validator from "@rjsf/validator-ajv8"
+import {customizeValidator} from "@rjsf/validator-ajv8"
 import { Button } from "react-bootstrap"
 import { Save as IconSave } from "react-feather"
+import CustomFileWidget from './components/CustomFileWidget'
+import {useEffect,useState} from "react"
 
+const widgets = {
+    FileWidget: (props) => (
+      <CustomFileWidget {...props} ref={ref => {
+          this.fileWidget = ref;
+      }}/>
+    )
+  }
+
+const validator = customizeValidator({
+  'data-url' : (a,b,c)=>{
+    console.log(a,b,c)
+  }
+})  
 const JsonForm = ({
   title,
   formData,
@@ -13,11 +28,24 @@ const JsonForm = ({
   onSubmit = (f) => f,
   onError = (f) => f,
 }) => {
+
+const detectFileWidget = ()=>{
+  const fileInfo = document.querySelector('.json-form').querySelector('ul.file-info')
+  // console.log(fileInfo)
+}
+
+const rebuildFileWidget= (fileInfo)=>{
+  // replace 
+}
+useEffect(()=>{
+  detectFileWidget()
+},[])
+  // console.log(formData)
   return (
-    <div>
+    <div className="json-form">
       {title ? <h4 className="twx-mb-8 text-center">{title}</h4> : null}
 
-      <Form
+      <Form widgets={widgets}
         formData={formData}
         schema={schema}
         uiSchema={uiSchema}

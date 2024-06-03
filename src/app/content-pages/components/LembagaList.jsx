@@ -19,7 +19,7 @@ const LembagaList = ({git, className,pages, onEditRow = (f) => f }) => {
 			prop: "image",
 			width:"130px",
 			selector: (row) => row.image,
-			cell: (row) => (<AsyncImage className="twx-max-w-[100px]" callback={e=>git.getFile64Data(row.image)}/>)
+			cell: (row) => (<img className="twx-max-w-[100px]" src={row.image}/>)
 		},
 		{
 			name: "Nama Lembaga",

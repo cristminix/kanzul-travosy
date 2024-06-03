@@ -28,16 +28,35 @@ class Git {
    async getFile64Data(path){
     const fileGitPath = `${this.dir}${path}`
     // console.log(fileGitPath)
-    const buffer = await this.fs.readFileSync(fileGitPath)
-    const mimeType = parseMimeType(buffer);
-
-    let output = `data:image/png;charset=utf-8;base64,${arrayBufferToBase64(buffer)}`
-    // console.log(output)
-    return output
+    let buffer 
+    try{
+      buffer = await this.fs.readFileSync(fileGitPath)
+    }catch(e){
+      console.log(`lfs: cant readFile ${fileGitPath}`)
+    }
+    if(buffer){
+      try{
+        const mimeType = parseMimeType(buffer);
+        console.log(mimeType)
+        const fileGitPathSplit = fileGitPath.split('/')
+        const filename = fileGitPathSplit[fileGitPathSplit.length-1]
+        let output = `data:${mimeType.mime};charset=utf-8;name=${filename};base64,${arrayBufferToBase64(buffer)}`
+        // console.log(output)
+        return output
+      }catch(e){
+        console.log(`Error:getFile64Data`,e)
+      }
+      
+    }
+    return null
+    
    }
 
   getRelativePath(fullPath){
     return fullPath.replace(`${this.dir}/`,'')
+  }
+  basePath(path){
+    return `${this.dir}/${path}`
   }
   onCloneCallback = (f) => f
   constructor(config) {
@@ -235,8 +254,17 @@ class Git {
       await git.clone(this.cloneOption())
     }
   }
+  async remove(gitPath){
+    await git.remove({ fs:this.fs, dir:this.dir, filepath: gitPath })
+  }
+  async add(gitPath){
+    await git.remove({ fs:this.fs, dir:this.dir, filepath: gitPath })
+  }
 }
 
+export function gitInstance(){
+  return createGit()
+}
 export function createGit() {
   if (!Git.instance) Git.instance = new Git(config)
 

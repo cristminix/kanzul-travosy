@@ -1,3 +1,4 @@
+import {crc32id} from "@/global/fn/crc32id"
 class DBGit {
   git = null
   fs = null
@@ -6,6 +7,10 @@ class DBGit {
   data = null
   path = null
 
+  commitQueues=[]
+  commitMessageQueues=[]
+
+  originalData = null
   // if specified data will be  from this json fields
   /*
   {
@@ -15,8 +20,124 @@ class DBGit {
     ]
   }
   */
+
+  // primary key field or for DBGitFileList will use name as default
+  pk='id'
   dataRootField = null
-  
+
+  // ShadowField Options
+  shadowFields = null /* {
+    image : {
+      transformOnSave : (originalValue)=>{
+        const newValue = ''
+        return newValue
+      },
+      transformOnLoad : (originalValue)=>{
+        const newValue = ''
+        return newValue
+      },
+    }
+
+  }*/
+
+  // ShadowField Temporal values
+  shadowedFieldValues = {
+    /*
+    pk : {image : "/assets/image/logo/logo-dark.png"}
+    */
+  }
+  getFieldNames(){
+   return Object.keys(this.defaultValue) 
+  }
+  // do data shadow fields data transform and store original
+  shouldIDoTransformField(fieldNames){
+    const shouldIdo = Object.keys(this.shadowFields).some(r=> fieldNames.includes(r))
+    return [shouldIdo]
+  }
+  async transformShadowFieldItemOnSave(row,fieldNames){
+    
+    for(const field of fieldNames){
+      if(this.shadowFields[field]){
+
+        // store original value to shadowFieldValues
+        if(!row[this.pk]){
+          row[this.pk]=crc32id()
+        }
+        const pkValue = row[this.pk]
+
+        if(!this.shadowedFieldValues[pkValue]){
+          this.shadowedFieldValues[pkValue] = {}
+        }
+        // console.log(`doTransform`,this.shadowFields[field])
+
+        // set new value
+        row[field] = await this.shadowFields[field].transformOnSave(row[field],row,this)
+        this.shadowedFieldValues[pkValue][field] = row[field]
+
+      }
+    }
+  }
+  async transformShadowFieldItemOnload(row,fieldNames){
+    // console.log(`doTransform`,row,fieldNames)
+
+    for(const field of fieldNames){
+      if(this.shadowFields[field]){
+
+        // store original value to shadowFieldValues
+        if(!row[this.pk]){
+          row[this.pk]=crc32id()
+        }
+        const pkValue = row[this.pk]
+
+        if(!this.shadowedFieldValues[pkValue]){
+          this.shadowedFieldValues[pkValue] = {}
+        }
+        // console.log(`doTransform`,this.shadowFields[field])
+
+        this.shadowedFieldValues[pkValue][field] = row[field]
+        // set new value
+        row[field] = await this.shadowFields[field].transformOnLoad(row[field],row,this)
+      }
+    }
+    return row
+  }
+  async transformShadowFieldOnload(){
+
+    if(this.shadowFields !== null ){
+      // checking sould have we do transform
+      const fieldNames = this.getFieldNames()
+      const shouldIdo = this.shouldIDoTransformField(fieldNames)
+      // do Transform
+      if(shouldIdo){
+        if(this.type === 'single'){
+          this.data = await this.transformShadowFieldItemOnload(this.data,fieldNames)
+        }
+        else {
+          for(let row of this.data) 
+            row = await this.transformShadowFieldItemOnload(row,fieldNames)
+        }
+      }
+    }
+  }
+  async transformShadowFieldOnSave(){
+    const sourceDataCopy = this.type === 'single' ? {...this.data} : [...this.data]
+    if(this.shadowFields !== null ){
+      // checking sould have we do transform
+      const fieldNames = this.getFieldNames()
+      const shouldIdo = this.shouldIDoTransformField(fieldNames)
+      // do Transform
+      if(shouldIdo){
+        if(this.type === 'single'){
+          sourceDataCopy = await this.transformShadowFieldItemOnSave(sourceDataCopy,fieldNames)
+        }
+        else {
+          for(let row of sourceDataCopy) 
+            row = await this.transformShadowFieldItemOnSave(row,fieldNames)
+        }
+      }
+    }
+    return sourceDataCopy
+  }
   reservedFieldValues = ['@path']
   constructor(git, schema, path = null) {
     this.git = git
@@ -33,11 +154,12 @@ class DBGit {
   }
 
   
-  async getData() {
+  async getData(loadFromCache=false) {
+    if(loadFromCache && this.data) return this.data
     // await this.git.fastForward()
-    let data = {}
+    this.data = {}
     if (this.type === "files") {
-      data = []
+      this.data = []
         const targetDir = this.getFilePath()
         if(await this.fs.existsSync(targetDir)){
           const files = await this.fs.readdirSync(targetDir)
@@ -61,31 +183,29 @@ class DBGit {
             }
 
             if(itemData){
-              
-              data.push(itemData)
+              this.data.push(itemData)
               id+=1
-
             }
           }
         }
-      this.data = data  
-      return data  
-      
     } else {
       try {
         const bufferData = await this.fs.readFileSync(this.getFilePath(), "utf-8")
-        data = JSON.parse(bufferData)
+        this.data = JSON.parse(bufferData)
         if(this.dataRootField){
-          data = data[this.dataRootField]
+          // save original tree data
+          this.originalData = Array.isArray(this.data) ? [...this.data] : {...this.data}
+          this.data = this.data[this.dataRootField]
         }
+
       } catch (e) {
         console.error(e)
         if (this.type === "single") data = { ...this.defaultData }
         else data = []
       }
     }
-    this.data = data
-    return data
+    await this.transformShadowFieldOnload()
+    return this.data
   }
   async push() {
     return await this.git.push()
