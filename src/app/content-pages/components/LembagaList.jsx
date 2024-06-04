@@ -56,7 +56,7 @@ const LembagaList = ({git, className,pages, onEditRow = (f) => f }) => {
 		console.log({ filtered })
 		setColumnDef((oColumnDef) => [...filtered])
 	}
-	console.log({ columnDef })
+	// console.log({ columnDef })
 	useEffect(() => {
 		// hideColumn(["path",'meta-description','meta-keyword'])
 	}, [setColumnDef])

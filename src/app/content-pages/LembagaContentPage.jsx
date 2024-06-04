@@ -10,7 +10,7 @@ import MainContentLayout from "./MainContentLayout"
 import { Button } from "react-bootstrap"
 
 import { createGit } from "@/global/git"
-import {useLocation} from "react-router-dom"
+import { useLocation } from "react-router-dom"
 const git = createGit()
 
 // git.cleanup()
@@ -22,7 +22,7 @@ import JsonForm from "./JsonForm"
 import formSchema from "@/web/data/forms/lembaga/schema.json"
 import uiSchema from "@/web/data/forms/lembaga/ui.json"
 
-const mLembaga = new MLembaga(git,formSchema)
+const mLembaga = new MLembaga(git, formSchema)
 /*
 const setThumbnailFile = async (target) => {
     const file64 = await getFile64(target.files[0])
@@ -44,15 +44,15 @@ const setThumbnailFile = async (target) => {
 /*-------------------EP--------------------------*/
 
 const LembagaContentPage = ({}) => {
-  const location =useLocation()
+  const location = useLocation()
   const dispatch = useDispatch()
   const contentState = useSelector((state) => state.content)
   const settingState = useSelector((state) => state.setting)
   const { setLoading, setLoadingMessage } = contentSlice.actions
   const { setHideGitNotReadyMessage } = settingSlice.actions
-  
+
   const [formData, setFormData] = useState(mLembaga.defaultValue)
-  const [formShown,showForm] = useState(false)
+  const [formShown, showForm] = useState(false)
 
   const pageTitle = "Edit Lembaga"
   const breadcrumbs = [
@@ -60,9 +60,9 @@ const LembagaContentPage = ({}) => {
     { title: "Lembaga", path: "content/lembaga" },
   ]
   const [alert, setAlert] = useState(null)
-  
+
   /*-----------------------------------------------------------*/
-  const [pages,setPages] = useState([])
+  const [pages, setPages] = useState([])
   /*-----------------------------------------------------------*/
 
   const hideAlert = () => setAlert(null)
@@ -93,86 +93,89 @@ const LembagaContentPage = ({}) => {
     setCompany(companyData)
   }*/
 
-  const displayAlertGitNotReady = ()=> setAlert(<SweetAlert
-          showCancel
-          confirmBtnText="Ya, Unduh sekarang!"
-          cancelBtnText ="Nanti saja"
-          confirmBtnBsStyle="success"
-          type="primary"
-          title="Unduh Git Repository ?"
-          onCancel={e=>{
-            dispatch(setHideGitNotReadyMessage(true ))
-            // do nothing
-            // setCompany(defaultCompany)
+  const displayAlertGitNotReady = () =>
+    setAlert(
+      <SweetAlert
+        showCancel
+        confirmBtnText="Ya, Unduh sekarang!"
+        cancelBtnText="Nanti saja"
+        confirmBtnBsStyle="success"
+        type="primary"
+        title="Unduh Git Repository ?"
+        onCancel={(e) => {
+          dispatch(setHideGitNotReadyMessage(true))
+          // do nothing
+          // setCompany(defaultCompany)
 
-            hideAlert()
-          }}
-          onConfirm={async(e)=>{
-            hideAlert()
-            dispatch(setLoading(true))
-            await git.init()
-            dispatch(setLoading(false))
-            updateList()
-          }}>
-          Database repository Anda masih kosong, Anda perlu mengunduhnya sekarang, 
-          proses ini mungkin memerlukan waktu beberapa detik bergantung pada koneksi
-          Internet Anda saat ini. 
-      </SweetAlert>)
- 
-  const onSaveForm = async(formEvent)=>{
-    const {formData} = formEvent
+          hideAlert()
+        }}
+        onConfirm={async (e) => {
+          hideAlert()
+          dispatch(setLoading(true))
+          await git.init()
+          dispatch(setLoading(false))
+          updateList()
+        }}>
+        Database repository Anda masih kosong, Anda perlu mengunduhnya sekarang, proses ini mungkin memerlukan waktu
+        beberapa detik bergantung pada koneksi Internet Anda saat ini.
+      </SweetAlert>,
+    )
+
+  const onSaveForm = async (formEvent) => {
+    const { formData } = formEvent
     dispatch(setLoading(true))
     dispatch(setLoadingMessage("Menyimpan Data"))
-    
-    console.log('implement DBGitFileList.update')
-    await mLembaga.updateRow(formData,true)
+
+    console.log("implement DBGitFileList.update")
+    await mLembaga.updateRow(formData, true)
     // await mCompay.commit(true)
-    
+
     // console.log(formEvent)
     dispatch(setLoading(false))
-    // showForm(false)
+    showForm(false)
 
-    console.log('Back to list')
+    console.log("Back to list")
     await updateList()
     // loadFormData()
-
   }
 
-  const updateList = async()=>{
+  const updateList = async () => {
     const listData = await mLembaga.getData()
-    setPages(oPages=>listData)
+    setPages((oPages) => listData)
     console.log(listData)
   }
-  const prepareUpdateList = async()=>{
+  const prepareUpdateList = async () => {
     git.setOnCloneProgressHandler(dispatch, setLoading, setLoadingMessage)
-      const isCloned = await git.isCloned()
-      // console.log(isCloned)
-      if (!isCloned) {
-        if(!settingState.hideGitNotReadyMessage){
-          displayAlertGitNotReady()
-          // setCompany(defaultCompany)
-          console.log('SET DEFAULT LIST DATA')
-        }
-      }else{
-          // loadFormData()
-          console.log('SET LIST DATA')
-          updateList()
+    const isCloned = await git.isCloned()
+    // console.log(isCloned)
+    if (!isCloned) {
+      if (!settingState.hideGitNotReadyMessage) {
+        displayAlertGitNotReady()
+        // setCompany(defaultCompany)
+        console.log("SET DEFAULT LIST DATA")
       }
+    } else {
+      // loadFormData()
+      console.log("SET LIST DATA")
+      updateList()
+    }
   }
 
-  const showEditForm = (row)=>{
+  const showEditForm = (row) => {
     // console.log(row)
-    setFormData(oFormData=>({...oFormData, ...row}))
+    setFormData((oFormData) => ({ ...oFormData, ...row }))
     showForm(true)
   }
   useEffect(() => {
-    
     // prepareUpdateList()
     // performGit()
   }, [])
   useEffect(() => {
-  prepareUpdateList()
-}, [location.key])
+    // console.log(location.pathname)
+    
+    prepareUpdateList()
+
+  }, [location.key])
   return (
     <MainContentLayout
       pageTitle={pageTitle}
@@ -182,23 +185,38 @@ const LembagaContentPage = ({}) => {
         <div className="card">
           <div className="card-body">
             {alert}
-            {formShown?<>
-            <JsonForm title={`Edit Page Data for ${formData.name}`} formData={formData} 
-            schema={formSchema} uiSchema={uiSchema} onSubmit={e=>onSaveForm(e)} onCancel={e=>showForm(false)}/>
+            {formShown ? (
+              <>
+                <JsonForm
+                  title={`Edit Page Data for ${formData.name}`}
+                  formData={formData}
+                  schema={formSchema}
+                  uiSchema={uiSchema}
+                  onSubmit={(e) => onSaveForm(e)}
+                  onCancel={(e) => showForm(false)}
+                />
+              </>
+            ) : (
+              <>
+                <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Daftar Lembaga</h4>
+                <LembagaList
+                  git={git}
+                  className="twx-border twx-border-slate-200 twx-border-solid"
+                  pages={pages}
+                  onEditRow={(row) => showEditForm(row)}
+                />
 
-            </>:
-            <>
-            <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Daftar Lembaga</h4>
-            <LembagaList git={git} className="twx-border twx-border-slate-200 twx-border-solid" pages={pages} onEditRow={row=>showEditForm(row)}/>
-
-            {/*<CompanyDisplay company={company} schema={formSchema} />*/}</>
-         }
+                {/*<CompanyDisplay company={company} schema={formSchema} />*/}
+              </>
+            )}
           </div>
           <div className="card-body twx-flex twx-justify-end">
-          {!formShown?<>
-            DISPLAY BUTTON ON LIST
-            {/*<Button size="sm" onClick={(e) => showEditForm()}><i className="mdi mdi-pencil-box-outline"/> Ubah</Button>*/}
-          </>:null}
+            {!formShown ? (
+              <>
+                DISPLAY BUTTON ON LIST
+                {/*<Button size="sm" onClick={(e) => showEditForm()}><i className="mdi mdi-pencil-box-outline"/> Ubah</Button>*/}
+              </>
+            ) : null}
           </div>
         </div>
       </div>

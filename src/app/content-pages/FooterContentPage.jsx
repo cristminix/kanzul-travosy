@@ -21,11 +21,15 @@ import { Button } from "react-bootstrap"
 import { createGit } from "@/global/git"
 import MFooter from "@/global/git/models/MFooter"
 import defaultFooter from "@/web/data/templates/sections/footer.json"
+import { useLocation } from "react-router-dom"
+
 
 const git = createGit()
 const mFooter = new MFooter(git, formSchema)
 
 const FooterContentPage = ({}) => {
+  const location = useLocation()
+
   const dispatch = useDispatch()
   const contentState = useSelector((state) => state.content)
   const settingState = useSelector((state) => state.setting)
@@ -124,8 +128,8 @@ const FooterContentPage = ({}) => {
     }
 
     performGit()
-  }, [setFooter])
-
+  }, [setFooter,location.key])
+  
   return (
     <MainContentLayout
       pageTitle={pageTitle}

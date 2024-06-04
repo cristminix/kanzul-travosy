@@ -10,6 +10,8 @@ import MainContentLayout from "./MainContentLayout"
 import { Button } from "react-bootstrap"
 
 import { createGit } from "@/global/git"
+import { useLocation } from "react-router-dom"
+
 
 const git = createGit()
 
@@ -26,6 +28,8 @@ const mPages = new MPages(git,pageFormSchema)
 /*-------------------EP--------------------------*/
 
 const PagesContentPage = ({}) => {
+  const location = useLocation()
+  
   const dispatch = useDispatch()
   const contentState = useSelector((state) => state.content)
   const settingState = useSelector((state) => state.setting)
@@ -145,11 +149,10 @@ const PagesContentPage = ({}) => {
     setFormData(oFormData=>({...oFormData, ...row}))
     showForm(true)
   }
-  useEffect(() => {
-    
+  useEffect(() => { 
     prepareUpdateList()
-    // performGit()
-  }, [])
+    console.log(location.key)
+  }, [location.key])
 
   return (
     <MainContentLayout

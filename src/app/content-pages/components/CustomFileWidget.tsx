@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useMemo,useRef } from 'react';
+import { ChangeEvent, useCallback, useMemo,useRef ,useEffect} from 'react';
 
 import {
   dataURItoBlob,
@@ -16,8 +16,9 @@ import {Trash as IconTrash,Upload as IconUpload} from "react-feather"
 import {Button} from "react-bootstrap"
 import {formatBytes} from "@/global/fn/formatBytes"
 import {addNameToDataURL} from "@/global/fn/addNameToDataURL"
+import {dataURLtoFile} from "@/global/fn/dataURLtoFile"
 
-
+import {DEFAULT_DATA_URL} from  "@/config.json"
 
 type FileInfoType = {
   dataURL?: string | null;
@@ -177,6 +178,8 @@ function extractFileInfo(dataURLs: string[]): FileInfoType[] {
 function CustomFileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends FormContextType = any>(
   props: WidgetProps<T, S, F>
 ) {
+  const defaultDataUrlRef = useRef(null)
+  defaultDataUrlRef.current = DEFAULT_DATA_URL
   const { disabled, readonly, required, multiple, onChange, value, options, registry } = props;
   const BaseInputTemplate = getTemplate<'BaseInputTemplate', T, S, F>('BaseInputTemplate', registry, options);
 
@@ -221,16 +224,30 @@ function CustomFileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F ex
   );
   // props.ref = inputRef
   // console.log(value)
-  const defaultImageDataUrl  = `data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==`
+  useEffect(()=>{
+    console.log(defaultDataUrlRef.current)
+    const defaultFiles = [dataURLtoFile(value)]
+    console.log(defaultFiles)
+    processFiles(defaultFiles).then((filesInfoEvent) => {
+      const newValue = filesInfoEvent.map((fileInfo) => fileInfo.dataURL);
+      // console.log(newValue)
+      if (multiple) {
+        onChange(value.concat(newValue[0]));
+      } else {
+        onChange(newValue[0]);
+      }
+    });
+
+  },[onChange,multiple,value])
   return (
     <div>
       <BaseInputTemplate 
         {...props}
         disabled={disabled || readonly}
         type='file'
-        required={false}//{value ? false : required} // this turns off HTML required validation when a value exists
+        required={value ? false : required} // this turns off HTML required validation when a value exists
         onChangeOverride={handleChange}
-        value={defaultImageDataUrl}
+        value={''}
         accept={options.accept ? String(options.accept) : undefined}
       />
       <FilesInfo<T, S, F>

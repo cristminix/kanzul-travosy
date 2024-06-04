@@ -17,11 +17,15 @@ import { Button } from "react-bootstrap"
 import { createGit } from "@/global/git"
 import MCompany from "@/global/git/models/MCompany"
 import defaultCompany from "@/web/data/company.json"
+import { useLocation } from "react-router-dom"
+
 
 const git = createGit()
 const mCompay = new MCompany(git, formSchema)
 
 const CompanyContentPage = ({}) => {
+  const location = useLocation()
+
   const dispatch = useDispatch()
   const contentState = useSelector((state) => state.content)
   const settingState = useSelector((state) => state.setting)
@@ -120,8 +124,8 @@ const CompanyContentPage = ({}) => {
     }
 
     performGit()
-  }, [setCompany])
-
+  }, [setCompany,location.key])
+  
   return (
     <MainContentLayout
       pageTitle={pageTitle}

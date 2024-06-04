@@ -7,7 +7,7 @@ import { getRepoDir } from "./getRepoDir"
 import { parse as parseMimeType } from "file-type-mime"
 
 const config = {
-  repoUrl: "http://localhost:3000/sutoyocutez/kanzululum.github.io.git",
+  repoUrl: "http://localhost:3000/sutoyocutez/kanzululum-web.git",
   author: {
     name: "Tatang S.",
     email: "sutoyocutez@gmail.com",
