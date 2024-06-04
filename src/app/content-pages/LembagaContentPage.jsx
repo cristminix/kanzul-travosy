@@ -10,7 +10,7 @@ import MainContentLayout from "./MainContentLayout"
 import { Button } from "react-bootstrap"
 
 import { createGit } from "@/global/git"
-
+import {useLocation} from "react-router-dom"
 const git = createGit()
 
 // git.cleanup()
@@ -44,6 +44,7 @@ const setThumbnailFile = async (target) => {
 /*-------------------EP--------------------------*/
 
 const LembagaContentPage = ({}) => {
+  const location =useLocation()
   const dispatch = useDispatch()
   const contentState = useSelector((state) => state.content)
   const settingState = useSelector((state) => state.setting)
@@ -166,10 +167,12 @@ const LembagaContentPage = ({}) => {
   }
   useEffect(() => {
     
-    prepareUpdateList()
+    // prepareUpdateList()
     // performGit()
   }, [])
-
+  useEffect(() => {
+  prepareUpdateList()
+}, [location.key])
   return (
     <MainContentLayout
       pageTitle={pageTitle}

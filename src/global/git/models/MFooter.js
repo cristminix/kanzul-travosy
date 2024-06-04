@@ -1,6 +1,6 @@
 import DBGitSingle from "../DBGitSingle"
-class MCompany extends DBGitSingle {
+class MFooter extends DBGitSingle {
   path = "web/data/templates/sections/footer.json"
 }
 
-export default MCompany
+export default MFooter

@@ -1,10 +1,10 @@
 import git from "isomorphic-git"
 import http from "isomorphic-git/http/web"
 import Fs from "./fs"
-import {createRandomInt} from "@/global/fn/createRandomInt"
-import {arrayBufferToBase64} from "@/global/fn/arrayBufferToBase64"
+import { createRandomInt } from "@/global/fn/createRandomInt"
+import { arrayBufferToBase64 } from "@/global/fn/arrayBufferToBase64"
 import { getRepoDir } from "./getRepoDir"
-import { parse as parseMimeType } from 'file-type-mime';
+import { parse as parseMimeType } from "file-type-mime"
 
 const config = {
   repoUrl: "http://localhost:3000/sutoyocutez/kanzululum.github.io.git",
@@ -25,37 +25,35 @@ class Git {
   author = null
   token = null
 
-   async getFile64Data(path){
+  async getFile64Data(path) {
     const fileGitPath = `${this.dir}${path}`
     // console.log(fileGitPath)
-    let buffer 
-    try{
+    let buffer
+    try {
       buffer = await this.fs.readFileSync(fileGitPath)
-    }catch(e){
+    } catch (e) {
       console.log(`lfs: cant readFile ${fileGitPath}`)
     }
-    if(buffer){
-      try{
-        const mimeType = parseMimeType(buffer);
+    if (buffer) {
+      try {
+        const mimeType = parseMimeType(buffer)
         console.log(mimeType)
-        const fileGitPathSplit = fileGitPath.split('/')
-        const filename = fileGitPathSplit[fileGitPathSplit.length-1]
+        const fileGitPathSplit = fileGitPath.split("/")
+        const filename = fileGitPathSplit[fileGitPathSplit.length - 1]
         let output = `data:${mimeType.mime};charset=utf-8;name=${filename};base64,${arrayBufferToBase64(buffer)}`
         // console.log(output)
         return output
-      }catch(e){
-        console.log(`Error:getFile64Data`,e)
+      } catch (e) {
+        console.log(`Error:getFile64Data`, e)
       }
-      
     }
     return null
-    
-   }
-
-  getRelativePath(fullPath){
-    return fullPath.replace(`${this.dir}/`,'')
   }
-  basePath(path){
+
+  getRelativePath(fullPath) {
+    return fullPath.replace(`${this.dir}/`, "")
+  }
+  basePath(path) {
     return `${this.dir}/${path}`
   }
   onCloneCallback = (f) => f
@@ -189,7 +187,7 @@ class Git {
     return commits
   }
 
-  async fastForward() {
+  async fastForward(onProgress = (f) => f, onComplete = (f) => f) {
     let pullSuccess = false
     let error = "false"
     let option = {
@@ -197,15 +195,15 @@ class Git {
       http,
       dir: this.dir,
       singleBranch: true,
-      onProgress: event => {
-    console.log(event.phase)
-    if (event.total) {
-      console.log(event.loaded / event.total)
-    } else {
-      console.log(event.loaded)
-    }
-  }
-
+      onProgress: (event) => {
+        onProgress(event)
+        console.log(event.phase)
+        if (event.total) {
+          console.log(event.loaded / event.total)
+        } else {
+          console.log(event.loaded)
+        }
+      },
     }
     if (this.corsProxyUrl) {
       option.corsProxy = this.corsProxyUrl
@@ -226,22 +224,23 @@ class Git {
         await this.fastForward()
       }
     }
+    onComplete(pullSuccess)
   }
   async cleanup() {
     await this.fs.wipe()
     // await this.fs.mkdirSync(this.dir)
   }
-  setOnCloneProgressHandler(dispatch,setLoading,setLoadingMessage){
-    this.onCloneCallback = (progressEvent)=>{
-        let loadingMessage = ''
-        if (progressEvent.total) {
-          const pctg = (progressEvent.loaded / progressEvent.total).toFixed(2) * 100
-          loadingMessage= `${progressEvent.phase}  ${pctg} %`
-        } else {
-          loadingMessage= `Sedang memproses ...`
-        }
-        dispatch(setLoadingMessage(loadingMessage))
+  setOnCloneProgressHandler(dispatch, setLoading, setLoadingMessage) {
+    this.onCloneCallback = (progressEvent) => {
+      let loadingMessage = ""
+      if (progressEvent.total) {
+        const pctg = (progressEvent.loaded / progressEvent.total).toFixed(2) * 100
+        loadingMessage = `${progressEvent.phase}  ${pctg} %`
+      } else {
+        loadingMessage = `Sedang memproses ...`
       }
+      dispatch(setLoadingMessage(loadingMessage))
+    }
   }
   async init(onCloneCallback) {
     if (typeof onCloneCallback === "function") {
@@ -254,15 +253,15 @@ class Git {
       await git.clone(this.cloneOption())
     }
   }
-  async remove(gitPath){
-    await git.remove({ fs:this.fs, dir:this.dir, filepath: gitPath })
+  async remove(gitPath) {
+    await git.remove({ fs: this.fs, dir: this.dir, filepath: gitPath })
   }
-  async add(gitPath){
-    await git.remove({ fs:this.fs, dir:this.dir, filepath: gitPath })
+  async add(gitPath) {
+    await git.remove({ fs: this.fs, dir: this.dir, filepath: gitPath })
   }
 }
 
-export function gitInstance(){
+export function gitInstance() {
   return createGit()
 }
 export function createGit() {

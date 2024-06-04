@@ -8,7 +8,8 @@ import {
 } from "react-router-dom"
 
 // Change according your index.html location
-const ROUTER_BASE = "/purple"
+
+import {ROUTER_BASE} from "@/config.json"
 
 //
 

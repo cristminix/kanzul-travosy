@@ -2,13 +2,42 @@ import React, { Component } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Trans } from 'react-i18next';
+import {GitDoctor,repairGitDataStore} from '@/global/fn/repairGitDataStore'
+import {crc32id} from "@/global/fn/crc32id"
 
 class Navbar extends Component {
+  constructor(props){
+    super(props)
+
+    const taskId = crc32id()
+
+    this.state = {
+      doctorTask : {
+        lastId : taskId,
+        
+      },
+      doctorLogs : {
+        [taskId] : 'checkup'
+      }
+    }
+  }
+  repairGitDataStore(){
+    const taskId = crc32id()
+    const logs = {
+      [taskId] : 'repair'
+    }
+    this.setState({
+      doctorTask:{lastId:taskId},
+      doctorLogs :  ({...this.state.doctorLogs, ...logs})
+    })
+  }
   toggleOffcanvas() {
     document.querySelector('.sidebar-offcanvas').classList.toggle('active');
   }
+
   toggleRightSidebar() {
     document.querySelector('.right-sidebar').classList.toggle('open');
+  
   }
   render () {
     return (
@@ -52,6 +81,13 @@ class Navbar extends Component {
                     <i className="mdi mdi-cached mr-2 text-success"></i>
                     <Trans>Activity Log</Trans>
                   </Dropdown.Item>*/}
+                  <Dropdown.Item href="!#" onClick={evt =>{
+                    this.repairGitDataStore()
+                    return  evt.preventDefault()
+                  }}>
+                    <i className="mdi mdi-logout mr-2 text-primary"></i>
+                    <Trans>Repair Git Data Store</Trans>
+                  </Dropdown.Item>
                   <Dropdown.Item href="!#" onClick={evt =>evt.preventDefault()}>
                     <i className="mdi mdi-logout mr-2 text-primary"></i>
                     <Trans>Keluar</Trans>
@@ -179,6 +215,7 @@ class Navbar extends Component {
             <span className="mdi mdi-menu"></span>
           </button>
         </div>
+        <GitDoctor task={this.state.doctorTask} logs={this.state.doctorLogs}/>
       </nav>
     );
   }

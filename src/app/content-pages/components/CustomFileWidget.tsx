@@ -11,7 +11,7 @@ import {
   UIOptionsType,
   WidgetProps,
 } from '@rjsf/utils';
-import Markdown from 'markdown-to-jsx';
+// import Markdown from 'markdown-to-jsx';
 import {Trash as IconTrash,Upload as IconUpload} from "react-feather" 
 import {Button} from "react-bootstrap"
 import {formatBytes} from "@/global/fn/formatBytes"
@@ -221,6 +221,7 @@ function CustomFileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F ex
   );
   // props.ref = inputRef
   // console.log(value)
+  const defaultImageDataUrl  = `data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==`
   return (
     <div>
       <BaseInputTemplate 
@@ -229,7 +230,7 @@ function CustomFileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F ex
         type='file'
         required={false}//{value ? false : required} // this turns off HTML required validation when a value exists
         onChangeOverride={handleChange}
-        value=''
+        value={defaultImageDataUrl}
         accept={options.accept ? String(options.accept) : undefined}
       />
       <FilesInfo<T, S, F>
