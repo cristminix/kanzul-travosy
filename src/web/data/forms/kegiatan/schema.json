@@ -1,0 +1,22 @@
+{
+
+  "type": "object",
+  "required": [
+    "name","description"
+  ],
+  "properties": {
+    "name": {
+      "title": "Nama",
+      "type": "string"
+    },
+    "image": {
+      "title": "Image",
+      "type": "string",
+      "format":"data-url"
+    },
+    "description": {
+      "title": "Keterangan",
+      "type": "string"
+    }
+  }
+}

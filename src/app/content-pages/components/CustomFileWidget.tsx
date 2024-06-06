@@ -225,7 +225,7 @@ function CustomFileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F ex
   // props.ref = inputRef
   // console.log(value)
   useEffect(()=>{
-    console.log(defaultDataUrlRef.current)
+    // console.log(defaultDataUrlRef.current)
     const defaultFiles = [dataURLtoFile(value)]
     console.log(defaultFiles)
     processFiles(defaultFiles).then((filesInfoEvent) => {

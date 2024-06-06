@@ -1,29 +1,29 @@
 import { useEffect, useState } from "react"
 
 import { useDispatch, useSelector } from "react-redux"
-import lembagaSlice, { fetchLembaga } from "@/global/store/features/lembagaSlice"
+import pendaftaranSlice, { fetchPendaftaran } from "@/global/store/features/pendaftaranSlice"
 
 import ColumnLayout from "./layouts/ColumnLayout" 
-import LembagaMainContent from "./sections/LembagaMainContent"
+import PendaftaranMainContent from "./sections/PendaftaranMainContent"
 
-const LembagaTemplate = ({}) => {
+const PendaftaranTemplate = ({}) => {
   
   
   const dispatch = useDispatch()
 
-  const lembagaState = useSelector((state) => state.lembaga)
-  console.log(lembagaState)
+  const pendaftaranState = useSelector((state) => state.pendaftaran)
+  console.log(pendaftaranState)
   useEffect(() => {
   
-    dispatch(fetchLembaga())
-    feather.replace()
+    dispatch(fetchPendaftaran())
+    // feather.replace()
 
   }, [dispatch])
   return (
     <ColumnLayout>
-      <LembagaMainContent lembagaData={lembagaState.data} />
+      <PendaftaranMainContent pendaftaranData={pendaftaranState.data} />
     </ColumnLayout>
   )
 }
 
-export default LembagaTemplate
+export default PendaftaranTemplate

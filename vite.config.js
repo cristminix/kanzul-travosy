@@ -20,7 +20,7 @@ let forms_jsonFileList = []
 let default_jsonFileList = []
 
 for(const jsonFile of jsonDataFileList){
-  console.log(jsonFile)
+  // console.log(jsonFile)
   if(jsonFile.match(/\web\/data\/pages/)){
     pages_jsonFileList.push(jsonFile)
   }

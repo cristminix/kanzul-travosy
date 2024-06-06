@@ -17,7 +17,7 @@ export const pushPendaftaran = createAsyncThunk("push-pendaftaran", async (compa
 })
     
 const initialState={
-    data:null,
+    data:pendaftaranData,
     fetchStatus: ""
 }
 

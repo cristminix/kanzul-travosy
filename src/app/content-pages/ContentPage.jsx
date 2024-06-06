@@ -3,6 +3,7 @@ import React, { Component } from "react"
 import CompanyContentPage from "./CompanyContentPage"
 import FooterContentPage from "./FooterContentPage"
 import PagesContentPage from "./PagesContentPage"
+import KegiatanContentPage from "./KegiatanContentPage"
 import LembagaContentPage from "./LembagaContentPage"
 import { useLoaderData } from "react-router-dom"
 
@@ -26,6 +27,9 @@ const ContentPage = ({}) => {
   } 
   else if (module == "lembaga") {
     return <LembagaContentPage />
+  } 
+  else if (module == "kegiatan") {
+    return <KegiatanContentPage />
   } 
   //else if (module == "contact-person") {
   //   return <ContactPerson />

@@ -6,6 +6,7 @@ import KegiatanTemplate from "./templates/KegiatanTemplate"
 import GaleryTemplate from "./templates/GaleryTemplate"
 import BeritaDetailTemplate from "./templates/BeritaDetailTemplate"
 import KontakTemplate from "./templates/KontakTemplate"
+import PendaftaranTemplate from "./templates/PendaftaranTemplate"
 
 
 export default function WebApp ({template}){

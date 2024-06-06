@@ -1,13 +1,8 @@
   {
-    "name": {
+    "waktu": {
       "ui:autofocus": true
     },
-    "image": {
-      "ui:options": {
-        "filePreview": true
-      }
-    },
-    "description": {
+    "kegiatan": {
       "ui:widget": "textarea"
     }
   }
