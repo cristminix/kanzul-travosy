@@ -114,7 +114,10 @@ const ShortGalery = ({galeryList})=>{
              <div className={cls5}> 
                 {galeryList.map((item,index)=>(
                     <div className="item" key={index}> 
-                         <a href={`#lightbox${index}`}><img  className={`tns-lazy-img max-h-[250px] shadow-md`} src="data:image/gif;base64,R0lGODlhAQABAPAAAMzMzAAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" data-src={item.image} alt={item.title} width="375.234" height="249.984"/> </a>
+                         <a href={`#lightbox${index}`}>
+                         <img  className={`tns-lazy-img max-h-[250px] shadow-md`} 
+                         src="data:image/gif;base64,R0lGODlhAQABAPAAAMzMzAAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" 
+                         data-src={item.image} alt={item.title} width="375.234" height="249.984"/> </a>
                  </div> 
                 ))}
                  

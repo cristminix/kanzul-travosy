@@ -204,6 +204,7 @@ class DBGit {
       }
     }
     await this.transformShadowFieldOnload()
+    console.log(this.originalData)
     return this.data
   }
   async push() {

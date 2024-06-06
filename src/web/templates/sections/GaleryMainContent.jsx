@@ -1,24 +1,24 @@
 import Hero from "../blocks/Hero"
 
-import FullLembaga from "../blocks/FullLembaga"
+import FullGalery from "../blocks/FullGalery"
 import BannerCrumb from "../blocks/BannerCrumb"
 
 // import Counter from "@/global/store/features/counter/Counter"
 
-const LembagaMainContent = ({ lembagaData }) => {
-  console.log(lembagaData)
+const GaleryMainContent = ({ galeryData }) => {
+  console.log(galeryData)
   const breadcrumbs = [
     { title: "Home", path: "/" },
-    { title: "Lembaga", path: "/lembaga" },
+    { title: "Galery", path: "/galery" },
   ]
   return (
     <>
-      <BannerCrumb banner={lembagaData.banner} breadcrumbs={breadcrumbs} />
+      <BannerCrumb banner={galeryData.banner} breadcrumbs={breadcrumbs} />
       <section className="relative md:py-24 py-16 overflow-hidden">
-        <FullLembaga className="mt-12" lembaga={lembagaData} />
+        <FullGalery className="mt-12" galery={galeryData} />
       </section>
     </>
   )
 }
 
-export default LembagaMainContent
+export default GaleryMainContent

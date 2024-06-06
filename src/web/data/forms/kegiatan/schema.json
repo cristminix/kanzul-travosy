@@ -2,20 +2,15 @@
 
   "type": "object",
   "required": [
-    "name","description"
+    "waktu","kegiatan"
   ],
   "properties": {
-    "name": {
-      "title": "Nama",
+    "waktu": {
+      "title": "Waktu",
       "type": "string"
     },
-    "image": {
-      "title": "Image",
-      "type": "string",
-      "format":"data-url"
-    },
-    "description": {
-      "title": "Keterangan",
+    "kegiatan": {
+      "title": "Kegiatan",
       "type": "string"
     }
   }

@@ -30,7 +30,9 @@ const HomepageTemplate = ({}) => {
  
   return (
     <ColumnLayout>
-      <HomepageMainContent profileData={profileState.data} galeryList={galeryState.data} beritaList={beritaState.data} />
+      <HomepageMainContent profileData={profileState.data} 
+      galeryList={galeryState.data.contents} 
+      beritaList={beritaState.data.contents} />
     </ColumnLayout>
   )
 }

@@ -1,6 +1,6 @@
 import { LazyLoadImage } from "react-lazy-load-image-component"
 
-const FullLembaga = ({ className, lembaga }) => {
+const FullGalery = ({ className, galery }) => {
   const cls0 = "cls-0 cls-1 container relative twx-mb-8"
   const cls1 = "cls-1 cls-2 grid md:grid-cols-12 grid-cols-1 items-center gap-6 relative"
   const cls2 = "cls-2 cls-3 md:col-span-5"
@@ -16,58 +16,19 @@ const FullLembaga = ({ className, lembaga }) => {
   const cls19 = "cls-19 cls-20 absolute bottom-0 start-1/3 -z-1"
   const cls20 = "cls-20 cls-21 lg:w-[600px] w-96"
   return (
-    <>
-      {lembaga.contents.map((item, index) => {
-        const genap = (index + 1) % 2 === 0
-        return (
-          <div className={`${cls0} ${className}`}>
-            <div className={cls1}>
-            {genap?<>
-                <div className={cls2}>
-                <div className={cls3}>
-                  <LazyLoadImage src={item.image} alt={item.title} className={cls4} />
-                </div>
-              </div>
-              <div className={cls13}>
-                <div className={cls14}>
-                  {/*<h4 className="text-green-500 "></h4>*/}
-                  <h3 className={`${cls15} font-3xl`}>
-                    <span>{item.name}</span>
-                  </h3>
-                  <p className={cls16}>{item.description}</p>
-                </div>
-              </div>
-              <div className={cls19}>
-                <img src="/assets/images/map-plane-big.png" alt="" className={cls20} />
-              </div>
-            </>:<>
-              
-              <div className={cls13}>
-                <div className={cls14}>
-                  {/*<h4 className="text-green-500 "></h4>*/}
-                  <h3 className={`${cls15} font-3xl`}>
-                    <span>{item.name}</span>
-                  </h3>
-                  <p className={cls16}>{item.description}</p>
-                </div>
-              </div>
-              <div className={cls2}>
-                <div className={cls3}>
-                  <LazyLoadImage src={item.image} alt={item.title} className={cls4} />
-                </div>
-              </div>
-              <div className={cls19}>
-                <img src="/assets/images/map-plane-big.png" alt="" className={cls20} />
-              </div>
-            </>}
-              
-
-            </div>
-          </div>
-        )
+    <div className={cls0}>
+      <div class="twx-flex twx-flex-col md:twx-grid md:twx-grid-cols-3 twx-gap-3">
+  
+      {galery.contents.map((item, index) => {
+        return (<div className="twx-relative twx-rounded twx-overflow-hidden">
+                  <LazyLoadImage src={item.image} alt={item.title} className="twx-min-h-[200px] twx-w-full"/>
+                  <p className="twx-cursor-pointer twx-absolute twx-inset-0 twx-bg-black twx-bg-opacity-10 twx-flex twx-items-center twx-justify-center twx-text-2xl twx-text-center twx-text-white twx-font-medium hover:twx-bg-opacity-20 twx-transition">
+                  </p>
+                </div>)
       })}
-    </>
+    </div>
+    </div>
   )
 }
 
-export default FullLembaga
+export default FullGalery

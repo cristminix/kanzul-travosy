@@ -5,47 +5,53 @@ import FooterContentPage from "./FooterContentPage"
 import PagesContentPage from "./PagesContentPage"
 import KegiatanContentPage from "./KegiatanContentPage"
 import LembagaContentPage from "./LembagaContentPage"
+import PendaftaranContentPage from "./PendaftaranContentPage"
 import { useLoaderData } from "react-router-dom"
 
 export async function loader({ params }) {
-  const { module, fk, pk, pageNumber } = params
-  return { module, pageNumber, pk, fk }
+  const { mod, sub, pk, fk } = params
+  return { mod, sub, pk, fk }
 }
 
 const ContentPage = ({}) => {
-  const { module, fk, pk, pageNumber } = useLoaderData()
-  console.log(module, fk, pageNumber, pk)
+  const loaderData = useLoaderData()
+  console.log(loaderData)
+  const { mod, sub, pk, fk } = loaderData
+  console.log(mod, sub, pk, fk)
 
-  if (module == "company") {
+  if (mod === "company") {
     return <CompanyContentPage />
   }
-  else if (module == "pages") {
+  else if (mod === "pages") {
     return <PagesContentPage />
   }
-  else if (module == "footer") {
+  else if (mod === "footer") {
     return <FooterContentPage />
   } 
-  else if (module == "lembaga") {
+  else if (mod === "lembaga") {
     return <LembagaContentPage />
   } 
-  else if (module == "kegiatan") {
+  else if (mod === "kegiatan") {
     return <KegiatanContentPage />
   } 
-  //else if (module == "contact-person") {
+  else if (mod === "pendaftaran") {
+    return <PendaftaranContentPage subModule={sub}/>
+  } 
+  //else if (mod === "contact-person") {
   //   return <ContactPerson />
-  // } else if (module == "galery") {
+  // } else if (mod === "galery") {
   //   return <Galery />
-  // } else if (module == "search") {
+  // } else if (mod === "search") {
   //   return <Search />
-  // } else if (module == "social-network-link") {
+  // } else if (mod === "social-network-link") {
   //   return <SocialNetworkLink />
-  // } else if (module == "web-navigation") {
+  // } else if (mod === "web-navigation") {
   //   return <WebNavigation />
-  // } else if (module == "homepage") {
+  // } else if (mod === "homepage") {
   //   return <Homepage />
-  // } else if (module == "welcome-message") {
+  // } else if (mod === "welcome-message") {
   //   return <WelcomeMessage />
-  // } else if (module == "footer") {
+  // } else if (mod === "footer") {
   //   return <Footer />
   // }
 }

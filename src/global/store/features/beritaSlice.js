@@ -1,13 +1,13 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import beritaData from "@/web/data/berita-list.json"
+import beritaData from "@/web/data/berita.json"
 import { randStamp } from "@/global/fn"
 export const fetchBerita= createAsyncThunk("fetch-berita", async () => {
-    const response = await fetch(`/web/data/berita-list.json?_=${randStamp()}`)
+    const response = await fetch(`/web/data/berita.json?_=${randStamp()}`)
     return response.json()
 })
 export const pushBerita = createAsyncThunk("push-berita", async (company) => {
-    // create file /web/data/berita-list.json
+    // create file /web/data/berita.json
     // git add
     // git commit  with message update file above
     // git push
@@ -17,7 +17,7 @@ export const pushBerita = createAsyncThunk("push-berita", async (company) => {
 })
     
 const initialState={
-    data:[],
+    data:beritaData,
     fetchStatus: ""
 }
 

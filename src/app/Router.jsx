@@ -47,7 +47,9 @@ const Router = ({}) => {
 
         <Route path="basic-ui/buttons" element={<Suspense fallback={<Spinner/>}><Buttons /></Suspense>} />
         <Route path="contents" element={<ContentPage />} loader={contentPageLoader} />
-        <Route path="contents/:module" element={<ContentPage />} loader={contentPageLoader} />
+        <Route path="contents/:mod" element={<ContentPage />} loader={contentPageLoader} />
+        <Route path="contents/:mod/:sub" element={<ContentPage />} loader={contentPageLoader} />
+        <Route path="contents/:mod/:sub/:pk" element={<ContentPage />} loader={contentPageLoader} />
 
         <Route path="basic-ui/dropdowns" element={<Suspense fallback={<Spinner/>}><Dropdowns /></Suspense>} />
         <Route path="basic-ui/typography" element={<Suspense fallback={<Spinner/>}><Typography /></Suspense>} />

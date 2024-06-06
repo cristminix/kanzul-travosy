@@ -1,9 +1,9 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import galeryData from "@/web/data/galery-list.json"
+import galeryData from "@/web/data/galery.json"
 import { randStamp } from "@/global/fn"
 export const fetchGalery= createAsyncThunk("fetch-galery", async () => {
-    const response = await fetch(`/web/data/galery-list.json?_=${randStamp()}`)
+    const response = await fetch(`/web/data/galery.json?_=${randStamp()}`)
     return response.json()
 })
 export const pushGalery = createAsyncThunk("push-galery", async (company) => {
@@ -17,7 +17,7 @@ export const pushGalery = createAsyncThunk("push-galery", async (company) => {
 })
     
 const initialState={
-    data:[],
+    data:galeryData,
     fetchStatus: ""
 }
 

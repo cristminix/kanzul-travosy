@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "required": ["title", "image"],
+  "properties": {
+    "title": {
+      "title":"Title",
+      "type": "string"
+    },
+    "image": {
+      "title": "Image",
+      "type": "string",
+      "format": "data-url"
+    }
+  }
+}
