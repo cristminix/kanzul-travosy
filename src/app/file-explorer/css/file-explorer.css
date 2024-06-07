@@ -1,0 +1,28 @@
+.file-explorer-app svg.feather-icon{
+	@apply !twx-w-[18px]
+}
+
+.file-explorer-app .folder{
+	@apply  twx-ml-4 twx-items-center twx-font-normal twx-text-sm
+}
+.file-explorer-app .folder.root-folder{
+	@apply twx-w-80 twx-p-4 twx-border twx-border-solid twx-border-slate-200
+}
+.file-explorer-app .folder .folder-wrap{
+	@apply twx-flex twx-justify-between twx-items-center  twx-rounded  twx-cursor-pointer  twx-items-center
+}
+.file-explorer-app .folder .folder{
+	@apply  twx-ml-4 twx-py-[2px]
+}
+
+.file-explorer-app .folder .file{
+	@apply twx-pl-4 twx-flex twx-items-center  twx-py-1
+}
+
+.file-explorer-app .folder .folder-toolbar-action {
+	@apply twx-flex twx-items-center twx-justify-end
+}
+
+.file-explorer-app .folder .folder-toolbar-action > .btn-action {
+	@apply twx-bg-transparent hover:twx-text-slate-400 twx-duration-100 twx-border-none
+}

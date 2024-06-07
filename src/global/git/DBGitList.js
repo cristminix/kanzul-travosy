@@ -26,18 +26,6 @@ class DBGitList extends DBGit {
     for (const prop of fieldNames) {
       if (!this.reservedFieldValues.includes(prop)) {
         oData[prop] = row[prop]
-        /*------- do checking shadowTransform ------*/
-        /*
-        if (shouldIdo) {
-          if (this.shadowFields[prop]) {
-            const transformedBackValue = await this.shadowFields[prop].transformOnSave(oData[prop], oData, this)
-            console.log({ transformedBackValue })
-            oData[prop] = transformedBackValue
-
-            this.shadowedFieldValues[pk][prop] = oData[prop]
-          }
-        }
-        */
       }
     }
     let newDataToBeSaved = await this.transformShadowFieldOnSave() 

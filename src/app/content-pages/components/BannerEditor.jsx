@@ -13,6 +13,10 @@ const BannerEditor = ({schema,uiSchema,page,model,trigger})=>{
 		setRowData(data)
 	}
 
+	const onSaveForm = (e)=>{
+		const {formData} = e
+		console.log(formData)
+	}
 	useEffect(()=>{
 		loadBannerData()
 	},[trigger,setRowData])

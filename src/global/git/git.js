@@ -25,6 +25,9 @@ class Git {
   author = null
   token = null
 
+  getGit(){
+    return git
+  }
   async getFile64Data(path) {
     const fileGitPath = `${this.dir}${path}`
     // console.log(fileGitPath)

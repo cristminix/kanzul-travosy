@@ -28,7 +28,9 @@ class Fs extends LightningFs {
     }
     return false
   }
-
+  async statSync(path){
+    return await this.promises.stat(path)
+  }
   async readFileSync(path) {
     return await this.promises.readFile(path)
   }
