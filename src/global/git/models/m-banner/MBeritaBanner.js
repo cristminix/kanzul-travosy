@@ -1,8 +1,6 @@
-import DBGitSingle from "./DBGitSingle"
-
-class MBeritaBanner extends DBGitSingle{
+import MBanner from "./MBanner"
+class MBeritaBanner extends MBanner{
 	path = "web/data/berita.json"
-  	dataRootField = "banner"
 }
 
 export default MBeritaBanner

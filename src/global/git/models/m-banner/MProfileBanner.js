@@ -1,8 +1,7 @@
-import DBGitSingle from "./DBGitSingle"
+import MBanner from "./MBanner"
 
-class MProfileBanner extends DBGitSingle{
+class MProfileBanner extends MBanner {
 	path = "web/data/profile.json"
-  	dataRootField = "banner"
 }
 
 export default MProfileBanner

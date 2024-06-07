@@ -225,8 +225,15 @@ function CustomFileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F ex
   // props.ref = inputRef
   // console.log(value)
   useEffect(()=>{
+
     // console.log(defaultDataUrlRef.current)
-    const defaultFiles = [dataURLtoFile(value)]
+    let tmpFile = dataURLtoFile(defaultDataUrlRef.current)
+    try{
+      tmpFile=dataURLtoFile(value)
+    }catch(e){
+      console.log(`CustomFileWidget-error: value is not valid data-url`)
+    }
+    const defaultFiles = [tmpFile]
     console.log(defaultFiles)
     processFiles(defaultFiles).then((filesInfoEvent) => {
       const newValue = filesInfoEvent.map((fileInfo) => fileInfo.dataURL);

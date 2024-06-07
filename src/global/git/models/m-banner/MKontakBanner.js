@@ -1,8 +1,6 @@
-import DBGitSingle from "./DBGitSingle"
-
-class MKontakBanner extends DBGitSingle{
+import MBanner from "./MBanner" 
+class MKontakBanner extends MBanner{
 	path = "web/data/kontak.json"
-  	dataRootField = "banner"
 }
 
 export default MKontakBanner

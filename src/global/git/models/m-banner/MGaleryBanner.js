@@ -1,8 +1,7 @@
-import DBGitSingle from "./DBGitSingle"
+import MBanner from "./MBanner"
 
-class MGaleryBanner extends DBGitSingle{
+class MGaleryBanner extends MBanner{
 	path = "web/data/galery.json"
-  	dataRootField = "banner"
 }
 
 export default MGaleryBanner

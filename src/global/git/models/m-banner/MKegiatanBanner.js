@@ -1,8 +1,7 @@
-import DBGitSingle from "./DBGitSingle"
+import MBanner from "./MBanner"
 
-class MKegiatanBanner extends DBGitSingle{
+class MKegiatanBanner extends MBanner{
 	path = "web/data/kegiatan.json"
-  	dataRootField = "banner"
 }
 
 export default MKegiatanBanner

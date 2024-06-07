@@ -1,8 +1,6 @@
-import DBGitSingle from "@/global/git/DBGitSingle"
-
-class MPendaftaranBanner extends DBGitSingle{
+import MBanner from "./MBanner"
+class MPendaftaranBanner extends MBanner{
 	path = "web/data/pendaftaran.json"
-  	dataRootField = "banner"
 }
 
 export default MPendaftaranBanner

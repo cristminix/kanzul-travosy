@@ -1,8 +1,7 @@
-import DBGitSingle from "./DBGitSingle"
+import MBanner from "./MBanner"
 
-class MLembagaBanner extends DBGitSingle{
+class MLembagaBanner extends MBanner{
 	path = "web/data/lembaga.json"
-  	dataRootField = "banner"
 }
 
 export default MLembagaBanner
