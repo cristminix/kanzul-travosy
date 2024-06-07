@@ -1,5 +1,6 @@
 import { crc32 } from "crc"
 
-export function crc32id(){
-	return crc32(new Date().getTime().toString()).toString(16)	
+export function crc32id(salt=null){
+	const unique = !salt ?new Date().getTime().toString():salt
+	return crc32(unique).toString(16)	
 }

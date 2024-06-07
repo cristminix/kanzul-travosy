@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit"
+import { configureStore,combineReducers,createListenerMiddleware   } from "@reduxjs/toolkit"
 import counterReducer from "@/global/store/features/counter/counterSlice"
 import companySlice from "./features/companySlice"
 import beritaSlice from "./features/beritaSlice"
@@ -17,25 +17,33 @@ import lembagaSlice from "./features/lembagaSlice"
 import pendaftaranSlice from "./features/pendaftaranSlice"
 import kontakSlice from "./features/kontakSlice"
 import kegiatanSlice from "./features/kegiatanSlice"
-
-/*
+import explorerSlice from "./features/explorerSlice"
 // import storage from 'redux-persist/lib/storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import storageSession from 'redux-persist/lib/storage/session'
 
-import { persistReducer, persistStore } from 'redux-persist';
-import thunk from 'redux-thunk';
-
+import { persistReducer, persistStore,createTransform } from 'redux-persist';
+// import {thunk} from 'redux-thunk';
+const ArrayTransform = createTransform(
+    // transform state on its way to being serialized and persisted.
+    (inboundState, key) => {
+        return JSON.stringify(inboundState);
+    },
+    // transform state being rehydrated
+    (outboundState, key) => {
+        return JSON.parse(outboundState);
+    },
+    { whitelist: ['settings','explorer'] }
+);
 const persistConfig = {
   key: 'root',
-  // storage,
-  storageSession
+  storage:storageSession,
+  version:1,
+  whitelist: ["settings","explorer"],
+      transforms: [ArrayTransform]
 }
 
-const persistedReducer = persistReducer(persistConfig, settingSlice.reducer)
-*/
-
-export const store = configureStore({
-  reducer: {
+const rootReducer = combineReducers( {
     counter: counterReducer,
     company: companySlice.reducer,
     welcomeMessage: welcomMessageSlice.reducer,
@@ -53,6 +61,18 @@ export const store = configureStore({
     lembaga: lembagaSlice.reducer,
     pendaftaran: pendaftaranSlice.reducer,
     kontak:kontakSlice.reducer,
-    kegiatan:kegiatanSlice.reducer
-  },
+    kegiatan:kegiatanSlice.reducer,
+    explorer:explorerSlice.reducer
+  }); 
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+const listenerMiddleware = createListenerMiddleware()
+
+export const store = configureStore({
+  reducer:persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).prepend(listenerMiddleware.middleware),
 })
+
+export const persistor = persistStore(store)

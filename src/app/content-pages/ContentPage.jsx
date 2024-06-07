@@ -16,9 +16,9 @@ export async function loader({ params }) {
 
 const ContentPage = ({}) => {
   const loaderData = useLoaderData()
-  console.log(loaderData)
+  // console.log(loaderData)
   const { mod, sub, pk, fk } = loaderData
-  console.log(mod, sub, pk, fk)
+  // console.log(mod, sub, pk, fk)
 
   if (mod === "company") {
     return <CompanyContentPage />

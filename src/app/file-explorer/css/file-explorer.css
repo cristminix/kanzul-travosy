@@ -1,12 +1,21 @@
+.file-explorer-app{
+	@apply twx-grid twx-grid-cols-3 twx-gap-2
+}
+.file-explorer-app .left-side{
+	@apply twx-px-1 twx-py-2 twx-overflow-x-auto	 twx-border twx-border-solid twx-border-slate-200
+}
+.file-explorer-app .right-side{
+	@apply twx-col-span-2  twx-border twx-border-solid twx-border-slate-200
+}
 .file-explorer-app svg.feather-icon{
 	@apply !twx-w-[18px]
 }
 
 .file-explorer-app .folder{
-	@apply  twx-ml-4 twx-items-center twx-font-normal twx-text-sm
+	@apply twx-ml-4 twx-items-center twx-font-normal twx-text-sm
 }
 .file-explorer-app .folder.root-folder{
-	@apply twx-w-80 twx-p-4 twx-border twx-border-solid twx-border-slate-200
+	@apply twx-w-full twx-p-0
 }
 .file-explorer-app .folder .folder-wrap{
 	@apply twx-flex twx-justify-between twx-items-center  twx-rounded  twx-cursor-pointer  twx-items-center
@@ -16,7 +25,11 @@
 }
 
 .file-explorer-app .folder .file{
-	@apply twx-pl-4 twx-flex twx-items-center  twx-py-1
+	@apply twx-pl-4 twx-flex twx-items-center  twx-py-1 twx-cursor-pointer
+}
+.file-explorer-app .folder .folder.selected,
+.file-explorer-app .folder .file.selected{
+	@apply twx-bg-gray-300
 }
 
 .file-explorer-app .folder .folder-toolbar-action {

@@ -35,8 +35,8 @@ const App = ({ props }) => {
   // const {setLoading} = contentSlice.actions
 
   const onRouteChanged = () => {
-    console.log("ROUTE CHANGED")
-    console.log(props)
+    // console.log("ROUTE CHANGED")
+    // console.log(props)
     // const { i18n } = props
     const body = document.querySelector("body")
     if (location.pathname === "/layout/RtlLayout") {

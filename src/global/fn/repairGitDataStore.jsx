@@ -26,7 +26,7 @@ export const GitDoctor = ({ logs, task }) => {
 	const git = createGit()
 	const runTask = async (taskName) => {
 		if (taskName === "checkup") {
-			console.log(taskName)
+			// console.log(taskName)
 
 			setTaskStatus(true)
 			await setTimeout(() => {
@@ -65,7 +65,7 @@ export const GitDoctor = ({ logs, task }) => {
 		} catch (e) {
 			console.log(e)
 		}
-		console.log(task, logs)
+		// console.log(task, logs)
 	}, [task, logs, setTaskStatus])
 
 	const loadingIcons = [<IconCloud />, <IconCloudSnow />, <IconCloudDrizzle />, <IconCloudRain />]

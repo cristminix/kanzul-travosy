@@ -16,9 +16,10 @@ import {
     CaretDown
 } from 'react-bootstrap-icons';
 
-const Folder = ({ explorerData, handleFolderFileCreation,isRoot }) => {
-
-    const [isExpand, setIsExpand] = useState(false);
+const Folder = ({ isSelected,onSelect,explorerData, handleFolderFileCreation,isRoot ,setExpand}) => {
+   
+    const [isExpand, setIsExpand] = useState(explorerData.isExpanded);
+    const [selected,setSelected] = useState(explorerData.selected)
     const [showInput, setShowInput] = useState({
         visible: false,
         isFolder: null,
@@ -34,7 +35,14 @@ const Folder = ({ explorerData, handleFolderFileCreation,isRoot }) => {
             isFolder: isFolder,
         })
     }
-
+    const setExpanded = ()=>{
+        const expanded = !isExpand
+        setIsExpand(expanded)
+        setExpand({
+            id:explorerData.id,
+            expanded
+        })
+    }
     const onCreateFolder = (e) => {
 
         // enter key event...
@@ -51,13 +59,18 @@ const Folder = ({ explorerData, handleFolderFileCreation,isRoot }) => {
         return (
             <section className={`folder ${isRoot?'root-folder':''}`}>
                 {/* User Click - Input  */}
-                <div onClick={() => setIsExpand(pre => !pre)}
-                    className="folder-wrap"><div>
+                <div onClick={() => {
+                        setExpanded()
+                        onSelect(explorerData.id,explorerData.path)
+                    }
+                }
+                    className={`folder-wrap ${isSelected(explorerData.id)?'selected':''}`}><div className="icon-wrap">
                     {isExpand?<CaretDown  className="feather-icon"/>:<CaretRight  className="feather-icon"/>}
                     {isExpand?<IconFolderOpen  className="feather-icon"/>:<IconFolder className="feather-icon"/>} <span className="folder-name">{explorerData.name}</span>
                     </div>
                     {/* Folder & File Buttons */}
                     <div className='folder-toolbar-action'>
+                    {isExpand?<>
                         <button className='btn-action'
                             onClick={(e) => handelClick(e, true)}>
                             <IconFolderPlus className="feather-icon"/>
@@ -67,6 +80,8 @@ const Folder = ({ explorerData, handleFolderFileCreation,isRoot }) => {
                             onClick={(e) => handelClick(e, false)}>
                             <IconFilePlus className="feather-icon"/>
                         </button>
+                    </>:null}
+                        
                     </div>
                 </div>
 
@@ -93,7 +108,9 @@ const Folder = ({ explorerData, handleFolderFileCreation,isRoot }) => {
                             // Recursive function call for printing all children...
                             <Folder
                                 key={item.id}
+                                isSelected={isSelected} onSelect={onSelect}
                                 explorerData={item}
+                                setExpand={setExpand}
                                 handleFolderFileCreation={handleFolderFileCreation}
                             />
                         ))
@@ -103,7 +120,9 @@ const Folder = ({ explorerData, handleFolderFileCreation,isRoot }) => {
         );
     }
     else {
-        return <div className='file'>
+        return <div className={`file ${isSelected(explorerData.id)?'selected':''}`} onClick={e=>{
+            onSelect(explorerData.id,explorerData.path)
+        }}>
             <IconFile className="feather-icon"/><span className="filename">{explorerData.name}</span>
         </div>
     };
