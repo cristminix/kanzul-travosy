@@ -20,7 +20,7 @@ class DBGitList extends DBGit {
     let oData = await this.getRow(pk, loadFromCache)
     // console.log(oData)
     const fieldNames = this.getFieldNames()
-    const shouldIdo = this.shouldIDoTransformField(fieldNames)
+    // const shouldIdo = this.shouldIDoTransformField(fieldNames)
 
     // update value
     for (const prop of fieldNames) {

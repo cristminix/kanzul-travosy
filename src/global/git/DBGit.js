@@ -56,8 +56,11 @@ class DBGit {
   }
   // do data shadow fields data transform and store original
   shouldIDoTransformField(fieldNames) {
-    const shouldIdo = Object.keys(this.shadowFields).some((r) => fieldNames.includes(r))
-    return [shouldIdo]
+    try {
+      const shouldIdo = Object.keys(this.shadowFields).some((r) => fieldNames.includes(r))
+      return shouldIdo
+    } catch (e) {}
+    return false
   }
   async transformShadowFieldItemOnSave(row, fieldNames) {
     for (const field of fieldNames) {
@@ -161,7 +164,7 @@ class DBGit {
         const files = await this.fs.readdirSync(targetDir)
         let id = 1
         for (const file of files) {
-          if(!file.match(/\.json$/)) continue
+          if (!file.match(/\.json$/)) continue
           let itemData = null
           const itemPath = `${targetDir}/${file}`
 
