@@ -1,0 +1,6 @@
+  {
+    "content": {
+      "ui:autofocus": true,
+      "ui:widget": "textarea"
+    }
+  }

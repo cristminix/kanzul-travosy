@@ -213,7 +213,6 @@ const LembagaContentPage = ({}) => {
           <div className="card-body twx-flex twx-justify-end">
             {!formShown ? (
               <>
-                DISPLAY BUTTON ON LIST
                 {/*<Button size="sm" onClick={(e) => showEditForm()}><i className="mdi mdi-pencil-box-outline"/> Ubah</Button>*/}
               </>
             ) : null}

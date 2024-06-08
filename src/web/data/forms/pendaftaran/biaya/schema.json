@@ -1,0 +1,21 @@
+{
+
+  "type": "object",
+  "required": [
+    "keterangan","biaya"
+  ],
+  "properties": {
+    "legend": {
+      "title": "Legend",
+      "type": "string"
+    },
+    "keterangan": {
+      "title": "Keterangan",
+      "type": "string"
+    },
+    "biaya": {
+      "title": "Nominal",
+      "type": "number"
+    }
+  }
+}

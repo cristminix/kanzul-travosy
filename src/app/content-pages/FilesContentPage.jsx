@@ -4,7 +4,7 @@ import explorerSlice from "@/global/store/features/explorerSlice"
 import MainContentLayout from "./MainContentLayout"
 import { createListenerMiddleware,addListener } from "@reduxjs/toolkit/react"
 import { useEffect, useState } from 'react';
-
+import FilePreview from "./components/FilePreview"
 const FilesContentPage = ({}) => {
 	const dispatch = useDispatch()
 	const contentState = useSelector((state) => state.content)
@@ -61,7 +61,7 @@ const FilesContentPage = ({}) => {
 					<div className="card-body">
 						<FileExplorerApp isSelected={isSelected} onSelect={onSelectItem} isExpand={isExpand} setExpand={setExpand}>
 							<div className="file-preview">
-								{filePreview.id} {filePreview.path}
+								<FilePreview id={filePreview.id} path={filePreview.path}/>
 							</div>
 						</FileExplorerApp>
 					</div>

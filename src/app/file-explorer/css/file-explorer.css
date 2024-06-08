@@ -2,7 +2,7 @@
 	@apply twx-grid twx-grid-cols-3 twx-gap-2
 }
 .file-explorer-app .left-side{
-	@apply twx-px-1 twx-py-2 twx-overflow-x-auto	 twx-border twx-border-solid twx-border-slate-200
+	@apply twx-h-screen twx-px-1 twx-py-2 twx-overflow-auto twx-border twx-border-solid twx-border-slate-200
 }
 .file-explorer-app .right-side{
 	@apply twx-col-span-2  twx-border twx-border-solid twx-border-slate-200
@@ -33,9 +33,16 @@
 }
 
 .file-explorer-app .folder .folder-toolbar-action {
-	@apply twx-flex twx-items-center twx-justify-end
+	@apply twx-flex twx-items-center twx-justify-end twx-hidden
 }
 
 .file-explorer-app .folder .folder-toolbar-action > .btn-action {
 	@apply twx-bg-transparent hover:twx-text-slate-400 twx-duration-100 twx-border-none
+}
+
+.file-explorer-app .file-viewer {
+	@apply twx-flex twx-items-center twx-overflow-hidden
+}
+.file-explorer-app .file-viewer .image-preview{
+	@apply twx-w-full twx-object-cover
 }

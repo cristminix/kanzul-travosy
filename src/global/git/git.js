@@ -5,7 +5,7 @@ import { createRandomInt } from "@/global/fn/createRandomInt"
 import { arrayBufferToBase64 } from "@/global/fn/arrayBufferToBase64"
 import { getRepoDir } from "./getRepoDir"
 import { parse as parseMimeType } from "file-type-mime"
-
+import {getMimeTypeByExtension} from "@/global/fn/getMimeTypeByExtension"
 const config = {
   repoUrl: "http://localhost:3000/sutoyocutez/kanzululum-web.git",
   author: {
@@ -25,11 +25,15 @@ class Git {
   author = null
   token = null
 
-  getGit(){
+  getGit() {
     return git
   }
-  async getFile64Data(path) {
-    const fileGitPath = `${this.dir}${path}`
+  async getFile64Data(path, includeInfo = false, direct = false) {
+    const fileGitPath = !direct ? `${this.dir}${path}` : path
+        const fileGitPathSplit = fileGitPath.split("/")
+    
+    const filename = fileGitPathSplit[fileGitPathSplit.length - 1]
+
     // console.log(fileGitPath)
     let buffer
     try {
@@ -37,14 +41,29 @@ class Git {
     } catch (e) {
       console.log(`lfs: cant readFile ${fileGitPath}`)
     }
+
     if (buffer) {
       try {
-        const mimeType = parseMimeType(buffer)
+        let mimeType = parseMimeType(buffer)
+        if(!mimeType){
+          mimeType = getMimeTypeByExtension(filename)
+        }
         console.log(mimeType)
-        const fileGitPathSplit = fileGitPath.split("/")
-        const filename = fileGitPathSplit[fileGitPathSplit.length - 1]
-        let output = `data:${mimeType.mime};charset=utf-8;name=${filename};base64,${arrayBufferToBase64(buffer)}`
+
+        let mime = 'application/octet-stream'
+        if(mimeType){
+          mime = mimeType.mime
+        }
+        let output = `data:${mime};charset=utf-8;name=${filename};base64,${arrayBufferToBase64(buffer)}`
         // console.log(output)
+        if (includeInfo) {
+          const info = {
+            mime: mimeType,
+            filename,
+          }
+
+          return { info, dataUrl: output }
+        }
         return output
       } catch (e) {
         console.log(`Error:getFile64Data`, e)

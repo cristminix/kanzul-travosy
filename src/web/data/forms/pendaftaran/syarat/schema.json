@@ -1,0 +1,13 @@
+{
+
+  "type": "object",
+  "required": [
+    "content"
+  ],
+  "properties": {
+    "content": {
+      "title": "Isi",
+      "type": "string"
+    }
+  }
+}

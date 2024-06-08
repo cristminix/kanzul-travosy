@@ -73,6 +73,7 @@ export const GitDoctor = ({ logs, task }) => {
 	try {
 		loadingMessage = logs[task.lastId]
 	} catch (e) {}
+	if(!taskIsRunning) return null
 	return (
 		<div className="twx-p-2 twx-opacity-[.5] twx-w-full twx-flex twx-items-center twx-top-0 twx-text-white twx-absolute">
 			<div className="twx-w-[250px] twx-mx-auto twx-bg-green-700 twx-px-2 twx-rounded-md">

@@ -19,23 +19,23 @@
 	],
 	"syarat-administrasi": [
 		{
-			"id": 4,
+			"id": 2,
 			"content": "Mengisi formulir pendaftaran"
 		},
 		{
-			"id": 5,
+			"id": 3,
 			"content": "Menyerahkan foto copy surat kelahiran / akta"
 		},
 		{
-			"id": 6,
+			"id": 4,
 			"content": "Menyerahkan foto copy ijazah"
 		},
 		{
-			"id": 7,
+			"id": 5,
 			"content": "Membawa foto copy KTP dan KK (kartu keluarga)  orang tua/wali"
 		},
 		{
-			"id": 8,
+			"id": 6,
 			"content": "Membayar seluruh administrasi pendaftaran yang telah ditetapkan pihak pesantren."
 		}
 	],

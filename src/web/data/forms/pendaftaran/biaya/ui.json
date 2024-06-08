@@ -1,0 +1,10 @@
+  {
+    "legend": {
+      "ui:autofocus": true
+    },
+    "keterangan": {
+      "ui:widget": "textarea"
+    },
+    "biaya": {
+    }
+  }
