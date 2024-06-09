@@ -6,6 +6,13 @@ import { Edit as IconEdit } from "react-feather"
 const PageList = ({ className,pages, onEditRow = (f) => f }) => {
 	const columns = [
 		{
+			name: "No",
+			prop: "no",
+			width:"50px",
+			selector: (row,index) => index+1,
+			cell:(row, index, column, id) => `${index+1}.`
+		},
+		{
 			name: "Name",
 			prop: "name",
 			width:"120px",

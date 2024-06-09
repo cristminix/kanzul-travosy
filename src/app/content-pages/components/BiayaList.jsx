@@ -7,7 +7,13 @@ import { Edit as IconEdit } from "react-feather"
 const BiayaList = ({git, className,data, onEditRow = (f) => f }) => {
 	const columns = [
 		
-		
+		{
+			name: "No",
+			prop: "no",
+			width:"50px",
+			selector: (row,index) => index+1,
+			cell:(row, index, column, id) => `${index+1}.`
+		},
 		{
 			name: "Legend",
 			prop: "legend",

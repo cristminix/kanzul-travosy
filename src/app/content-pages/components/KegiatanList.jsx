@@ -6,16 +6,22 @@ import { Edit as IconEdit } from "react-feather"
 
 const KegiatanList = ({git, className,pages, onEditRow = (f) => f }) => {
 	const columns = [
-		
+		{
+			name: "No",
+			prop: "no",
+			width:"50px",
+			selector: (row,index) => index+1,
+			cell:(row, index, column, id) => `${index+1}.`
+		},
 		{
 			name: "Waktu",
 			prop: "waktu",
-			width:"270px",
+			width:"170px",
 			selector: (row) => row.waktu,
 		},
 		{
 			name: "Kegiatan",
-			width:"300px",
+			width:"500px",
 			
 			prop: "kegiatan",
 			selector: (row) => row.kegiatan,

@@ -62,7 +62,7 @@ class Sidebar extends Component {
     {title:"Edit Isi Footer",path:"contents/footer"},
     {title:"Daftar Lembaga",path:"contents/lembaga"},
     {title:"Daftar Kegiatan",path:"contents/kegiatan"},
-    {title:"Edit Isi Pendaftaran",path:"contents/pendaftaran"},
+    {title:"Edit Isi Pendaftaran",path:"contents/pendaftaran/banner"},
     {title:"Edit Galeri",path:"contents/galery"},
     {title:"Daftar Berita",path:"contents/berita"},
     {title:"Daftar File",path:"contents/files"},

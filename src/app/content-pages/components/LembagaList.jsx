@@ -15,6 +15,13 @@ const AsyncImage=({callback,className})=>{
 const LembagaList = ({git, className,pages, onEditRow = (f) => f }) => {
 	const columns = [
 		{
+			name: "No",
+			prop: "no",
+			width:"50px",
+			selector: (row,index) => index+1,
+			cell:(row, index, column, id) => `${index+1}.`
+		},
+		{
 			name: "Logo",
 			prop: "image",
 			width:"130px",

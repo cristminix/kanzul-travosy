@@ -22,14 +22,19 @@ import syaratUiSchema from "@/web/data/forms/pendaftaran/syarat/ui.json"
 import biayaSchema from "@/web/data/forms/pendaftaran/biaya/schema.json"
 import biayaUiSchema from "@/web/data/forms/pendaftaran/biaya/ui.json"
 
+import metaSchema from "@/web/data/forms/pages/schema.json"
+import metaUiSchema from "@/web/data/forms/pages/ui.json"
+
 import MPendaftaranBanner from "@/global/git/models/m-banner/MPendaftaranBanner"
 import { MSyaratUtama, MSyaratAdministrasi, MBiaya } from "@/global/git/models/MSyarat"
+import MMetaPendaftaran from "@/global/git/models/m-meta/MMetaPendaftaran"
 
 import BannerEditor from "./components/BannerEditor"
 import SyaratList from "./components/SyaratList"
 import { crc32id } from "@/global/fn/crc32id"
 import BiayaList from "./components/BiayaList"
 import JsonForm from "./JsonForm"
+import RowDataDisplay from './RowDataDisplay';
 
 const git = createGit()
 
@@ -37,6 +42,7 @@ const mPendaftaranBanner = new MPendaftaranBanner(git, bannerSchema)
 const mSyaratUtama = new MSyaratUtama(git, syaratSchema)
 const mSyaratAdministrasi = new MSyaratAdministrasi(git, syaratSchema)
 const mBiaya = new MBiaya(git, biayaSchema)
+const mMetaPendaftaran = new MMetaPendaftaran(git,metaSchema)
 
 const PendaftaranContentPage = ({ subModule }) => {
 	const location = useLocation()
@@ -80,7 +86,7 @@ const PendaftaranContentPage = ({ subModule }) => {
 	}
 	const onSaveFormSyarat = async (e,type)=>{
 		const {formData} = e
-		
+
 		dispatch(setLoading(true))
     	dispatch(setLoadingMessage("Menyimpan Data"))
 		if(type === 'administrasi'){
@@ -90,6 +96,7 @@ const PendaftaranContentPage = ({ subModule }) => {
 		}
 		dispatch(setLoading(false))
 		showFormSyarat(false)
+		loadSyaratListData()
 	}
 	const [biayaListData, setBiayaListData] = useState([])
 	const [biayaFormData, setBiayaFormData] = useState(null)
@@ -111,6 +118,28 @@ const PendaftaranContentPage = ({ subModule }) => {
     	await mBiaya.updateRow(formData, true)
 		dispatch(setLoading(false))
 		showFormSyarat(false)
+		loadBiayaListData()
+	}
+
+	const [metaFormData,setMetaFormData] = useState(mMetaPendaftaran.defaultValue)
+	const [formMetaShown,showFormMeta] = useState(false)
+
+	const loadMetaData = async()=>{
+		const data = await mMetaPendaftaran.get()
+		// console.log(data)
+		setMetaFormData(data)
+	}
+	const showEditFormMeta = ()=>{
+		// setMetaFormData(row)
+		showFormMeta(true)
+	}
+	const onSaveFormMeta = async (e)=>{
+		const {formData} = e
+		dispatch(setLoading(true))
+    	dispatch(setLoadingMessage("Menyimpan Data"))
+    	await mMetaPendaftaran.update(formData, true)
+		dispatch(setLoading(false))
+		showFormMeta(false)
 	}
 	useEffect(() => {
 		if (syaratType) {
@@ -132,8 +161,11 @@ const PendaftaranContentPage = ({ subModule }) => {
 			if (tabName === "biaya-pendaftaran") {
 				loadBiayaListData()
 			}
+			else if(tabName === "meta"){
+				loadMetaData()
+			}
 		}
-	}, [location.key, setTabKey, setSyaratType, setBiayaListData])
+	}, [location.key, setTabKey, setSyaratType, setBiayaListData,setMetaFormData])
 	return (
 		<MainContentLayout
 			pageTitle={pageTitle}
@@ -237,6 +269,31 @@ const PendaftaranContentPage = ({ subModule }) => {
 										)}
 									</>
 								)}
+							</Tab>
+							<Tab eventKey="meta" title="Meta">
+								{tabKey === "meta" && (
+									<>
+										{formMetaShown?<>
+											<JsonForm title="Edit Meta Page"
+											formData={metaFormData}
+											schema={metaSchema}
+											uiSchema={metaUiSchema}
+											onSubmit={(e) => onSaveFormMeta(e)}
+											onCancel={(e) => showFormMeta(false)}
+										/>
+										</>:<>
+											<RowDataDisplay title="Meta Page" 
+											schema={metaSchema} 
+											rowData={metaFormData}/>
+											<div className="twx-py-4 twx-flex twx-justify-end">
+            								<Button size="sm" 
+            										onClick={(e) => showEditFormMeta()}>
+            										<i className="mdi mdi-pencil-box-outline"/> Ubah
+            								</Button>
+            								</div>
+										</>}
+									</>
+									)}
 							</Tab>
 						</Tabs>
 					</div>
