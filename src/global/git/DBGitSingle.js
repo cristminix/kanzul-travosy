@@ -8,6 +8,8 @@ class DBGitSingle extends DBGit {
   }
   async update(row,loadFromCache=false) {
     let oData = await this.get(loadFromCache)
+    if(!oData)
+      oData = row
     // console.log(oData)
     const fieldNames = this.getFieldNames()
     const shouldIdo = this.shouldIDoTransformField(fieldNames)
@@ -18,22 +20,33 @@ class DBGitSingle extends DBGit {
         oData[prop] = row[prop]
       }
     }
+    this.data = oData
     let newDataToBeSaved = await this.transformShadowFieldOnSave() 
     /*------- do checking rootField ------*/
     if(this.dataRootField){
       let tmpData = {...this.originalData}
-      tmpData[this.dataRootField] = newDataToBeSaved
+      tmpData[this.dataRootField] = {...newDataToBeSaved}
       newDataToBeSaved = tmpData
     }
-    console.log(newDataToBeSaved)
-    /*------ Save File ------*/
-    // await this.fs.writeFileSync(this.getFilePath(),JSON.stringify(newDataToBeSaved,null,2))
     // console.log(newDataToBeSaved)
+    /*------ Save File ------*/
+    await this.fs.writeFileSync(this.getFilePath(),JSON.stringify(newDataToBeSaved,null,2))
+    // console.log(newDataToBeSaved)
+    // if()
     // await this.commit(true)
   }
 
   async commit(push = false) {
-    let result = await this.git.commit([this.path])
+    const commitFileList = this.commitQueues
+    commitFileList.push(this.path)
+    const commitMessage = `${this.commitMessageQueues.join("\n")}\nEdit file ${this.path}`
+    console.log({commitFileList, commitMessage})
+    
+    // return
+
+    let result = await this.git.commit(commitFileList, commitMessage)
+    this.commitQueues = []
+    this.commitMessageQueues = []
     if (push) {
       result = await this.push()
     }

@@ -2,7 +2,7 @@ import FileExplorerApp from "@/app/file-explorer/FileExplorerApp"
 import { useSelector, useDispatch } from "react-redux"
 import explorerSlice from "@/global/store/features/explorerSlice"
 import MainContentLayout from "./MainContentLayout"
-import { createListenerMiddleware,addListener } from "@reduxjs/toolkit/react"
+import { addListener } from "@reduxjs/toolkit/react"
 import { useEffect, useState } from 'react';
 import FilePreview from "./components/FilePreview"
 const FilesContentPage = ({}) => {

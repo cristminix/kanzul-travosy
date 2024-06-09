@@ -67,7 +67,7 @@ form.rjsf ul.file-info {
     @apply twx-list-none twx-border twx-border-solid twx-border-gray-200
 }
 .json-form  input.form-control-file{
-/*    @apply twx-hidden*/
+    @apply twx-hidden
 }
 form.rjsf ul.file-info > li.upload-items{
     @apply twx-flex twx-gap-2 twx-flex-row twx-relative twx-items-start 
@@ -80,6 +80,9 @@ form.rjsf ul.file-info > li.upload-items > .btn feather.sm{
 }
 form.rjsf ul.file-info > li.upload-items > .btn.sm{
     @apply twx-px-2 twx-py-1
+}
+form.rjsf ul.file-info > li.upload-items > .top-action-btn-container.empty{
+    @apply !twx-justify-start
 }
 form.rjsf ul.file-info > li.upload-items > .top-action-btn-container{
     @apply twx-absolute twx-flex twx-justify-end twx-w-full twx-items-center twx-px-2 twx-py-4

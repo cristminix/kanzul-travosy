@@ -24,5 +24,8 @@
     "ui:options": {
       "inputType": "email"
     }
+  },
+  "googleMapEmbedUrl": {
+    "ui:widget": "textarea"
   }
 }

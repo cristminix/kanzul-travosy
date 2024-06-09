@@ -8,6 +8,7 @@ import LembagaContentPage from "./LembagaContentPage"
 import PendaftaranContentPage from "./PendaftaranContentPage"
 import FilesContentPage from "./FilesContentPage"
 import { useLoaderData } from "react-router-dom"
+import TemplateContentPage from './TemplateContentPage';
 
 export async function loader({ params }) {
   const { mod, sub, pk, fk } = params
@@ -40,7 +41,10 @@ const ContentPage = ({}) => {
   } 
   else if (mod === "files") {
     return <FilesContentPage subModule={sub}/>
-  } 
+  }
+  else if (mod === "template") {
+    return <TemplateContentPage subModule={sub}/>
+  }  
   //else if (mod === "contact-person") {
   //   return <ContactPerson />
   // } else if (mod === "galery") {

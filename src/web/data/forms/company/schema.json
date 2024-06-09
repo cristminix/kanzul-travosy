@@ -32,6 +32,10 @@
     "email": {
       "type": "string",
       "title": "Alamat Email"
+    },
+    "googleMapEmbedUrl": {
+      "type": "string",
+      "title": "Google Map Embed Url"
     }
   }
 }

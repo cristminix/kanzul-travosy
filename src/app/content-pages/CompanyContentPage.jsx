@@ -5,14 +5,13 @@ import CompanyForm from "./company-content-page/CompanyForm"
 import contentSlice from "@/global/store/features/contentSlice"
 import settingSlice from "@/global/store/features/settingSlice"
 
-import Spinner from "@/app/shared/Spinner"
 import SweetAlert from "react-bootstrap-sweetalert"
 
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
 import MainContentLayout from "./MainContentLayout"
 import CompanyDisplay from "./company-content-page/CompanyDisplay"
-import { Button } from "react-bootstrap"
+import { Button, Tabs, Tab } from "react-bootstrap"
 
 import { createGit } from "@/global/git"
 import MCompany from "@/global/git/models/MCompany"

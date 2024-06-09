@@ -67,7 +67,7 @@ function FileInfoPreview<T = any, S extends StrictRJSFSchema = RJSFSchema, F ext
   const { translateString } = registry;
   const { dataURL, type, name } = fileInfo;
   // console.log(fileInfo)
-  if (!dataURL) {
+  if (!dataURL || name === 'DEFAULT_DATA_URL_FILENAME') {
     return null;
   }
 
@@ -116,13 +116,14 @@ function FilesInfo<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends F
     <ul className='file-info'>
       {filesInfo.map((fileInfo, key) => {
         const { name, size, type } = fileInfo;
+        const empty = name === 'DEFAULT_DATA_URL_FILENAME'
         const handleRemove = () => onRemove(key);
         return (
           <li key={key} className="upload-items">
             {/* upload button*/}
-            <div className="top-action-btn-container">
-              <Button onClick={e=>onUpload()} size="sm" variant="primary" className="btn-upload">
-                <IconUpload className="feather-sm"/>
+            <div className={`top-action-btn-container ${empty?'empty':''}`}>
+              <Button title="Upload File" onClick={e=>onUpload()} size="sm" variant="primary" className="btn-upload">
+                <IconUpload className="feather-sm"/> Upload File
               </Button>
             </div>
             {
@@ -132,7 +133,8 @@ function FilesInfo<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends F
                   <FileInfoPreview<T, S, F> fileInfo={fileInfo} registry={registry} />
                 </div>
                 <div className="description-container">
-                {name}({type}, {formatBytes(size)})
+                {!empty&&<>
+                {name}({type}, {formatBytes(size)})</>}
                   
                 </div>
               </div>

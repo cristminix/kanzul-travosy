@@ -81,6 +81,8 @@ class DBGit {
         this.shadowedFieldValues[pkValue][field] = row[field]
       }
     }
+    return row
+    
   }
   async transformShadowFieldItemOnload(row, fieldNames) {
     // console.log(`doTransform`,row,fieldNames)
@@ -114,6 +116,7 @@ class DBGit {
       if (shouldIdo) {
         if (this.type === "single") {
           this.data = await this.transformShadowFieldItemOnload(this.data, fieldNames)
+          // console.log(this.data)
         } else {
           for (let row of this.data) row = await this.transformShadowFieldItemOnload(row, fieldNames)
         }
@@ -121,7 +124,7 @@ class DBGit {
     }
   }
   async transformShadowFieldOnSave() {
-    const sourceDataCopy = this.type === "single" ? { ...this.data } : [...this.data]
+    let sourceDataCopy = this.type === "single" ? { ...this.data } : [...this.data]
     if (this.shadowFields !== null) {
       // checking sould have we do transform
       const fieldNames = this.getFieldNames()
@@ -206,8 +209,9 @@ class DBGit {
         else this.data = []
       }
     }
-    await this.transformShadowFieldOnload()
-    console.log(this.originalData)
+    if(this.data)
+      await this.transformShadowFieldOnload()
+    // console.log(this.originalData)
     return this.data
   }
   async push() {

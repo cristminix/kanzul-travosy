@@ -48,7 +48,7 @@ class Git {
         if(!mimeType){
           mimeType = getMimeTypeByExtension(filename)
         }
-        console.log(mimeType)
+        // console.log(mimeType)
 
         let mime = 'application/octet-stream'
         if(mimeType){

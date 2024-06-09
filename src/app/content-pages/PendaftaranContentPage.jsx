@@ -1,8 +1,6 @@
 import contentSlice from "@/global/store/features/contentSlice"
 import settingSlice from "@/global/store/features/settingSlice"
 
-import Spinner from "@/app/shared/Spinner"
-import SweetAlert from "react-bootstrap-sweetalert"
 
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
@@ -34,7 +32,7 @@ import SyaratList from "./components/SyaratList"
 import { crc32id } from "@/global/fn/crc32id"
 import BiayaList from "./components/BiayaList"
 import JsonForm from "./JsonForm"
-import RowDataDisplay from './RowDataDisplay';
+import RowDataDisplay from "./RowDataDisplay"
 
 const git = createGit()
 
@@ -42,265 +40,289 @@ const mPendaftaranBanner = new MPendaftaranBanner(git, bannerSchema)
 const mSyaratUtama = new MSyaratUtama(git, syaratSchema)
 const mSyaratAdministrasi = new MSyaratAdministrasi(git, syaratSchema)
 const mBiaya = new MBiaya(git, biayaSchema)
-const mMetaPendaftaran = new MMetaPendaftaran(git,metaSchema)
+const mMetaPendaftaran = new MMetaPendaftaran(git, metaSchema)
 
 const PendaftaranContentPage = ({ subModule }) => {
-	const location = useLocation()
-	const dispatch = useDispatch()
-	const navigate = useNavigate()
-	const contentState = useSelector((state) => state.content)
-	const settingState = useSelector((state) => state.setting)
-	const { setLoading, setLoadingMessage } = contentSlice.actions
-	const { setHideGitNotReadyMessage } = settingSlice.actions
+  const location = useLocation()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const contentState = useSelector((state) => state.content)
+  const settingState = useSelector((state) => state.setting)
+  const { setLoading, setLoadingMessage,displayAlert } = contentSlice.actions
+  const { setHideGitNotReadyMessage } = settingSlice.actions
 
-	const [formData, setFormData] = useState(null)
-	const [formShown, showForm] = useState(false)
-	const [trigger, setTrigger] = useState(false)
+  const [formData, setFormData] = useState(null)
+  const [formShown, showForm] = useState(false)
+  const [trigger, setTrigger] = useState(false)
 
-	const pageTitle = "Edit Pendaftaran"
-	const breadcrumbs = [
-		{ title: "Konten", path: "contents" },
-		{ title: "Pendaftaran", path: "content/pendaftaran" },
-	]
-	const [alert, setAlert] = useState(null)
-	const [tabKey, setTabKey] = useState("banner")
+  const pageTitle = "Edit Pendaftaran"
+  const breadcrumbs = [
+    { title: "Konten", path: "contents" },
+    { title: "Pendaftaran", path: "content/pendaftaran" },
+  ] 
+  const [tabKey, setTabKey] = useState("banner")
 
-	const onSelectTab = (tabKey) => {
-		navigate(`/contents/pendaftaran/${tabKey}`)
-		console.log(tabKey)
-	}
+  const showLoading = (status, message = "Menyimpan Data") => {
+    if (status) {
+      dispatch(setLoading(true))
+      dispatch(setLoadingMessage(message))
+    } else {
+      dispatch(setLoading(false))
+    }
+  }
+  const onSelectTab = (tabKey) => {
+    navigate(`/contents/pendaftaran/${tabKey}`)
+    console.log(tabKey)
+  }
 
-	const [syaratType, setSyaratType] = useState(null)
-	const [syaratListData, setSyaratListData] = useState([])
-	const [syaratFormData, setSyaratFormData] = useState(null)
-	const [formSyaratShown, showFormSyarat] = useState(false)
-	const loadSyaratListData = async () => {
-		let data
-		if (syaratType === "utama") data = await mSyaratUtama.getData()
-		else data = await mSyaratAdministrasi.getData()
-		setSyaratListData(data)
-	}
-	const showEditFormSyarat = (row, type) => {
-		setSyaratFormData(row)
-		showFormSyarat(true)
-	}
-	const onSaveFormSyarat = async (e,type)=>{
-		const {formData} = e
+  const [syaratType, setSyaratType] = useState(null)
+  const [syaratListData, setSyaratListData] = useState([])
+  const [syaratFormData, setSyaratFormData] = useState(null)
+  const [formSyaratShown, showFormSyarat] = useState(false)
+  const loadSyaratListData = async () => {
+    let data
+    if (syaratType === "utama") data = await mSyaratUtama.getData()
+    else data = await mSyaratAdministrasi.getData()
+    setSyaratListData(data)
+  }
+  const showEditFormSyarat = (row, type) => {
+    setSyaratFormData(row)
+    showFormSyarat(true)
+  }
+  const onSaveFormSyarat = async (e, type) => {
+    const { formData } = e
+    showLoading(true)
+    try {
+      if (type === "administrasi") {
+        await mSyaratAdministrasi.updateRow(formData, true)
+      } else {
+        await mSyaratUtama.updateRow(formData, true)
+      }
+    } catch (e) {
+      dispatch(displayAlert(["danger","error",e.toString()]))
 
-		dispatch(setLoading(true))
-    	dispatch(setLoadingMessage("Menyimpan Data"))
-		if(type === 'administrasi'){
-    		await mSyaratAdministrasi.updateRow(formData, true)
-		}else{
-    		await mSyaratUtama.updateRow(formData, true)
-		}
-		dispatch(setLoading(false))
-		showFormSyarat(false)
-		loadSyaratListData()
-	}
-	const [biayaListData, setBiayaListData] = useState([])
-	const [biayaFormData, setBiayaFormData] = useState(null)
-	const [formBiayaShown, showFormBiaya] = useState(false)
+    }
 
-	const loadBiayaListData = async () => {
-		const data = await mBiaya.getData()
-		setBiayaListData(data)
-	}
-	const showEditFormBiaya = async (row) => {
-		// const formData =
-		setBiayaFormData(row)
-		showFormBiaya(true)
-	}
-	const onSaveFormBiaya = async (e)=>{
-		const {formData} = e
-		dispatch(setLoading(true))
-    	dispatch(setLoadingMessage("Menyimpan Data"))
-    	await mBiaya.updateRow(formData, true)
-		dispatch(setLoading(false))
-		showFormSyarat(false)
-		loadBiayaListData()
-	}
+    showLoading(false)
+    showFormSyarat(false)
+    loadSyaratListData()
+  }
+  const [biayaListData, setBiayaListData] = useState([])
+  const [biayaFormData, setBiayaFormData] = useState(null)
+  const [formBiayaShown, showFormBiaya] = useState(false)
 
-	const [metaFormData,setMetaFormData] = useState(mMetaPendaftaran.defaultValue)
-	const [formMetaShown,showFormMeta] = useState(false)
+  const loadBiayaListData = async () => {
+    const data = await mBiaya.getData()
+    setBiayaListData(data)
+  }
+  const showEditFormBiaya = async (row) => {
+    // const formData =
+    setBiayaFormData(row)
+    showFormBiaya(true)
+  }
+  const onSaveFormBiaya = async (e) => {
+    const { formData } = e
+    showLoading(true)
+    try {
+      await mBiaya.updateRow(formData, true)
+    } catch (e) {
+      dispatch(displayAlert(["danger","error",e.toString()]))
 
-	const loadMetaData = async()=>{
-		const data = await mMetaPendaftaran.get()
-		// console.log(data)
-		setMetaFormData(data)
-	}
-	const showEditFormMeta = ()=>{
-		// setMetaFormData(row)
-		showFormMeta(true)
-	}
-	const onSaveFormMeta = async (e)=>{
-		const {formData} = e
-		dispatch(setLoading(true))
-    	dispatch(setLoadingMessage("Menyimpan Data"))
-    	await mMetaPendaftaran.update(formData, true)
-		dispatch(setLoading(false))
-		showFormMeta(false)
-	}
-	useEffect(() => {
-		if (syaratType) {
-			loadSyaratListData()
-		}
-	}, [syaratType, setSyaratListData])
-	useEffect(() => {
-		const pathnames = location.pathname.split("/")
-		const tabName = pathnames.at(-1)
-		setTabKey(tabName)
-		setTrigger(crc32id())
+    }
 
-		if (tabName === "syarat-utama") {
-			setSyaratType("utama")
-		} else if (tabName === "syarat-administrasi") {
-			setSyaratType("administrasi")
-		} else {
-			setSyaratType(null)
-			if (tabName === "biaya-pendaftaran") {
-				loadBiayaListData()
-			}
-			else if(tabName === "meta"){
-				loadMetaData()
-			}
-		}
-	}, [location.key, setTabKey, setSyaratType, setBiayaListData,setMetaFormData])
-	return (
-		<MainContentLayout
-			pageTitle={pageTitle}
-			breadcrumbs={breadcrumbs}
-			className={`${contentState.isLoading ? "content-is-loading" : ""}`}>
-			<div className="col-12 grid-margin stretch-card">
-				<div className="card">
-					<div className="card-body">
-						<Tabs id="controlled-tab-example" activeKey={tabKey} onSelect={(k) => onSelectTab(k)}>
-							<Tab eventKey="banner" title="Banner">
-								{tabKey === "banner" && (
-									<BannerEditor
-										page="pendaftaran"
-										model={mPendaftaranBanner}
-										trigger={trigger}
-										schema={bannerSchema}
-										uiSchema={bannerUiSchema}
-									/>
-								)}
-							</Tab>
-							<Tab eventKey="syarat-utama" title="Syarat Utama">
-								{tabKey === "syarat-utama" && (
-									<>
-										{!formSyaratShown ? (
-											<>
-												<h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Syarat Utama</h4>
-												<SyaratList
-													git={git}
-													className="twx-border twx-border-slate-200 twx-border-solid"
-													data={syaratListData}
-													onEditRow={(row) => showEditFormSyarat(row, "utama")}
-												/>
-											</>
-										) : (
-											<>
-												<JsonForm
-													title={`Edit Item Syarat Utama`}
-													formData={syaratFormData}
-													schema={syaratSchema}
-													uiSchema={syaratUiSchema}
-													onSubmit={(e) => onSaveFormSyarat(e, "utama")}
-													onCancel={(e) => showFormSyarat(false)}
-												/>
-											</>
-										)}
-									</>
-								)}
-							</Tab>
-							<Tab eventKey="syarat-administrasi" title="Syarat Administrasi">
-								{tabKey === "syarat-administrasi" && (
-									<>
-										{!formSyaratShown ? (
-											<>
-												<h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Syarat Administrasi</h4>
-												<SyaratList
-													git={git}
-													className="twx-border twx-border-slate-200 twx-border-solid"
-													data={syaratListData}
-													onEditRow={(row) => showEditFormSyarat(row, "utama")}
-												/>
-											</>
-										) : (
-											<>
-												<JsonForm
-													title={`Edit Item Syarat Administrasi`}
-													formData={syaratFormData}
-													schema={syaratSchema}
-													uiSchema={syaratUiSchema}
-													onSubmit={(e) => onSaveFormSyarat(e, "administrasi")}
-													onCancel={(e) => showFormSyarat(false)}
-												/>
-											</>
-										)}
-									</>
-								)}
-							</Tab>
-							<Tab eventKey="biaya-pendaftaran" title="Biaya Pendaftaran">
-								{tabKey === "biaya-pendaftaran" && (
-									<>
-										{!formBiayaShown ? (
-											<>
-												<h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Biaya Pendaftaran</h4>
-												<BiayaList
-													git={git}
-													className="twx-border twx-border-slate-200 twx-border-solid"
-													data={biayaListData}
-													onEditRow={(row) => showEditFormBiaya(row)}
-												/>
-											</>
-										) : (
-											<>
-												<JsonForm
-													title={`Edit Item Biaya`}
-													formData={biayaFormData}
-													schema={biayaSchema}
-													uiSchema={biayaUiSchema}
-													onSubmit={(e) => onSaveFormBiaya(e)}
-													onCancel={(e) => showFormBiaya(false)}
-												/>
-											</>
-										)}
-									</>
-								)}
-							</Tab>
-							<Tab eventKey="meta" title="Meta">
-								{tabKey === "meta" && (
-									<>
-										{formMetaShown?<>
-											<JsonForm title="Edit Meta Page"
-											formData={metaFormData}
-											schema={metaSchema}
-											uiSchema={metaUiSchema}
-											onSubmit={(e) => onSaveFormMeta(e)}
-											onCancel={(e) => showFormMeta(false)}
-										/>
-										</>:<>
-											<RowDataDisplay title="Meta Page" 
-											schema={metaSchema} 
-											rowData={metaFormData}/>
-											<div className="twx-py-4 twx-flex twx-justify-end">
-            								<Button size="sm" 
-            										onClick={(e) => showEditFormMeta()}>
-            										<i className="mdi mdi-pencil-box-outline"/> Ubah
-            								</Button>
-            								</div>
-										</>}
-									</>
-									)}
-							</Tab>
-						</Tabs>
-					</div>
-				</div>
-			</div>
-		</MainContentLayout>
-	)
+    showLoading(false)
+    showFormSyarat(false)
+    loadBiayaListData()
+  }
+
+  const [metaFormData, setMetaFormData] = useState(mMetaPendaftaran.defaultValue)
+  const [formMetaShown, showFormMeta] = useState(false)
+
+  const loadMetaData = async () => {
+    const data = await mMetaPendaftaran.get()
+    // console.log(data)
+    setMetaFormData(data)
+  }
+  const showEditFormMeta = () => {
+    // setMetaFormData(row)
+    showFormMeta(true)
+  }
+  const onSaveFormMeta = async (e) => {
+    const { formData } = e
+    showLoading(true)
+    try {
+      await mMetaPendaftaran.update(formData)
+      await mMetaPendaftaran.commit(true)
+    } catch (e) {
+      dispatch(displayAlert(["danger","error",e.toString()]))
+    }
+
+    showLoading(false)
+    showFormMeta(false)
+    loadMetaData()
+  }
+  useEffect(() => {
+    if (syaratType) {
+      loadSyaratListData()
+    }
+  }, [syaratType, setSyaratListData])
+
+  useEffect(() => {
+    const pathnames = location.pathname.split("/")
+    const tabName = pathnames.at(-1)
+    setTabKey(tabName)
+    setTrigger(crc32id())
+    if (tabName === "syarat-utama") {
+      setSyaratType("utama")
+    } else if (tabName === "syarat-administrasi") {
+      setSyaratType("administrasi")
+    } else {
+      setSyaratType(null)
+      if (tabName === "biaya-pendaftaran") {
+        loadBiayaListData()
+      } else if (tabName === "meta") {
+        loadMetaData()
+      }
+    }
+  }, [location.key, setTabKey, setSyaratType, setBiayaListData, setMetaFormData])
+  return (
+    <MainContentLayout
+      pageTitle={pageTitle}
+      breadcrumbs={breadcrumbs}
+      className={`${contentState.isLoading ? "content-is-loading" : ""}`}>
+      <div className="col-12 grid-margin stretch-card">
+        <div className="card">
+          <div className="card-body">
+            <Tabs id="controlled-tab-example" activeKey={tabKey} onSelect={(k) => onSelectTab(k)}>
+              <Tab eventKey="banner" title="Banner">
+                {tabKey === "banner" && (
+                  <BannerEditor
+                    showLoading={showLoading}
+                    page="pendaftaran"
+                    model={mPendaftaranBanner}
+                    trigger={trigger}
+                    schema={bannerSchema}
+                    uiSchema={bannerUiSchema}
+                  />
+                )}
+              </Tab>
+              <Tab eventKey="syarat-utama" title="Syarat Utama">
+                {tabKey === "syarat-utama" && (
+                  <>
+                    {!formSyaratShown ? (
+                      <>
+                        <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Syarat Utama</h4>
+                        <SyaratList
+                          git={git}
+                          className="twx-border twx-border-slate-200 twx-border-solid"
+                          data={syaratListData}
+                          onEditRow={(row) => showEditFormSyarat(row, "utama")}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <JsonForm
+                          title={`Edit Item Syarat Utama`}
+                          formData={syaratFormData}
+                          schema={syaratSchema}
+                          uiSchema={syaratUiSchema}
+                          onSubmit={(e) => onSaveFormSyarat(e, "utama")}
+                          onCancel={(e) => showFormSyarat(false)}
+                        />
+                      </>
+                    )}
+                  </>
+                )}
+              </Tab>
+              <Tab eventKey="syarat-administrasi" title="Syarat Administrasi">
+                {tabKey === "syarat-administrasi" && (
+                  <>
+                    {!formSyaratShown ? (
+                      <>
+                        <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Syarat Administrasi</h4>
+                        <SyaratList
+                          git={git}
+                          className="twx-border twx-border-slate-200 twx-border-solid"
+                          data={syaratListData}
+                          onEditRow={(row) => showEditFormSyarat(row, "utama")}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <JsonForm
+                          title={`Edit Item Syarat Administrasi`}
+                          formData={syaratFormData}
+                          schema={syaratSchema}
+                          uiSchema={syaratUiSchema}
+                          onSubmit={(e) => onSaveFormSyarat(e, "administrasi")}
+                          onCancel={(e) => showFormSyarat(false)}
+                        />
+                      </>
+                    )}
+                  </>
+                )}
+              </Tab>
+              <Tab eventKey="biaya-pendaftaran" title="Biaya Pendaftaran">
+                {tabKey === "biaya-pendaftaran" && (
+                  <>
+                    {!formBiayaShown ? (
+                      <>
+                        <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Biaya Pendaftaran</h4>
+                        <BiayaList
+                          git={git}
+                          className="twx-border twx-border-slate-200 twx-border-solid"
+                          data={biayaListData}
+                          onEditRow={(row) => showEditFormBiaya(row)}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <JsonForm
+                          title={`Edit Item Biaya`}
+                          formData={biayaFormData}
+                          schema={biayaSchema}
+                          uiSchema={biayaUiSchema}
+                          onSubmit={(e) => onSaveFormBiaya(e)}
+                          onCancel={(e) => showFormBiaya(false)}
+                        />
+                      </>
+                    )}
+                  </>
+                )}
+              </Tab>
+              <Tab eventKey="meta" title="Meta">
+                {tabKey === "meta" && (
+                  <>
+                    {formMetaShown ? (
+                      <>
+                        <JsonForm
+                          title="Edit Meta Page"
+                          formData={metaFormData}
+                          schema={metaSchema}
+                          uiSchema={metaUiSchema}
+                          onSubmit={(e) => onSaveFormMeta(e)}
+                          onCancel={(e) => showFormMeta(false)}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <RowDataDisplay title="Meta Page" schema={metaSchema} rowData={metaFormData} />
+                        <div className="twx-py-4 twx-flex twx-justify-end">
+                          <Button size="sm" onClick={(e) => showEditFormMeta()}>
+                            <i className="mdi mdi-pencil-box-outline" /> Ubah
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </>
+                )}
+              </Tab>
+            </Tabs>
+          </div>
+        </div>
+      </div>
+    </MainContentLayout>
+  )
 }
 
 export default PendaftaranContentPage

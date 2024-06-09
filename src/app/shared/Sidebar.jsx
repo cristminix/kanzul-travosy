@@ -56,16 +56,17 @@ class Sidebar extends Component {
     })
   }
   contentMenus = [
-    {title:"Detail Pesantren",path:"contents/company"},
-    {title:"Edit Halaman Depan",path:"contents/homepage"},
-    {title:"Edit Meta Halaman",path:"contents/pages"},
-    {title:"Edit Isi Footer",path:"contents/footer"},
-    {title:"Daftar Lembaga",path:"contents/lembaga"},
-    {title:"Daftar Kegiatan",path:"contents/kegiatan"},
-    {title:"Edit Isi Pendaftaran",path:"contents/pendaftaran/banner"},
-    {title:"Edit Galeri",path:"contents/galery"},
-    {title:"Daftar Berita",path:"contents/berita"},
-    {title:"Daftar File",path:"contents/files"},
+    { title: "Company", path: "contents/company" },
+    // { title: "Halaman Depan", path: "contents/homepage" },
+    // { title: "Edit Meta Halaman", path: "contents/pages" },
+    { title: "Profile", path: "contents/profile" },
+    { title: "Lembaga", path: "contents/lembaga" },
+    { title: "Kegiatan", path: "contents/kegiatan" },
+    { title: "Pendaftaran", path: "contents/pendaftaran/banner" },
+    { title: "Galeri", path: "contents/galery" },
+    { title: "Berita", path: "contents/berita" },
+    { title: "Template", path: "contents/template/footer" },
+    { title: "Daftar File", path: "contents/files" },
   ]
   render() {
     return (
@@ -107,15 +108,17 @@ class Sidebar extends Component {
             </div>
             <Collapse in={this.state.contentMenuOpen}>
               <ul className="nav flex-column sub-menu">
-              {this.contentMenus.map((item,index)=>{
-               return <li className="nav-item">
-                  <Link className={this.isPathActive(`/${item.path}`) ? "nav-link active" : "nav-link"}
-                    to={item.path}>
-                    <Trans>{item.title}</Trans>
-                  </Link>
-                </li>
-              })}
-                
+                {this.contentMenus.map((item, index) => {
+                  return (
+                    <li className="nav-item">
+                      <Link
+                        className={this.isPathActive(`/${item.path}`) ? "nav-link active" : "nav-link"}
+                        to={item.path}>
+                        <Trans>{item.title}</Trans>
+                      </Link>
+                    </li>
+                  )
+                })}
               </ul>
             </Collapse>
           </li>
@@ -133,7 +136,6 @@ class Sidebar extends Component {
             <Collapse in={this.state.basicUiMenuOpen}>
               <ul className="nav flex-column sub-menu">
                 <li className="nav-item">
-                  
                   <Link
                     className={this.isPathActive("/basic-ui/buttons") ? "nav-link active" : "nav-link"}
                     to="/basic-ui/buttons">
@@ -141,7 +143,6 @@ class Sidebar extends Component {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  
                   <Link
                     className={this.isPathActive("/basic-ui/dropdowns") ? "nav-link active" : "nav-link"}
                     to="/basic-ui/dropdowns">
@@ -149,7 +150,6 @@ class Sidebar extends Component {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  
                   <Link
                     className={this.isPathActive("/basic-ui/typography") ? "nav-link active" : "nav-link"}
                     to="/basic-ui/typography">
@@ -173,7 +173,6 @@ class Sidebar extends Component {
             <Collapse in={this.state.formElementsMenuOpen}>
               <ul className="nav flex-column sub-menu">
                 <li className="nav-item">
-                  
                   <Link
                     className={this.isPathActive("/form-elements/basic-elements") ? "nav-link active" : "nav-link"}
                     to="/form-elements/basic-elements">
@@ -197,7 +196,6 @@ class Sidebar extends Component {
             <Collapse in={this.state.tablesMenuOpen}>
               <ul className="nav flex-column sub-menu">
                 <li className="nav-item">
-                  
                   <Link
                     className={this.isPathActive("/tables/basic-table") ? "nav-link active" : "nav-link"}
                     to="/tables/basic-table">
@@ -221,7 +219,6 @@ class Sidebar extends Component {
             <Collapse in={this.state.iconsMenuOpen}>
               <ul className="nav flex-column sub-menu">
                 <li className="nav-item">
-                  
                   <Link className={this.isPathActive("/icons/mdi") ? "nav-link active" : "nav-link"} to="/icons/mdi">
                     <Trans>Material</Trans>
                   </Link>
@@ -243,7 +240,6 @@ class Sidebar extends Component {
             <Collapse in={this.state.chartsMenuOpen}>
               <ul className="nav flex-column sub-menu">
                 <li className="nav-item">
-                  
                   <Link
                     className={this.isPathActive("/charts/chart-js") ? "nav-link active" : "nav-link"}
                     to="/charts/chart-js">
@@ -267,7 +263,6 @@ class Sidebar extends Component {
             <Collapse in={this.state.userPagesMenuOpen}>
               <ul className="nav flex-column sub-menu">
                 <li className="nav-item">
-                  
                   <Link
                     className={this.isPathActive("/user-pages/login-1") ? "nav-link active" : "nav-link"}
                     to="/user-pages/login-1">
@@ -275,7 +270,6 @@ class Sidebar extends Component {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  
                   <Link
                     className={this.isPathActive("/user-pages/register-1") ? "nav-link active" : "nav-link"}
                     to="/user-pages/register-1">
@@ -283,7 +277,6 @@ class Sidebar extends Component {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  
                   <Link
                     className={this.isPathActive("/user-pages/lockscreen") ? "nav-link active" : "nav-link"}
                     to="/user-pages/lockscreen">
@@ -307,7 +300,6 @@ class Sidebar extends Component {
             <Collapse in={this.state.errorPagesMenuOpen}>
               <ul className="nav flex-column sub-menu">
                 <li className="nav-item">
-                  
                   <Link
                     className={this.isPathActive("/error-pages/error-404") ? "nav-link active" : "nav-link"}
                     to="/error-pages/error-404">
@@ -315,7 +307,6 @@ class Sidebar extends Component {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  
                   <Link
                     className={this.isPathActive("/error-pages/error-500") ? "nav-link active" : "nav-link"}
                     to="/error-pages/error-500">
@@ -339,7 +330,6 @@ class Sidebar extends Component {
             <Collapse in={this.state.generalPagesMenuOpen}>
               <ul className="nav flex-column sub-menu">
                 <li className="nav-item">
-                  
                   <Link
                     className={this.isPathActive("/general-pages/blank-page") ? "nav-link active" : "nav-link"}
                     to="/general-pages/blank-page">
@@ -368,7 +358,7 @@ class Sidebar extends Component {
 
   isPathActive(path) {
     // console.log(this.props.location.pathname.replace('purple/'),path)
-    return this.props.location.pathname.replace('purple/').startsWith(path)
+    return this.props.location.pathname.replace("purple/").startsWith(path)
   }
 
   componentDidMount() {
