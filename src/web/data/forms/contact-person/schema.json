@@ -1,6 +1,4 @@
 {
-  "title": "contactPerson Form",
-  "description": "Form untuk data contactPerson",
   "type": "object",
   "required": [
     "name",
@@ -8,11 +6,11 @@
   ],
   "properties": {
     "name": {
-      "title": "contactPerson",
+      "title": "Nama",
       "type": "string"
     },
     "phone": {
-      "title": "contactPerson",
+      "title": "Nomor",
       "type": "string"
     }
   }

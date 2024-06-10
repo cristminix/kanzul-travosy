@@ -1,9 +1,10 @@
 {
   "name": {
-    "ui:description": "Name",
     "ui:autofocus": true
   },
   "phone": {
-    "ui:description": "Phone"
+    "ui:options": {
+      "inputType": "tel"
+    }
   }
 }

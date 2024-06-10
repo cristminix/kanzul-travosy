@@ -193,7 +193,7 @@ const PendaftaranContentPage = ({ subModule }) => {
       <div className="col-12 grid-margin stretch-card">
         <div className="card">
           <div className="card-body">
-            <Tabs id="controlled-tab-example" activeKey={tabKey} onSelect={(k) => onSelectTab(k)}>
+            <Tabs id="content-pendaftaran-tab" activeKey={tabKey} onSelect={(k) => onSelectTab(k)}>
               <Tab eventKey="banner" title="Banner">
                 {tabKey === "banner" && (
                   <BannerEditor
