@@ -171,12 +171,16 @@ const PendaftaranContentPage = ({ subModule }) => {
     const pathnames = location.pathname.split("/")
     const tabName = pathnames.at(-1)
     setTabKey(tabName)
-    setTrigger(crc32id())
     if (tabName === "syarat-utama") {
       setSyaratType("utama")
     } else if (tabName === "syarat-administrasi") {
       setSyaratType("administrasi")
-    } else {
+    }
+    else if(tabName === "banner"){
+    setTrigger(crc32id())
+      
+    }
+     else {
       setSyaratType(null)
       if (tabName === "biaya-pendaftaran") {
         loadBiayaListData()

@@ -23,7 +23,12 @@
 .file-explorer-app .folder .folder{
 	@apply  twx-ml-4 twx-py-[2px]
 }
-
+.file-explorer-app .folder .icon-wrap .folder-name{
+	@apply twx-pl-1
+}
+.file-explorer-app .folder .icon-wrap{
+	@apply twx-flex twx-items-center 
+}
 .file-explorer-app .folder .file{
 	@apply twx-pl-4 twx-flex twx-items-center  twx-py-1 twx-cursor-pointer
 }

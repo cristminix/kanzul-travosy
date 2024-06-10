@@ -1,0 +1,15 @@
+{
+  "heading": {
+    "ui:autofocus": true
+  },
+  "title": {},
+  "image": {
+    "ui:options": {
+      "filePreview": true
+    }
+  },
+  "contents": {
+    "ui:widget": "textarea"
+  },
+  "linkText": {}
+}

@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "required": [
+    "heading",
+    "title",
+    "image",
+    "contents",
+    "linkText"
+  ],
+  "properties": {
+    "heading": {
+      "title": "Heading",
+      "type": "string"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "image": {
+      "title": "Image",
+      "type": "string"
+    },
+    "contents": {
+      "title": "Konten",
+      "type": "string"
+    }
+  }
+}

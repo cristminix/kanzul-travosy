@@ -108,3 +108,32 @@ form.rjsf ul.file-info > li.upload-items > .file-preview-container > .descriptio
 .sidebar .nav .nav-item .nav-link i.menu-arrow + .menu-icon{
     @apply twx-mb-0
 }
+
+.row-data-display .heading{
+    @apply twx-text-2xl twx-text-center twx-py-4 twx-mb-8
+}
+.row-data-display .row-data-display-wrap {
+    @apply twx-flex twx-flex-col twx-text-sm
+
+}
+.row-data-display .row-data-display-wrap .row-data-display-item{
+    @apply twx-flex twx-gap-2 twx-p-2 twx-border-b twx-border-gray-200 twx-overflow-hidden
+
+}
+
+.row-data-display .prop-wrap{
+    @apply twx-font-bold twx-min-w-[140px] twx-text-left
+}
+.row-data-display .value-wrap{
+    @apply twx-p-2 twx-text-left twx-text-balance
+
+}
+.row-data-display .value-wrap .image-wrap {
+    @apply twx-h-[200px] twx-overflow-hidden
+}
+.row-data-display .value-wrap .image-wrap .prop-image{
+    @apply twx-w-full twx-h-auto twx-object-cover
+}
+textarea.form-control{
+/*    @apply twx-*/
+}

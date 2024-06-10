@@ -9,6 +9,7 @@ import PendaftaranContentPage from "./PendaftaranContentPage"
 import FilesContentPage from "./FilesContentPage"
 import { useLoaderData } from "react-router-dom"
 import TemplateContentPage from './TemplateContentPage';
+import ProfileContentPage from './ProfileContentPage';
 
 export async function loader({ params }) {
   const { mod, sub, pk, fk } = params
@@ -45,23 +46,9 @@ const ContentPage = ({}) => {
   else if (mod === "template") {
     return <TemplateContentPage subModule={sub}/>
   }  
-  //else if (mod === "contact-person") {
-  //   return <ContactPerson />
-  // } else if (mod === "galery") {
-  //   return <Galery />
-  // } else if (mod === "search") {
-  //   return <Search />
-  // } else if (mod === "social-network-link") {
-  //   return <SocialNetworkLink />
-  // } else if (mod === "web-navigation") {
-  //   return <WebNavigation />
-  // } else if (mod === "homepage") {
-  //   return <Homepage />
-  // } else if (mod === "welcome-message") {
-  //   return <WelcomeMessage />
-  // } else if (mod === "footer") {
-  //   return <Footer />
-  // }
+  else if (mod === "profile") {
+    return <ProfileContentPage subModule={sub}/>
+  }
 }
 
 export default ContentPage

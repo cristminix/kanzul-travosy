@@ -19,7 +19,7 @@ const BannerEditor = ({ showLoading, schema, uiSchema, page, model, trigger }) =
 		await model.commit(true)
 		showLoading(false)
 		showForm(false)
-		loadBannerData
+		loadBannerData()
 	}
 	useEffect(() => {
 		loadBannerData()

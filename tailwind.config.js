@@ -2,7 +2,7 @@
 export default {
   prefix: 'twx-', 
   corePlugins: {
-    preflight: false,
+    // preflight: false,  
   },
   // important: '#root',
   content: [

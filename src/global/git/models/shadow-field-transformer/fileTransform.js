@@ -1,4 +1,4 @@
-import {getFileInfo} from "@/global/fn/getFileInfo"
+import { getFileInfo } from "@/global/fn/getFileInfo"
 
 export const fileTransform = {
 	async transformOnLoad(oValue, oRow, self) {
@@ -7,9 +7,9 @@ export const fileTransform = {
 	},
 	async transformOnSave(oValue, oRow, self) {
 		let fileInfo
-		try{ 
+		try {
 			fileInfo = getFileInfo(oValue, true)
-		}catch(e){
+		} catch (e) {
 			console.log(`fileTransform error: getFileInfo failed`)
 			return null
 		}
@@ -20,8 +20,8 @@ export const fileTransform = {
 		const newGitPath = `${self.imageUploadPath}/${fileInfo.name}`
 		const newPath = `/${newGitPath}`
 
-		if(fileInfo.name === 'DEFAULT_DATA_URL_FILENAME'){
-			return oldPath?oldPath:null
+		if (fileInfo.name === "DEFAULT_DATA_URL_FILENAME") {
+			return oldPath ? oldPath : null
 		}
 		console.log({ oldPath, newPath, newGitPath })
 		if (oldPath !== newPath) {
@@ -39,16 +39,19 @@ export const fileTransform = {
 			} catch (e) {
 				console.log(`lfs: cant writeFile ${newFsPath}`, e)
 			}
+			const deleteOldFile = false
 
-			console.log(`Do delete old file ${oldFsPath}`)
-			if(oldPath){
-						try {
-							await self.fs.unlinkSync(oldFsPath)
-							await self.git.remove(oldGitPath)
-							self.commitMessageQueues.push(`Delete ${oldGitPath}`)
-						} catch (e) {
-							console.log(`lfs: cant delete ${oldPath}`, e)
-						}}
+			if (oldPath && deleteOldFile) {
+				console.log(`Do delete old file ${oldFsPath}`)
+
+				try {
+					await self.fs.unlinkSync(oldFsPath)
+					await self.git.remove(oldGitPath)
+					self.commitMessageQueues.push(`Delete ${oldGitPath}`)
+				} catch (e) {
+					console.log(`lfs: cant delete ${oldPath}`, e)
+				}
+			}
 		} else {
 			console.log(`skip oldPath === newPath is true`)
 		}

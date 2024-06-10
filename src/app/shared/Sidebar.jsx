@@ -56,10 +56,10 @@ class Sidebar extends Component {
     })
   }
   contentMenus = [
-    { title: "Company", path: "contents/company" },
+    { title: "Company", path: "contents/company/company" },
     // { title: "Halaman Depan", path: "contents/homepage" },
     // { title: "Edit Meta Halaman", path: "contents/pages" },
-    { title: "Profile", path: "contents/profile" },
+    { title: "Profile", path: "contents/profile/banner" },
     { title: "Lembaga", path: "contents/lembaga" },
     { title: "Kegiatan", path: "contents/kegiatan" },
     { title: "Pendaftaran", path: "contents/pendaftaran/banner" },
