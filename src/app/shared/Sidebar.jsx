@@ -68,6 +68,7 @@ class Sidebar extends Component {
     { title: "Kontak", path: "contents/kontak/banner" },  
     { title: "Template", path: "contents/template/footer" },
     { title: "Daftar File", path: "contents/files" },
+    { title: "Block Editor", path: "contents/block-editor" },
   ]
   render() {
     return (
@@ -123,6 +124,7 @@ class Sidebar extends Component {
               </ul>
             </Collapse>
           </li>
+          {/*
           <li className={this.isPathActive("/basic-ui") ? "nav-item active" : "nav-item"}>
             <div
               className={this.state.basicUiMenuOpen ? "nav-link menu-expanded" : "nav-link"}
@@ -352,6 +354,7 @@ class Sidebar extends Component {
               <i className="mdi mdi-file-document-box menu-icon"></i>
             </a>
           </li>
+          */}
         </ul>
       </nav>
     )

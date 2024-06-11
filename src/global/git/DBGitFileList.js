@@ -21,10 +21,13 @@ class DBGitFileList extends DBGit {
 
   async update(name, row, loadFromCache = false) {
     let oData = await this.getRow(name, loadFromCache)
-    for(const prop of Object.keys(oData)){
-      if(!this.reservedFieldValues.includes(prop))
-        oData[prop]=row[prop]
-    }
+    // for(const prop of Object.keys(oData)){
+    //   if(!this.reservedFieldValues.includes(prop))
+    //     oData[prop]=row[prop]
+    // }
+    oData = {...oData,...row}
+    console.log(oData)
+    await this.commitByRow(oData,true)
   }
 
   async updateRow(row, loadFromCache = false) {
@@ -34,7 +37,7 @@ class DBGitFileList extends DBGit {
     // object item updated
     // console.log(this.data)
 
-    await this.commitByRow(row,true)
+    
   }
   async commitByRow(row,push=false){
     const rowPath = row['@path']

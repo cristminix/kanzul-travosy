@@ -13,6 +13,7 @@ import ProfileContentPage from './ProfileContentPage';
 import KontakContentPage from "./KontakContentPage"
 import GaleryContentPage from "./GaleryContentPage"
 import BeritaContentPage from "./BeritaContentPage"
+import BlockEditorContentPage from "./BlockEditorContentPage"
 export async function loader({ params }) {
   const { mod, sub, pk, fk } = params
   return { mod, sub, pk, fk }
@@ -59,6 +60,9 @@ const ContentPage = ({}) => {
   }
   else if (mod === "berita") {
     return <BeritaContentPage subModule={sub}/>
+  }
+  else if (mod === "block-editor") {
+    return <BlockEditorContentPage subModule={sub}/>
   }
 }
 
