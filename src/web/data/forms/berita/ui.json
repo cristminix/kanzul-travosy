@@ -1,27 +1,29 @@
 {
-  "id": {
-    "ui:description": "Id",
-    "ui:autofocus": true
-  },
+
   "title": {
-    "ui:description": "Title"
+    "ui:autofocus": true
+
   },
   "slug": {
-    "ui:description": "Slug"
   },
   "cover": {
-    "ui:description": "Cover"
+    "ui:options": {
+        "filePreview": true
+      }
   },
   "date": {
-    "ui:description": "Date"
   },
   "headline": {
-    "ui:description": "Headline"
+    "ui:widget": "textarea"
+
+  },
+  "content":{
+    "ui:widget": "textarea"
+
   },
   "tags": {
-    "ui:description": "Tags"
   },
   "readTime": {
-    "ui:description": "ReadTime"
   }
+
 }

@@ -10,7 +10,9 @@ import FilesContentPage from "./FilesContentPage"
 import { useLoaderData } from "react-router-dom"
 import TemplateContentPage from './TemplateContentPage';
 import ProfileContentPage from './ProfileContentPage';
-
+import KontakContentPage from "./KontakContentPage"
+import GaleryContentPage from "./GaleryContentPage"
+import BeritaContentPage from "./BeritaContentPage"
 export async function loader({ params }) {
   const { mod, sub, pk, fk } = params
   return { mod, sub, pk, fk }
@@ -48,6 +50,15 @@ const ContentPage = ({}) => {
   }  
   else if (mod === "profile") {
     return <ProfileContentPage subModule={sub}/>
+  }
+  else if (mod === "kontak") {
+    return <KontakContentPage subModule={sub}/>
+  }
+  else if (mod === "galery") {
+    return <GaleryContentPage subModule={sub}/>
+  }
+  else if (mod === "berita") {
+    return <BeritaContentPage subModule={sub}/>
   }
 }
 

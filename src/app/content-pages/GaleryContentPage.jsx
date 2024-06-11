@@ -15,19 +15,26 @@ import { ROUTER_BASE } from "@/config.json"
 import bannerSchema from "@/web/data/forms/banner/schema.json"
 import bannerUiSchema from "@/web/data/forms/banner/ui.json"
 
- 
+import companySchema from "@/web/data/forms/company/schema.json"
+import companyUiSchema from "@/web/data/forms/company/ui.json"
 
-import kegiatanSchema from "@/web/data/forms/kegiatan/schema.json"
-import kegiatanUiSchema from "@/web/data/forms/kegiatan/ui.json"
+import contactPersonSchema from "@/web/data/forms/contact-person/schema.json"
+import contactPersonUiSchema from "@/web/data/forms/contact-person/ui.json"
+
+import shortGalerySchema from "@/web/data/forms/profile/short/schema.json"
+import shortGaleryUiSchema from "@/web/data/forms/profile/short/ui.json"
+
+import galerySchema from "@/web/data/forms/galery/schema.json"
+import galeryUiSchema from "@/web/data/forms/galery/ui.json"
 
 import metaSchema from "@/web/data/forms/pages/schema.json"
 import metaUiSchema from "@/web/data/forms/pages/ui.json"
 
-import KegiatanList from "./components/KegiatanList"
-import MKegiatan from "@/global/git/models/MKegiatan"
+import GaleryList from "./components/GaleryList"
+import MGalery from "@/global/git/models/MGalery"
 
-import MMetaKegiatan from "@/global/git/models/m-meta/MMetaKegiatan"
-import MKegiatanBanner from "@/global/git/models/m-banner/MKegiatanBanner"
+import MMetaGalery from "@/global/git/models/m-meta/MMetaGalery"
+import MGaleryBanner from "@/global/git/models/m-banner/MGaleryBanner"
 
 
 import JsonForm from "./JsonForm"
@@ -37,20 +44,20 @@ import { crc32id } from "@/global/fn/crc32id"
 import BannerEditor from "./components/BannerEditor"
 
 const git = createGit()
-const mKegiatan = new MKegiatan(git, kegiatanSchema)
-const mKegiatanBanner = new MKegiatanBanner(git, bannerSchema)
-const mMetaKegiatan = new MMetaKegiatan(git, metaSchema)
+const mGalery = new MGalery(git, galerySchema)
+const mGaleryBanner = new MGaleryBanner(git, bannerSchema)
+const mMetaGalery = new MMetaGalery(git, metaSchema)
 
-const pageTitle = "Konten Kegiatan"
+const pageTitle = "Konten Galery"
 const breadcrumbs = [
   { title: "Konten", path: "contents" },
-  { title: "Kegiatan", path: "content/kegiatan" },
+  { title: "Galery", path: "content/galery" },
 ] 
 
-const routePath = "/contents/kegiatan"
+const routePath = "/contents/galery"
 
 
-const KegiatanContentPage = ({ subModule }) => {
+const GaleryContentPage = ({ subModule }) => {
   const location = useLocation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -74,39 +81,39 @@ const KegiatanContentPage = ({ subModule }) => {
   }
 
   
-  const [kegiatanListData, setKegiatanListData] = useState([])
-  const [kegiatanFormData, setKegiatanFormData] = useState(null)
-  const [formKegiatanShown, showFormKegiatan] = useState(false)
+  const [galeryListData, setGaleryListData] = useState([])
+  const [galeryFormData, setGaleryFormData] = useState(null)
+  const [formGaleryShown, showFormGalery] = useState(false)
 
-  const loadKegiatanListData = async () => {
-    const data = await mKegiatan.getData()
-    setKegiatanListData(data)
+  const loadGaleryListData = async () => {
+    const data = await mGalery.getData()
+    setGaleryListData(data)
   }
-  const showEditFormKegiatan = async (row) => {
+  const showEditFormGalery = async (row) => {
     // const formData =
-    setKegiatanFormData(row)
-    showFormKegiatan(true)
+    setGaleryFormData(row)
+    showFormGalery(true)
   }
-  const onSaveFormKegiatan = async (e) => {
+  const onSaveFormGalery = async (e) => {
     const { formData } = e
     showLoading(true)
     try {
-      await mKegiatan.updateRow(formData, true)
+      await mGalery.updateRow(formData, true)
     } catch (e) {
       dispatch(displayAlert(["danger","error",e.toString()]))
 
     }
 
     showLoading(false)
-    showFormKegiatan(false)
-    loadKegiatanListData()
+    showFormGalery(false)
+    loadGaleryListData()
   }
 
-  const [metaFormData, setMetaFormData] = useState(mMetaKegiatan.defaultValue)
+  const [metaFormData, setMetaFormData] = useState(mMetaGalery.defaultValue)
   const [formMetaShown, showFormMeta] = useState(false)
 
   const loadMetaData = async () => {
-    const data = await mMetaKegiatan.get()
+    const data = await mMetaGalery.get()
     // console.log(data)
     setMetaFormData(data)
   }
@@ -118,8 +125,8 @@ const KegiatanContentPage = ({ subModule }) => {
     const { formData } = e
     showLoading(true)
     try {
-      await mMetaKegiatan.update(formData)
-      await mMetaKegiatan.commit(true)
+      await mMetaGalery.update(formData)
+      await mMetaGalery.commit(true)
     } catch (e) {
       dispatch(displayAlert(["danger","error",e.toString()]))
     }
@@ -134,8 +141,8 @@ const KegiatanContentPage = ({ subModule }) => {
     const tabName = pathnames.at(-1)
     setTabKey(tabName)
 
-    if (tabName === "kegiatan") {
-      loadKegiatanListData()
+    if (tabName === "galery") {
+      loadGaleryListData()
     } 
      
     else if (tabName === "meta") {
@@ -144,7 +151,7 @@ const KegiatanContentPage = ({ subModule }) => {
     setTrigger(crc32id())
       
     }
-  }, [location.key, setTabKey,setKegiatanFormData,setMetaFormData])
+  }, [location.key, setTabKey,setGaleryFormData,setMetaFormData])
   return (
     <MainContentLayout
       pageTitle={pageTitle}
@@ -159,35 +166,35 @@ const KegiatanContentPage = ({ subModule }) => {
                   <BannerEditor
                     showLoading={showLoading}
                     page="profile"
-                    model={mKegiatanBanner}
+                    model={mGaleryBanner}
                     trigger={trigger}
                     schema={bannerSchema}
                     uiSchema={bannerUiSchema}
                   />
                 )}
               </Tab>
-              <Tab eventKey="kegiatan" title="Kegiatan">
-                {tabKey === "kegiatan" && (
+              <Tab eventKey="galery" title="Galery">
+                {tabKey === "galery" && (
                   <>
-                    {!formKegiatanShown ? (
+                    {!formGaleryShown ? (
                       <>
-                        <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Daftar Kegiatan</h4>
-                        <KegiatanList
+                        <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Daftar Galery</h4>
+                        <GaleryList
                           git={git}
                           className="twx-border twx-border-slate-200 twx-border-solid"
-                          data={kegiatanListData}
-                          onEditRow={(row) => showEditFormKegiatan(row, "utama")}
+                          data={galeryListData}
+                          onEditRow={(row) => showEditFormGalery(row, "utama")}
                         />
                       </>
                     ) : (
                       <>
                         <JsonForm
-                          title={`Edit Item Kegiatan`}
-                          formData={kegiatanFormData}
-                          schema={kegiatanSchema}
-                          uiSchema={kegiatanUiSchema}
-                          onSubmit={(e) => onSaveFormKegiatan(e, "utama")}
-                          onCancel={(e) => showFormKegiatan(false)}
+                          title={`Edit Item Galery`}
+                          formData={galeryFormData}
+                          schema={galerySchema}
+                          uiSchema={galeryUiSchema}
+                          onSubmit={(e) => onSaveFormGalery(e)}
+                          onCancel={(e) => showFormGalery(false)}
                         />
                       </>
                     )}
@@ -229,4 +236,4 @@ const KegiatanContentPage = ({ subModule }) => {
   )
 }
 
-export default KegiatanContentPage
+export default GaleryContentPage

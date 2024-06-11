@@ -15,19 +15,26 @@ import { ROUTER_BASE } from "@/config.json"
 import bannerSchema from "@/web/data/forms/banner/schema.json"
 import bannerUiSchema from "@/web/data/forms/banner/ui.json"
 
- 
+import companySchema from "@/web/data/forms/company/schema.json"
+import companyUiSchema from "@/web/data/forms/company/ui.json"
 
-import kegiatanSchema from "@/web/data/forms/kegiatan/schema.json"
-import kegiatanUiSchema from "@/web/data/forms/kegiatan/ui.json"
+import contactPersonSchema from "@/web/data/forms/contact-person/schema.json"
+import contactPersonUiSchema from "@/web/data/forms/contact-person/ui.json"
+
+import shortBeritaSchema from "@/web/data/forms/profile/short/schema.json"
+import shortBeritaUiSchema from "@/web/data/forms/profile/short/ui.json"
+
+import beritaSchema from "@/web/data/forms/berita/schema.json"
+import beritaUiSchema from "@/web/data/forms/berita/ui.json"
 
 import metaSchema from "@/web/data/forms/pages/schema.json"
 import metaUiSchema from "@/web/data/forms/pages/ui.json"
 
-import KegiatanList from "./components/KegiatanList"
-import MKegiatan from "@/global/git/models/MKegiatan"
+import BeritaList from "./components/BeritaList"
+import MBerita from "@/global/git/models/MBerita"
 
-import MMetaKegiatan from "@/global/git/models/m-meta/MMetaKegiatan"
-import MKegiatanBanner from "@/global/git/models/m-banner/MKegiatanBanner"
+import MMetaBerita from "@/global/git/models/m-meta/MMetaBerita"
+import MBeritaBanner from "@/global/git/models/m-banner/MBeritaBanner"
 
 
 import JsonForm from "./JsonForm"
@@ -37,20 +44,20 @@ import { crc32id } from "@/global/fn/crc32id"
 import BannerEditor from "./components/BannerEditor"
 
 const git = createGit()
-const mKegiatan = new MKegiatan(git, kegiatanSchema)
-const mKegiatanBanner = new MKegiatanBanner(git, bannerSchema)
-const mMetaKegiatan = new MMetaKegiatan(git, metaSchema)
+const mBerita = new MBerita(git, beritaSchema)
+const mBeritaBanner = new MBeritaBanner(git, bannerSchema)
+const mMetaBerita = new MMetaBerita(git, metaSchema)
 
-const pageTitle = "Konten Kegiatan"
+const pageTitle = "Konten Berita"
 const breadcrumbs = [
   { title: "Konten", path: "contents" },
-  { title: "Kegiatan", path: "content/kegiatan" },
+  { title: "Berita", path: "content/berita" },
 ] 
 
-const routePath = "/contents/kegiatan"
+const routePath = "/contents/berita"
 
 
-const KegiatanContentPage = ({ subModule }) => {
+const BeritaContentPage = ({ subModule }) => {
   const location = useLocation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -74,39 +81,39 @@ const KegiatanContentPage = ({ subModule }) => {
   }
 
   
-  const [kegiatanListData, setKegiatanListData] = useState([])
-  const [kegiatanFormData, setKegiatanFormData] = useState(null)
-  const [formKegiatanShown, showFormKegiatan] = useState(false)
+  const [beritaListData, setBeritaListData] = useState([])
+  const [beritaFormData, setBeritaFormData] = useState(null)
+  const [formBeritaShown, showFormBerita] = useState(false)
 
-  const loadKegiatanListData = async () => {
-    const data = await mKegiatan.getData()
-    setKegiatanListData(data)
+  const loadBeritaListData = async () => {
+    const data = await mBerita.getData()
+    setBeritaListData(data)
   }
-  const showEditFormKegiatan = async (row) => {
+  const showEditFormBerita = async (row) => {
     // const formData =
-    setKegiatanFormData(row)
-    showFormKegiatan(true)
+    setBeritaFormData(row)
+    showFormBerita(true)
   }
-  const onSaveFormKegiatan = async (e) => {
+  const onSaveFormBerita = async (e) => {
     const { formData } = e
     showLoading(true)
     try {
-      await mKegiatan.updateRow(formData, true)
+      await mBerita.updateRow(formData, true)
     } catch (e) {
       dispatch(displayAlert(["danger","error",e.toString()]))
 
     }
 
     showLoading(false)
-    showFormKegiatan(false)
-    loadKegiatanListData()
+    showFormBerita(false)
+    loadBeritaListData()
   }
 
-  const [metaFormData, setMetaFormData] = useState(mMetaKegiatan.defaultValue)
+  const [metaFormData, setMetaFormData] = useState(mMetaBerita.defaultValue)
   const [formMetaShown, showFormMeta] = useState(false)
 
   const loadMetaData = async () => {
-    const data = await mMetaKegiatan.get()
+    const data = await mMetaBerita.get()
     // console.log(data)
     setMetaFormData(data)
   }
@@ -118,8 +125,8 @@ const KegiatanContentPage = ({ subModule }) => {
     const { formData } = e
     showLoading(true)
     try {
-      await mMetaKegiatan.update(formData)
-      await mMetaKegiatan.commit(true)
+      await mMetaBerita.update(formData)
+      await mMetaBerita.commit(true)
     } catch (e) {
       dispatch(displayAlert(["danger","error",e.toString()]))
     }
@@ -134,8 +141,8 @@ const KegiatanContentPage = ({ subModule }) => {
     const tabName = pathnames.at(-1)
     setTabKey(tabName)
 
-    if (tabName === "kegiatan") {
-      loadKegiatanListData()
+    if (tabName === "berita") {
+      loadBeritaListData()
     } 
      
     else if (tabName === "meta") {
@@ -144,7 +151,7 @@ const KegiatanContentPage = ({ subModule }) => {
     setTrigger(crc32id())
       
     }
-  }, [location.key, setTabKey,setKegiatanFormData,setMetaFormData])
+  }, [location.key, setTabKey,setBeritaFormData,setMetaFormData])
   return (
     <MainContentLayout
       pageTitle={pageTitle}
@@ -159,35 +166,35 @@ const KegiatanContentPage = ({ subModule }) => {
                   <BannerEditor
                     showLoading={showLoading}
                     page="profile"
-                    model={mKegiatanBanner}
+                    model={mBeritaBanner}
                     trigger={trigger}
                     schema={bannerSchema}
                     uiSchema={bannerUiSchema}
                   />
                 )}
               </Tab>
-              <Tab eventKey="kegiatan" title="Kegiatan">
-                {tabKey === "kegiatan" && (
+              <Tab eventKey="berita" title="Berita">
+                {tabKey === "berita" && (
                   <>
-                    {!formKegiatanShown ? (
+                    {!formBeritaShown ? (
                       <>
-                        <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Daftar Kegiatan</h4>
-                        <KegiatanList
+                        <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Daftar Berita</h4>
+                        <BeritaList
                           git={git}
                           className="twx-border twx-border-slate-200 twx-border-solid"
-                          data={kegiatanListData}
-                          onEditRow={(row) => showEditFormKegiatan(row, "utama")}
+                          data={beritaListData}
+                          onEditRow={(row) => showEditFormBerita(row, "utama")}
                         />
                       </>
                     ) : (
                       <>
                         <JsonForm
-                          title={`Edit Item Kegiatan`}
-                          formData={kegiatanFormData}
-                          schema={kegiatanSchema}
-                          uiSchema={kegiatanUiSchema}
-                          onSubmit={(e) => onSaveFormKegiatan(e, "utama")}
-                          onCancel={(e) => showFormKegiatan(false)}
+                          title={`Edit Item Berita`}
+                          formData={beritaFormData}
+                          schema={beritaSchema}
+                          uiSchema={beritaUiSchema}
+                          onSubmit={(e) => onSaveFormBerita(e)}
+                          onCancel={(e) => showFormBerita(false)}
                         />
                       </>
                     )}
@@ -229,4 +236,4 @@ const KegiatanContentPage = ({ subModule }) => {
   )
 }
 
-export default KegiatanContentPage
+export default BeritaContentPage

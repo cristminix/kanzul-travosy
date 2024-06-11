@@ -1,49 +1,47 @@
 {
-  "title": "berita Form",
-  "description": "Form untuk data berita",
   "type": "object",
   "required": [
-    "id",
     "title",
     "slug",
     "cover",
     "date",
     "headline",
-    "tags",
-    "readTime"
+    "content"
   ],
   "properties": {
-    "id": {
-      "title": "berita",
-      "type": "string"
-    },
+  
     "title": {
-      "title": "berita",
+      "title": "Title",
       "type": "string"
     },
     "slug": {
-      "title": "berita",
+      "title": "Slug",
       "type": "string"
     },
     "cover": {
-      "title": "berita",
-      "type": "string"
+      "title": "Cover Image",
+      "type": "string",
+        "format": "data-url"
     },
     "date": {
-      "title": "berita",
+      "title": "Date",
       "type": "string"
     },
     "headline": {
-      "title": "berita",
+      "title": "Headline",
+      "type": "string"
+    },
+    "content": {
+      "title": "Content",
       "type": "string"
     },
     "tags": {
-      "title": "berita",
+      "title": "Tags",
       "type": "string"
     },
     "readTime": {
-      "title": "berita",
-      "type": "string"
+      "title": "Read Time",
+      "type": "number"
     }
   }
 }

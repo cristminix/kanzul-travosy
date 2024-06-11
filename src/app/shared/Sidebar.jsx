@@ -56,15 +56,16 @@ class Sidebar extends Component {
     })
   }
   contentMenus = [
-    { title: "Company", path: "contents/company/company" },
+    // { title: "Company", path: "contents/company/company" },
     // { title: "Halaman Depan", path: "contents/homepage" },
     // { title: "Edit Meta Halaman", path: "contents/pages" },
     { title: "Profile", path: "contents/profile/banner" },
-    { title: "Lembaga", path: "contents/lembaga" },
-    { title: "Kegiatan", path: "contents/kegiatan" },
+    { title: "Lembaga", path: "contents/lembaga/banner" },
+    { title: "Kegiatan", path: "contents/kegiatan/banner" },
     { title: "Pendaftaran", path: "contents/pendaftaran/banner" },
-    { title: "Galeri", path: "contents/galery" },
-    { title: "Berita", path: "contents/berita" },
+    { title: "Galeri", path: "contents/galery/banner" },
+    { title: "Berita", path: "contents/berita/banner" },
+    { title: "Kontak", path: "contents/kontak/banner" },  
     { title: "Template", path: "contents/template/footer" },
     { title: "Daftar File", path: "contents/files" },
   ]
