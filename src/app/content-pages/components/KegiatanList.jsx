@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap"
 import { Edit as IconEdit } from "react-feather"
 
 
-const KegiatanList = ({git, className,pages, onEditRow = (f) => f }) => {
+const KegiatanList = ({git, className,data, onEditRow = (f) => f }) => {
 	const columns = [
 		{
 			name: "No",
@@ -56,7 +56,7 @@ const KegiatanList = ({git, className,pages, onEditRow = (f) => f }) => {
 		<div className={className}>
 			<DataTable
 				columns={columnDef}
-				data={pages}
+				data={data}
 				striped={true}
 				pagination={true}
 				fixedHeader={true}

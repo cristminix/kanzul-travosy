@@ -1,181 +1,157 @@
 import contentSlice from "@/global/store/features/contentSlice"
 import settingSlice from "@/global/store/features/settingSlice"
 
-import Spinner from "@/app/shared/Spinner"
-import SweetAlert from "react-bootstrap-sweetalert"
 
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
 import MainContentLayout from "./MainContentLayout"
-import { Button } from "react-bootstrap"
+import { Button, Tabs, Tab } from "react-bootstrap"
 
 import { createGit } from "@/global/git"
-import { useLocation } from "react-router-dom"
-const git = createGit()
+import { useLocation, Link, useNavigate } from "react-router-dom"
+import { ROUTER_BASE } from "@/config.json"
 
-// git.cleanup()
-/*-------------------EP--------------------------*/
+// form related
+import bannerSchema from "@/web/data/forms/banner/schema.json"
+import bannerUiSchema from "@/web/data/forms/banner/ui.json"
+
+import companySchema from "@/web/data/forms/company/schema.json"
+import companyUiSchema from "@/web/data/forms/company/ui.json"
+
+import contactPersonSchema from "@/web/data/forms/contact-person/schema.json"
+import contactPersonUiSchema from "@/web/data/forms/contact-person/ui.json"
+
+import shortLembagaSchema from "@/web/data/forms/profile/short/schema.json"
+import shortLembagaUiSchema from "@/web/data/forms/profile/short/ui.json"
+
+import lembagaSchema from "@/web/data/forms/lembaga/schema.json"
+import lembagaUiSchema from "@/web/data/forms/lembaga/ui.json"
+
+import metaSchema from "@/web/data/forms/pages/schema.json"
+import metaUiSchema from "@/web/data/forms/pages/ui.json"
+
 import LembagaList from "./components/LembagaList"
 import MLembaga from "@/global/git/models/MLembaga"
 
+import MMetaLembaga from "@/global/git/models/m-meta/MMetaLembaga"
+import MLembagaBanner from "@/global/git/models/m-banner/MLembagaBanner"
+
+
 import JsonForm from "./JsonForm"
-import formSchema from "@/web/data/forms/lembaga/schema.json"
-import uiSchema from "@/web/data/forms/lembaga/ui.json"
+import RowDataDisplay from "./RowDataDisplay"
+import { crc32id } from "@/global/fn/crc32id"
 
-const mLembaga = new MLembaga(git, formSchema)
-/*
-const setThumbnailFile = async (target) => {
-    const file64 = await getFile64(target.files[0])
-    const [file] = target.files
-    setThumbnail(file.name)
-    const fileType = file.type.split("/")[0]
-    if (fileType === "image") {
-      setThumbnailValid(true)
-      setThumbnailUrl(file64)
-      const newValidationErrors = { ...validationErrors }
-      delete newValidationErrors.thumbnail
-      setValidationErrors(newValidationErrors)
-    } else {
-      alert("Only image file is allowed")
-      thumbnailRef.current.value = ""
-    }
-  }
-*/
-/*-------------------EP--------------------------*/
+import BannerEditor from "./components/BannerEditor"
 
-const LembagaContentPage = ({}) => {
+const git = createGit()
+const mLembaga = new MLembaga(git, lembagaSchema)
+const mLembagaBanner = new MLembagaBanner(git, bannerSchema)
+const mMetaLembaga = new MMetaLembaga(git, metaSchema)
+
+const pageTitle = "Konten Lembaga"
+const breadcrumbs = [
+  { title: "Konten", path: "contents" },
+  { title: "Lembaga", path: "content/lembaga" },
+] 
+
+const routePath = "/contents/lembaga"
+
+
+const LembagaContentPage = ({ subModule }) => {
   const location = useLocation()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const contentState = useSelector((state) => state.content)
   const settingState = useSelector((state) => state.setting)
-  const { setLoading, setLoadingMessage } = contentSlice.actions
-  const { setHideGitNotReadyMessage } = settingSlice.actions
+  const { setLoading, setLoadingMessage,displayAlert } = contentSlice.actions
 
-  const [formData, setFormData] = useState(mLembaga.defaultValue)
-  const [formShown, showForm] = useState(false)
+  const [tabKey, setTabKey] = useState("banner")
+  const [trigger, setTrigger] = useState(false)
 
-  const pageTitle = "Edit Lembaga"
-  const breadcrumbs = [
-    { title: "Konten", path: "contents" },
-    { title: "Lembaga", path: "content/lembaga" },
-  ]
-  const [alert, setAlert] = useState(null)
-
-  /*-----------------------------------------------------------*/
-  const [pages, setPages] = useState([])
-  /*-----------------------------------------------------------*/
-
-  const hideAlert = () => setAlert(null)
-  const createAlert = () => {
-    setAlert(
-      <SweetAlert
-        showCancel
-        confirmBtnText="Continue"
-        confirmBtnBsStyle="success"
-        type="primary"
-        title="Are you sure?"
-        onCancel={hideAlert}
-        onConfirm={hideAlert}>
-        You will not be able to recover this imaginary file!
-      </SweetAlert>,
-    )
-  }
-
-  /*
-  not used
-  const loadFormData = async () => {
-    // await git.cleanup()
-    dispatch(setLoading(true))
-    // await git.init()
-    const companyData = await mCompay.get()
-    dispatch(setLoading(false))
-    console.log(companyData)
-    setCompany(companyData)
-  }*/
-
-  const displayAlertGitNotReady = () =>
-    setAlert(
-      <SweetAlert
-        showCancel
-        confirmBtnText="Ya, Unduh sekarang!"
-        cancelBtnText="Nanti saja"
-        confirmBtnBsStyle="success"
-        type="primary"
-        title="Unduh Git Repository ?"
-        onCancel={(e) => {
-          dispatch(setHideGitNotReadyMessage(true))
-          // do nothing
-          // setCompany(defaultCompany)
-
-          hideAlert()
-        }}
-        onConfirm={async (e) => {
-          hideAlert()
-          dispatch(setLoading(true))
-          await git.init()
-          dispatch(setLoading(false))
-          updateList()
-        }}>
-        Database repository Anda masih kosong, Anda perlu mengunduhnya sekarang, proses ini mungkin memerlukan waktu
-        beberapa detik bergantung pada koneksi Internet Anda saat ini.
-      </SweetAlert>,
-    )
-
-  const onSaveForm = async (formEvent) => {
-    const { formData } = formEvent
-    dispatch(setLoading(true))
-    dispatch(setLoadingMessage("Menyimpan Data"))
-
-    console.log("implement DBGitFileList.update")
-    await mLembaga.updateRow(formData, true)
-    // await mCompay.commit(true)
-
-    // console.log(formEvent)
-    dispatch(setLoading(false))
-    showForm(false)
-
-    console.log("Back to list")
-    await updateList()
-    // loadFormData()
-  }
-
-  const updateList = async () => {
-    const listData = await mLembaga.getData()
-    setPages((oPages) => listData)
-    console.log(listData)
-  }
-  const prepareUpdateList = async () => {
-    git.setOnCloneProgressHandler(dispatch, setLoading, setLoadingMessage)
-    const isCloned = await git.isCloned()
-    // console.log(isCloned)
-    if (!isCloned) {
-      if (!settingState.hideGitNotReadyMessage) {
-        displayAlertGitNotReady()
-        // setCompany(defaultCompany)
-        console.log("SET DEFAULT LIST DATA")
-      }
+  const showLoading = (status, message = "Menyimpan Data") => {
+    if (status) {
+      dispatch(setLoading(true))
+      dispatch(setLoadingMessage(message))
     } else {
-      // loadFormData()
-      console.log("SET LIST DATA")
-      updateList()
+      dispatch(setLoading(false))
     }
   }
-
-  const showEditForm = (row) => {
-    // console.log(row)
-    setFormData((oFormData) => ({ ...oFormData, ...row }))
-    showForm(true)
+  const onSelectTab = (tabKey) => {
+    navigate(`${routePath}/${tabKey}`)
   }
-  useEffect(() => {
-    // prepareUpdateList()
-    // performGit()
-  }, [])
-  useEffect(() => {
-    // console.log(location.pathname)
-    
-    prepareUpdateList()
 
-  }, [location.key])
+  
+  const [lembagaListData, setLembagaListData] = useState([])
+  const [lembagaFormData, setLembagaFormData] = useState(null)
+  const [formLembagaShown, showFormLembaga] = useState(false)
+
+  const loadLembagaListData = async () => {
+    const data = await mLembaga.getData()
+    setLembagaListData(data)
+  }
+  const showEditFormLembaga = async (row) => {
+    // const formData =
+    setLembagaFormData(row)
+    showFormLembaga(true)
+  }
+  const onSaveFormLembaga = async (e) => {
+    const { formData } = e
+    showLoading(true)
+    try {
+      await mLembaga.updateRow(formData, true)
+    } catch (e) {
+      dispatch(displayAlert(["danger","error",e.toString()]))
+
+    }
+
+    showLoading(false)
+    showFormLembaga(false)
+    loadLembagaListData()
+  }
+
+  const [metaFormData, setMetaFormData] = useState(mMetaLembaga.defaultValue)
+  const [formMetaShown, showFormMeta] = useState(false)
+
+  const loadMetaData = async () => {
+    const data = await mMetaLembaga.get()
+    // console.log(data)
+    setMetaFormData(data)
+  }
+  const showEditFormMeta = () => {
+    // setMetaFormData(row)
+    showFormMeta(true)
+  }
+  const onSaveFormMeta = async (e) => {
+    const { formData } = e
+    showLoading(true)
+    try {
+      await mMetaLembaga.update(formData)
+      await mMetaLembaga.commit(true)
+    } catch (e) {
+      dispatch(displayAlert(["danger","error",e.toString()]))
+    }
+
+    showLoading(false)
+    showFormMeta(false)
+    loadMetaData()
+  }
+
+  useEffect(() => {
+    const pathnames = location.pathname.split("/")
+    const tabName = pathnames.at(-1)
+    setTabKey(tabName)
+
+    if (tabName === "lembaga") {
+      loadLembagaListData()
+    } 
+     
+    else if (tabName === "meta") {
+      loadMetaData()
+    } else if(tabName === "banner"){
+    setTrigger(crc32id())
+      
+    }
+  }, [location.key, setTabKey,setLembagaFormData,setMetaFormData])
   return (
     <MainContentLayout
       pageTitle={pageTitle}
@@ -184,38 +160,75 @@ const LembagaContentPage = ({}) => {
       <div className="col-12 grid-margin stretch-card">
         <div className="card">
           <div className="card-body">
-            {alert}
-            {formShown ? (
-              <>
-                <JsonForm
-                  title={`Edit Page Data for ${formData.name}`}
-                  formData={formData}
-                  schema={formSchema}
-                  uiSchema={uiSchema}
-                  onSubmit={(e) => onSaveForm(e)}
-                  onCancel={(e) => showForm(false)}
-                />
-              </>
-            ) : (
-              <>
-                <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Daftar Lembaga</h4>
-                <LembagaList
-                  git={git}
-                  className="twx-border twx-border-slate-200 twx-border-solid"
-                  pages={pages}
-                  onEditRow={(row) => showEditForm(row)}
-                />
-
-                {/*<CompanyDisplay company={company} schema={formSchema} />*/}
-              </>
-            )}
-          </div>
-          <div className="card-body twx-flex twx-justify-end">
-            {!formShown ? (
-              <>
-                {/*<Button size="sm" onClick={(e) => showEditForm()}><i className="mdi mdi-pencil-box-outline"/> Ubah</Button>*/}
-              </>
-            ) : null}
+            <Tabs id="content-profile-tab" activeKey={tabKey} onSelect={(k) => onSelectTab(k)}>
+            <Tab eventKey="banner" title="Banner">
+                {tabKey === "banner" && (
+                  <BannerEditor
+                    showLoading={showLoading}
+                    page="profile"
+                    model={mLembagaBanner}
+                    trigger={trigger}
+                    schema={bannerSchema}
+                    uiSchema={bannerUiSchema}
+                  />
+                )}
+              </Tab>
+              <Tab eventKey="lembaga" title="Lembaga">
+                {tabKey === "lembaga" && (
+                  <>
+                    {!formLembagaShown ? (
+                      <>
+                        <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Daftar Lembaga</h4>
+                        <LembagaList
+                          git={git}
+                          className="twx-border twx-border-slate-200 twx-border-solid"
+                          data={lembagaListData}
+                          onEditRow={(row) => showEditFormLembaga(row, "utama")}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <JsonForm
+                          title={`Edit Item Lembaga`}
+                          formData={lembagaFormData}
+                          schema={lembagaSchema}
+                          uiSchema={lembagaUiSchema}
+                          onSubmit={(e) => onSaveFormLembaga(e, "utama")}
+                          onCancel={(e) => showFormLembaga(false)}
+                        />
+                      </>
+                    )}
+                  </>
+                )}
+              </Tab>
+              <Tab eventKey="meta" title="Meta">
+                {tabKey === "meta" && (
+                  <>
+                    {formMetaShown ? (
+                      <>
+                        <JsonForm
+                          title="Edit Meta Page"
+                          formData={metaFormData}
+                          schema={metaSchema}
+                          uiSchema={metaUiSchema}
+                          onSubmit={(e) => onSaveFormMeta(e)}
+                          onCancel={(e) => showFormMeta(false)}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <RowDataDisplay title="Meta Page" schema={metaSchema} rowData={metaFormData} />
+                        <div className="twx-py-4 twx-flex twx-justify-end">
+                          <Button size="sm" onClick={(e) => showEditFormMeta()}>
+                            <i className="mdi mdi-pencil-box-outline" /> Ubah
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </>
+                )}
+              </Tab>
+            </Tabs>
           </div>
         </div>
       </div>

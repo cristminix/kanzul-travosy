@@ -19,7 +19,7 @@ const RowDataDisplay = ({ rowData, title, schema, showImages = [] }) => {
                     )}
                   </>
                 ) : (
-                  <span title={rowData ? rowData[prop]:''}>{rowData && rowData[prop]}</span>
+                  <p className="twx-line-clamp-6" title={rowData ? rowData[prop]:''}>{rowData && rowData[prop]}</p>
                 )}
               </div>
             </div>

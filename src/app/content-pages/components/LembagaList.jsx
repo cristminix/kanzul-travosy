@@ -12,7 +12,7 @@ const AsyncImage=({callback,className})=>{
 	if(source) return <img className={className} src={source}/>
 		return 'loading ...'
 }
-const LembagaList = ({git, className,pages, onEditRow = (f) => f }) => {
+const LembagaList = ({git, className,data, onEditRow = (f) => f }) => {
 	const columns = [
 		{
 			name: "No",
@@ -71,7 +71,7 @@ const LembagaList = ({git, className,pages, onEditRow = (f) => f }) => {
 		<div className={className}>
 			<DataTable
 				columns={columnDef}
-				data={pages}
+				data={data}
 				striped={true}
 				pagination={true}
 				fixedHeader={true}

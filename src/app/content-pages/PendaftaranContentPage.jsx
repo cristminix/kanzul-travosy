@@ -131,7 +131,7 @@ const PendaftaranContentPage = ({ subModule }) => {
     }
 
     showLoading(false)
-    showFormSyarat(false)
+    showFormBiaya(false)
     loadBiayaListData()
   }
 
