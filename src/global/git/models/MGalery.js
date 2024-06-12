@@ -6,8 +6,8 @@ class MGalery extends DBGitList{
 	dataRootField="contents"	
 	imageUploadPath="assets/images/galery/croped"
 	shadowFields = {
-	    image : fileTransform
-	  }
+    	image : fileTransform
+  	}
 }
 
 export default MGalery

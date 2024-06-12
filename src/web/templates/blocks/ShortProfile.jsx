@@ -1,4 +1,5 @@
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import BlockData from "@/global/components/BlockData"
 
 const ShortProfile = ({className,profile}) => {
     const cls0 = "cls-0 cls-1 container relative"
@@ -31,9 +32,8 @@ const ShortProfile = ({className,profile}) => {
                 <h3 className={`${cls15} font-3xl`}>
                   <span>{shortProfile.title}</span>
                 </h3>
-                {shortProfile.contents.map((text, index) => (
-            <p  className={cls16} key={index}>{text}</p>
-          ))}
+                <BlockData data={shortProfile.contents}/>
+               
                 <a href="/profil/index.html" className={cls17}>
                   {shortProfile.linkText} <i className={cls18}> </i>
                 </a>

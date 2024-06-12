@@ -1,4 +1,5 @@
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import BlockData from "@/global/components/BlockData"
 
 const FullProfile = ({className,profile}) => {
     const cls0 = "cls-0 cls-1 container relative"
@@ -33,10 +34,7 @@ const FullProfile = ({className,profile}) => {
                 <h3 className={`${cls15} font-3xl`}>
                   <span>{fullProfile.title}</span>
                 </h3>
-                {fullProfile.contents.map((text, index) => {
-                  return index < 2 ?<p  className={cls16} key={index}>{text}</p>:null
-                })}
-                
+                <BlockData data={fullProfile.contents} limit={2}/>
               </div>
               
             </div>
@@ -46,9 +44,7 @@ const FullProfile = ({className,profile}) => {
             </div>
           </div>
           <div className=" grid grid-cols-1 items-center relative">
-                {fullProfile.contents.map((text, index) => {
-                  return index > 1 ?<p  className="twx-text-slate-400 twx-mb-6" key={index}>{text}</p>:null
-                })}
+                 <BlockData data={fullProfile.contents} start={2}/>
               <div className={cls19}>
               <img src="/assets/images/map-plane-big.png" alt="" className={cls20} />
             </div>  

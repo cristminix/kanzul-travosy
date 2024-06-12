@@ -76,7 +76,7 @@ export const GitDoctor = ({ logs, task }) => {
 	if(!taskIsRunning) return null
 	return (
 		<div className="twx-p-2 twx-opacity-[.5] twx-w-full twx-flex twx-items-center twx-top-0 twx-text-white twx-absolute">
-			<div className="twx-w-[250px] twx-mx-auto twx-bg-green-700 twx-px-2 twx-rounded-md">
+			<div className="twx-w-[250px] twx-flex twx-mx-auto twx-text-green-700 twx-px-2 twx-rounded-md">
 				{taskIsRunning ? <LoadingDot icons={loadingIcons} message={loadingMessage} /> : <IconCheck />}
 			</div>
 		</div>

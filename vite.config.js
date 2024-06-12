@@ -29,7 +29,7 @@ for(const jsonFile of jsonDataFileList){
     forms_jsonFileList.push(jsonFile)
   }
   else if(jsonFile.match(/\web\/data\/templates/)){
-    forms_jsonFileList.push(jsonFile)
+    templates_jsonFileList.push(jsonFile)
   }else{
     default_jsonFileList.push(jsonFile)
   }
@@ -44,19 +44,14 @@ for(const jsonFile of templates_jsonFileList){
     template_sectionFileList.push(jsonFile)
   }
   else if(jsonFile.match(/\web\/data\/templates\/blocks/)){
-    template_sectionFileList.push(jsonFile)
+    template_blockFileList.push(jsonFile)
   }else{
     template_rootFileList.push(jsonFile)
   }
 }
-/*
-let templateSubDir = []
-for(const jsonFile of templates_jsonFileList){
 
-}
-*/
-// console.log(src)
-// process.exit(0)
+console.log(template_sectionFileList)
+
 export default defineConfig({
   resolve: {
     alias: {
@@ -108,4 +103,7 @@ export default defineConfig({
     //   },
     // }),
   ],
+  build: {
+    commonjsOptions: { transformMixedEsModules: true } // Change
+  }
 })

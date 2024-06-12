@@ -9,6 +9,7 @@
     }
   },
   "contents": {
-    "ui:widget": "textarea"
+    "ui:widget": "block"
+
   }
 }

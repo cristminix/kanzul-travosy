@@ -3,6 +3,8 @@ import {customizeValidator} from "@rjsf/validator-ajv8"
 import { Button } from "react-bootstrap"
 import { Save as IconSave } from "react-feather"
 import CustomFileWidget from './components/CustomFileWidget'
+import CustomBlockWidget from "./components/CustomBlockWidget"
+
 import {useEffect,useState} from "react"
 
 const widgets = {
@@ -10,7 +12,9 @@ const widgets = {
       <CustomFileWidget {...props} ref={ref => {
           this.fileWidget = ref;
       }}/>
-    )
+    ),
+    block: CustomBlockWidget,
+
   }
 
 const validator = customizeValidator({
@@ -29,18 +33,27 @@ const JsonForm = ({
   onError = (f) => f,
 }) => {
 
-const detectFileWidget = ()=>{
-  const fileInfo = document.querySelector('.json-form').querySelector('ul.file-info')
-  // console.log(fileInfo)
+const chekBlockFields=(uiSchema,formData)=>{
+  const fields = Object.keys(uiSchema)
+  const fieldBlocks = []
+  for(const field of fields){
+    const uiSchemaField = uiSchema[field]
+    if(uiSchemaField["ui:widget"]==="block"){
+      fieldBlocks.push(field)
+    }
+  }
+  for(const field of fieldBlocks){
+    formData[field] = JSON.parse(formData[field])
+  }
+} 
+const onSubmitForm = (e)=>{
+  let {formData,uiSchema} = e
+  chekBlockFields(uiSchema,formData)
+  // console.log(e.formData)
+  onSubmit(e)
 }
 
-const rebuildFileWidget= (fileInfo)=>{
-  // replace 
-}
-useEffect(()=>{
-  detectFileWidget()
-},[])
-  // console.log(formData)
+ 
   return (
     <div className="json-form">
       {title ? <h4 className="twx-mb-8 text-center">{title}</h4> : null}
@@ -51,7 +64,7 @@ useEffect(()=>{
         uiSchema={uiSchema}
         validator={validator}
         onChange={onChange}
-        onSubmit={onSubmit}
+        onSubmit={onSubmitForm}
         onError={onError}>
         <div className="twx-flex twx-items-center twx-justify-end">
           <Button variant="default" size="sm" onClick={(e) => onCancel()}>

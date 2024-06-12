@@ -18,7 +18,9 @@
     },
     "image": {
       "title": "Image",
-      "type": "string"
+      "type": "string",
+      "format":"data-url"
+      
     },
     "contents": {
       "title": "Konten",

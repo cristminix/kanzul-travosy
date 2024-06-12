@@ -1,4 +1,6 @@
 import Table from "react-bootstrap/Table"
+import {isBlockData} from "@/global/fn/isBlockData"
+import BlockData from "@/global/components/BlockData"
 
 const RowDataDisplay = ({ rowData, title, schema, showImages = [] }) => {
   return (
@@ -18,9 +20,15 @@ const RowDataDisplay = ({ rowData, title, schema, showImages = [] }) => {
                       </div>
                     )}
                   </>
-                ) : (
-                  <p className="twx-line-clamp-6" title={rowData ? rowData[prop]:''}>{rowData && rowData[prop]}</p>
-                )}
+                ) : (<>
+                  {rowData && <>
+                      {isBlockData(rowData[prop]) ? <BlockData data={rowData[prop]}/>:<>
+                      <p className="twx-line-clamp-6" title={rowData[prop]}>
+                        {rowData[prop]}
+                      </p>
+                      </>}  
+                  </>}
+                </>)}
               </div>
             </div>
           )
