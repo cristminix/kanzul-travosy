@@ -12,7 +12,7 @@ const BeritaTemplate = ({}) => {
   const dispatch = useDispatch()
 
   const beritaState = useSelector((state) => state.berita)
-  console.log(beritaState)
+  // console.log(beritaState)
   useEffect(() => {
   
     dispatch(fetchBerita())

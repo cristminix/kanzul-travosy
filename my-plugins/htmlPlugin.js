@@ -20,7 +20,7 @@ const htmlPlugin =  () => {
          pageProps= await getJson(`src/web/data/pages/${pageName}.json`)
 
         } catch(e){} 
-      console.log(pageProps)
+      // console.log(pageProps)
       let htmlContent = html
       const baseUrl = "https://kanzululum.github.io"
       let url = pageName === "homepage" ? baseUrl:`${baseUrl}/${origPageName}`
@@ -45,8 +45,8 @@ const htmlPlugin =  () => {
         )
       }
 
-      console.log(pageName)
-      console.log(path,filename)
+      // console.log(pageName)
+      // console.log(path,filename)
 
       return htmlContent
     },

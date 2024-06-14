@@ -54,6 +54,14 @@ for(const jsonFile of templates_jsonFileList){
 console.log(template_sectionFileList)
 
 export default defineConfig({
+  css: {
+    preprocessorOptions: {
+      scss: {
+        quietDeps: true
+      }
+    }
+  },
+  
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

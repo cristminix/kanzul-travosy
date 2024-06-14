@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 const BannerCrumb = ({ breadcrumbs, banner }) => {
   const [bgStyle, setBgStyle] = useState({})
   useEffect(() => {
-    console.log(banner)
+    // console.log(banner)
     if (banner.image) {
       setBgStyle((oStyle) => {
         return { backgroundImage: `url('${banner.image}')` }
