@@ -1,10 +1,10 @@
-{ 
-  "banner":{
-    "title":"Lembaga Pondok Pesantren Kanzululum",
-    "image":"/assets/images/banner/galery-banner.jpg"
+{
+  "banner": {
+    "title": "Galeri Pondok Pesantren Kanzululum",
+    "image": "/assets/images/banner/galery-banner.jpg",
+    "id": "bfcfc73c"
   },
-
-  "contents":[
+  "contents": [
     {
       "title": "galery-item-00",
       "description": "Description of item galery-item-00",

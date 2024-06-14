@@ -16,11 +16,16 @@ import welcomeMessageSchema from "@/web/data/forms/welcome-message/schema.json"
 import welcomeMessageUiSchema from "@/web/data/forms/welcome-message/ui.json"
 import MWelcomeMessage from "@/global/git/models/MWelcomeMessage"
 
+import heroSchema from "@/web/data/forms/hero/schema.json"
+import heroUiSchema from "@/web/data/forms/hero/ui.json"
+import MHero from "@/global/git/models/MHero"
+
+
 // Model Related
 import MFooter from "@/global/git/models/MFooter"
 import JsonForm from "./JsonForm"
 import RowDataDisplay from "./RowDataDisplay"
-
+import HeroList from "./components/HeroList"
 //SETUP
 const pageTitle = "Edit Template Data"
 const breadcrumbs = [
@@ -32,6 +37,7 @@ const routePath = "/contents/template"
 const git = createGit()
 const mFooter = new MFooter(git, footerSchema)
 const mWelcomeMessage = new MWelcomeMessage(git, welcomeMessageSchema)
+const mHero = new MHero(git, heroSchema)
 
 const TemplateContentPage = ({}) => {
   const location = useLocation()
@@ -102,6 +108,33 @@ const TemplateContentPage = ({}) => {
     showLoading(false)
     loadWelcomeMessageData()
   }
+  const [heroListData, setHeroListData] = useState([])
+  const [heroFormData, setHeroFormData] = useState(null)
+  const [formHeroShown, showFormHero] = useState(false)
+
+  const loadHeroListData = async () => {
+    const data = await mHero.getData()
+    // console.log(data)
+    setHeroListData(data)
+  }
+  const showEditFormHero = async (row) => {
+    // const formData =
+    setHeroFormData(row)
+    showFormHero(true)
+  }
+  const onSaveFormHero = async (e) => {
+    const { formData } = e
+    showLoading(true)
+    try {
+      await mHero.updateRow(formData, true)
+    } catch (e) {
+      showAlert("danger", "error", e.toString())
+    }
+
+    showLoading(false)
+    showFormHero(false)
+    loadHeroListData()
+  }
   useEffect(() => {
     const pathnames = location.pathname.split("/")
     const tabName = pathnames.at(-1)
@@ -111,8 +144,10 @@ const TemplateContentPage = ({}) => {
       loadFooterData()
     } else if (tabName === "welcome-message") {
       loadWelcomeMessageData()
+    } else if (tabName === "hero") {
+      loadHeroListData()
     }
-  }, [location.key, setTabKey, setFooterFormData, setWelcomeMessageFormData])
+  }, [location.key, setTabKey, setFooterFormData, setWelcomeMessageFormData,setHeroListData])
   return (
     <MainContentLayout
       pageTitle={pageTitle}
@@ -181,6 +216,35 @@ const TemplateContentPage = ({}) => {
                   </>
                 )}
               </Tab>
+              <Tab eventKey="hero" title="Hero">
+                {tabKey === "hero" && (
+                  <>
+                    {!formHeroShown ? (
+                      <>
+                        <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Daftar Hero</h4>
+                        <HeroList
+                          git={git}
+                          className="twx-border twx-border-slate-200 twx-border-solid"
+                          data={heroListData}
+                          onEditRow={(row) => showEditFormHero(row)}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <JsonForm
+                          title={`Edit Item Hero`}
+                          formData={heroFormData}
+                          schema={heroSchema}
+                          uiSchema={heroUiSchema}
+                          onSubmit={(e) => onSaveFormHero(e)}
+                          onCancel={(e) => showFormHero(false)}
+                        />
+                      </>
+                    )}
+                  </>
+                )}
+              </Tab>
+  
             </Tabs>
           </div>
         </div>

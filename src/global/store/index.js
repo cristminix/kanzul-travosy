@@ -5,6 +5,7 @@ import beritaSlice from "./features/beritaSlice"
 import contactPersonSlice from "./features/contactPersonSlice"
 import footerSlice from "./features/footerSlice"
 import galerySlice from "./features/galerySlice"
+import heroSlice from "./features/heroSlice"
 import homepageSlice from "./features/homepageSlice"
 import searchSlice from "./features/searchSlice"
 import socialNetworkLinkSlice from "./features/socialNetworkLinkSlice"
@@ -51,6 +52,7 @@ const rootReducer = combineReducers( {
     contactPerson: contactPersonSlice.reducer,
     footer: footerSlice.reducer,
     galery: galerySlice.reducer,
+    hero: heroSlice.reducer,
     homepage: homepageSlice.reducer,
     search: searchSlice.reducer,
     socialNetworkLink: socialNetworkLinkSlice.reducer,

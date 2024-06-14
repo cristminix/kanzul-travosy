@@ -1,9 +1,12 @@
 {
-  "name": {
+  "title": {
     "ui:autofocus": true
   },
   "description": {
   },
   "image": {
+    "ui:options": {
+        "filePreview": true
+      }
   }
 }

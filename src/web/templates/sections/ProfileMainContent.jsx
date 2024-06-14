@@ -6,10 +6,10 @@ import SectionHeading from "../blocks/SectionHeading"
 // import Counter from "@/global/store/features/counter/Counter"
 
 const ProfileMainContent = ({ profileData }) => {
-  console.log(profileData)
+  // console.log(profileData)
   const breadcrumbs = [
     { title: "Home", path: "/" },
-    { title: "Profile", path: "/profil" },
+    { title: "Profile", path: "/profile" },
   ]
   return (
     <>

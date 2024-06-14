@@ -1,12 +1,20 @@
 {
   "type": "object",
-  "required": [
-    "title",
-    "description",
-    "image",
-    "link"
-  ],
+  "required": ["image", "link", "linkText", "title", "description"],
   "properties": {
+    "image": {
+      "title": "Image",
+      "type": "string",
+      "format": "data-url"
+    },
+    "link": {
+      "title": "Link",
+      "type": "string"
+    },
+    "linkText": {
+      "title": "Link Text",
+      "type": "string"
+    },
     "title": {
       "title": "Title",
       "type": "string"
@@ -14,12 +22,6 @@
     "description": {
       "title": "Keterangan",
       "type": "string"
-    },
-    "image": {
-      "title": "Image",
-      "type": "string",
-      "format":"data-url"
-      
     }
   }
 }

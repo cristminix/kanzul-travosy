@@ -67,10 +67,11 @@ function FileInfoPreview<T = any, S extends StrictRJSFSchema = RJSFSchema, F ext
   const { translateString } = registry;
   const { dataURL, type, name } = fileInfo;
   // console.log(fileInfo)
+  // console.log({ dataURL, type, name })
+  
   if (!dataURL || name === 'DEFAULT_DATA_URL_FILENAME') {
     return null;
   }
-
   // If type is JPEG or PNG then show image preview.
   // Originally, any type of image was supported, but this was changed into a whitelist
   // since SVGs and animated GIFs are also images, which are generally considered a security risk.
@@ -105,6 +106,7 @@ function FilesInfo<T = any, S extends StrictRJSFSchema = RJSFSchema, F extends F
   onRemove: (index: number) => void;
   options: UIOptionsType<T, S, F>;
 }) {
+  // console.log(filesInfo)
   if (filesInfo.length === 0) {
     return null;
   }
@@ -236,7 +238,7 @@ function CustomFileWidget<T = any, S extends StrictRJSFSchema = RJSFSchema, F ex
       console.log(`CustomFileWidget-error: value is not valid data-url`)
     }
     const defaultFiles = [tmpFile]
-    console.log(defaultFiles)
+    // console.log(defaultFiles)
     processFiles(defaultFiles).then((filesInfoEvent) => {
       const newValue = filesInfoEvent.map((fileInfo) => fileInfo.dataURL);
       // console.log(newValue)

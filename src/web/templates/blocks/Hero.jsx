@@ -1,6 +1,7 @@
 import { useEffect } from "react"
+import BlockData from "@/global/components/BlockData"
 
-const Hero = ({}) => {
+const Hero = ({heroData}) => {
   
   const initSwiper=()=>{
     //=========================================//
@@ -107,68 +108,34 @@ const Hero = ({}) => {
       <section id="home" className={cls0}>
         <div className={cls1}>
           <div className={cls2}>
-            <div className={cls3}>
-              <div data-background="/assets/images/homepage-slide/slide-1.jpg" className={cls4}>
+          {heroData&&Array.isArray(heroData)&&heroData.map((item,index)=>{
+            return <div className={cls3} key={index}>
+              <div data-background={item.image} className={cls4}>
                 <div className={cls5}> </div>
                 <div className={cls6}>
                   <div className={cls7}>
                     <div className={cls8}>
                       <img src="/assets/images/map-plane.png" alt="" className={cls9} />
                       <h1 className={cls10}>
-                        Pilihan pendidikan <br /> Yang Tepat{" "}
+                        <BlockData data={item.title}/>
                       </h1>
-                      <p className={cls11}>
-                        {" "}
-                        Merencanakan pendidikan yang berkualitas? Kami akan mengatur pengalaman belajar Anda di pondok
-                        pesantren terbaik dengan fasilitas unggulan dan biaya yang terjangkau!{" "}
-                      </p>
+                      <BlockData  className={cls11} data={item.description}/>
 
                       <div className={cls12}>
-                        <a href="" className={cls13}>
-                          {" "}
-                          Selengkapnya{" "}
+                        <a href={item.link} className={cls13}>
+                          {item.linkText}
                         </a>
                       </div>
                     </div>
-                  </div>{" "}
+                  </div>
                   {/*<!--end grid-->*/}
-                </div>{" "}
+                </div>
                 {/*<!--end container-->*/}
-              </div>{" "}
+              </div>
               {/*<!-- end slide-inner -->*/}
-            </div>{" "}
+            </div>
             {/*<!-- end swiper-slide -->*/}
-            <div className={cls3}>
-              <div data-background="/assets/images/homepage-slide/slide-2.jpg" className={cls4}>
-                <div className={cls5}> </div>
-                <div className={cls6}>
-                  <div className={cls7}>
-                    <div className={cls8}>
-                      <img src="/assets/images/map-plane.png" alt="" className={cls9} />
-                      <h1 className={cls10}>
-                        Temukan <br /> Guru dan Pengajar Terbaik{" "}
-                      </h1>
-                      <p className={cls11}>
-                        {" "}
-                        Berencana memondokkan buah hati? Kami siap membantu anda, kami menyiapkan guru dan pengajar yang
-                        mumpuni dalam menunjang pendidikan dan akhlak buah hati anda!{" "}
-                      </p>
-
-                      <div className={cls12}>
-                        <a href="" className={cls13}>
-                          {" "}
-                          Selengkapnya{" "}
-                        </a>
-                      </div>
-                    </div>
-                  </div>{" "}
-                  {/*<!--end grid-->*/}
-                </div>{" "}
-                {/*<!--end container-->*/}
-              </div>{" "}
-              {/*<!-- end slide-inner -->*/}
-            </div>{" "}
-            {/*<!-- end swiper-slide -->*/}
+          })}
           </div>
           {/*<!-- end swiper-wrapper -->*/}
 

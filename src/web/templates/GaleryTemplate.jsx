@@ -12,7 +12,7 @@ const GaleryTemplate = ({}) => {
   const dispatch = useDispatch()
 
   const galeryState = useSelector((state) => state.galery)
-  console.log(galeryState)
+  // console.log(galeryState)
   useEffect(() => {
   
     dispatch(fetchGalery())

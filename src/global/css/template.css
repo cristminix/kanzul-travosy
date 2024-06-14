@@ -24,3 +24,7 @@ body {
    max-height: 75px;
    overflow: hidden;
 }
+
+.block-data > p{
+    @apply twx-mb-4
+}

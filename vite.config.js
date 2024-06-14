@@ -2,6 +2,7 @@ import { defineConfig, normalizePath } from "vite"
 import react from "@vitejs/plugin-react"
 import path from "node:path"
 import mpaPlugin from "vite-plugin-mpa-plus"
+import htmlPlugin from "./my-plugins/htmlPlugin.js"
 // import devServer from "@hono/vite-dev-server"
 // import mix from "vite-plugin-mix"
 // import { pluginAPIRoutes } from "vite-plugin-api-routes"
@@ -61,6 +62,7 @@ export default defineConfig({
   },
   plugins: [
     // mixPlugin,
+    htmlPlugin(),
     nodePolyfills(),
     viteStaticCopy({
       targets: [

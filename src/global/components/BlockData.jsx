@@ -13,7 +13,7 @@ const config = {
     disableDefaultStyle: true,
   },
 }
-const BlockData = ({ className, data, limit, start }) => {
+const BlockData = ({ className="", data, limit, start }) => {
   if (!isBlockData(data)) {
     return null
   }

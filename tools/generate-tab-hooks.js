@@ -7,8 +7,8 @@ const CWD = process.cwd()
 
 const main = async () => {
   const config = {
-    itemName: "social-network-link",
-    type: "single",
+    itemName: "hero",
+    type: "list",
   }
 
   const itemNameVar = dashToCamel(config.itemName)

@@ -12,7 +12,7 @@ const PendaftaranTemplate = ({}) => {
   const dispatch = useDispatch()
 
   const pendaftaranState = useSelector((state) => state.pendaftaran)
-  console.log(pendaftaranState)
+  // console.log(pendaftaranState)
   useEffect(() => {
   
     dispatch(fetchPendaftaran())

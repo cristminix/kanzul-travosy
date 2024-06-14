@@ -40,7 +40,7 @@ const FullProfile = ({ className, profile }) => {
             <img src="/assets/images/map-plane-big.png" alt="" className={cls20} />
           </div>
         </div>
-        <div className=" grid grid-cols-1 items-center relative">
+        <div className=" grid grid-cols-1 items-center relative twx-p-8">
           <BlockData className="text-slate-400" data={fullProfile.contents} start={2} />
           <div className={cls19}>
             <img src="/assets/images/map-plane-big.png" alt="" className={cls20} />
