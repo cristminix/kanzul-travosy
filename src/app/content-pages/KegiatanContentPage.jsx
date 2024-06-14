@@ -72,7 +72,9 @@ const KegiatanContentPage = ({ subModule }) => {
   const onSelectTab = (tabKey) => {
     navigate(`${routePath}/${tabKey}`)
   }
-
+  const showAlert = (type,title,message)=>{
+      dispatch(displayAlert(["danger","error",e.toString()]))
+  }
   
   const [kegiatanListData, setKegiatanListData] = useState([])
   const [kegiatanFormData, setKegiatanFormData] = useState(null)
@@ -163,6 +165,7 @@ const KegiatanContentPage = ({ subModule }) => {
                     trigger={trigger}
                     schema={bannerSchema}
                     uiSchema={bannerUiSchema}
+                    showAlert={showAlert}
                   />
                 )}
               </Tab>

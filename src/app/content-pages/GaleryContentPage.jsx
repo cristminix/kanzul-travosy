@@ -79,7 +79,9 @@ const GaleryContentPage = ({ subModule }) => {
   const onSelectTab = (tabKey) => {
     navigate(`${routePath}/${tabKey}`)
   }
-
+  const showAlert = (type,title,message)=>{
+      dispatch(displayAlert(["danger","error",e.toString()]))
+  }
   
   const [galeryListData, setGaleryListData] = useState([])
   const [galeryFormData, setGaleryFormData] = useState(null)
@@ -170,6 +172,7 @@ const GaleryContentPage = ({ subModule }) => {
                     trigger={trigger}
                     schema={bannerSchema}
                     uiSchema={bannerUiSchema}
+                    showAlert={showAlert}
                   />
                 )}
               </Tab>

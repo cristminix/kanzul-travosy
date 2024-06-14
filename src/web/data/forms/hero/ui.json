@@ -1,0 +1,11 @@
+{
+  "title": {
+    "ui:autofocus": true,
+     "ui:widget": "block"
+  },
+  "description": {
+     "ui:widget": "block"
+  },
+  "image": {
+  }
+}

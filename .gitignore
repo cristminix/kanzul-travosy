@@ -26,3 +26,4 @@ unused
 instagram-feeds
 /pnpm-lock.yaml
 /src/tests/repo-dir
+/tools/output

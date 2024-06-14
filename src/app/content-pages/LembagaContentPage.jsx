@@ -76,6 +76,11 @@ const LembagaContentPage = ({ subModule }) => {
       dispatch(setLoading(false))
     }
   }
+
+  const showAlert = (type,title,message)=>{
+      dispatch(displayAlert(["danger","error",e.toString()]))
+  }
+
   const onSelectTab = (tabKey) => {
     navigate(`${routePath}/${tabKey}`)
   }
@@ -170,6 +175,7 @@ const LembagaContentPage = ({ subModule }) => {
                     trigger={trigger}
                     schema={bannerSchema}
                     uiSchema={bannerUiSchema}
+                    showAlert={showAlert}
                   />
                 )}
               </Tab>

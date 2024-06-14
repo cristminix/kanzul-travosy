@@ -1,7 +1,4 @@
 import contentSlice from "@/global/store/features/contentSlice"
-import settingSlice from "@/global/store/features/settingSlice"
-
-import SweetAlert from "react-bootstrap-sweetalert"
 
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
@@ -15,6 +12,9 @@ import { ROUTER_BASE } from "@/config.json"
 // Form Schema Related
 import footerSchema from "@/web/data/forms/footer/schema.json"
 import footerUiSchema from "@/web/data/forms/footer/ui.json"
+import welcomeMessageSchema from "@/web/data/forms/welcome-message/schema.json"
+import welcomeMessageUiSchema from "@/web/data/forms/welcome-message/ui.json"
+import MWelcomeMessage from "@/global/git/models/MWelcomeMessage"
 
 // Model Related
 import MFooter from "@/global/git/models/MFooter"
@@ -31,21 +31,15 @@ const routePath = "/contents/template"
 
 const git = createGit()
 const mFooter = new MFooter(git, footerSchema)
+const mWelcomeMessage = new MWelcomeMessage(git, welcomeMessageSchema)
 
 const TemplateContentPage = ({}) => {
   const location = useLocation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const contentState = useSelector((state) => state.content)
-  const settingState = useSelector((state) => state.setting)
-  const { setLoading, setLoadingMessage } = contentSlice.actions
-  const { setHideGitNotReadyMessage } = settingSlice.actions
+  const { setLoading, setLoadingMessage, displayAlert } = contentSlice.actions
 
-  const [formData, setFormData] = useState(null)
-  const [formShown, showForm] = useState(false)
-  const [trigger, setTrigger] = useState(false)
-
-  const [alert, setAlert] = useState(null)
   const [tabKey, setTabKey] = useState("footer")
   const showLoading = (status, message = "Menyimpan Data") => {
     if (status) {
@@ -54,6 +48,9 @@ const TemplateContentPage = ({}) => {
     } else {
       dispatch(setLoading(false))
     }
+  }
+  const showAlert = (type, title, message) => {
+    dispatch(displayAlert(["danger", "error", e.toString()]))
   }
   const onSelectTab = (tabKey) => {
     navigate(`${routePath}/${tabKey}`)
@@ -76,18 +73,34 @@ const TemplateContentPage = ({}) => {
       await mFooter.update(formData)
       await mFooter.commit(true)
     } catch (e) {
-      displayAlert("danger", "error", e.toString())
+      showAlert("danger", "error", e.toString())
     }
     showFooterForm(false)
     showLoading(false)
     loadFooterData()
   }
-  const displayAlert = (type, title, message, onConfirm = () => setAlert(null)) => {
-    setAlert(
-      <SweetAlert type={type} title={title} onConfirm={onConfirm}>
-        {message}
-      </SweetAlert>,
-    )
+  const [welcomeMessageFormShown, showWelcomeMessageForm] = useState(false)
+  const [welcomeMessageFormData, setWelcomeMessageFormData] = useState(MWelcomeMessage.defaultValue)
+  const loadWelcomeMessageData = async () => {
+    const data = await mWelcomeMessage.get()
+    console.log(data)
+    setWelcomeMessageFormData(data)
+  }
+  const showEditWelcomeMessageForm = () => {
+    showWelcomeMessageForm(true)
+  }
+  const onSaveWelcomeMessageForm = async (e) => {
+    const { formData } = e
+    showLoading(true)
+    try {
+      await mWelcomeMessage.update(formData)
+      await mWelcomeMessage.commit(true)
+    } catch (e) {
+      showAlert("danger", "error", e.toString())
+    }
+    showWelcomeMessageForm(false)
+    showLoading(false)
+    loadWelcomeMessageData()
   }
   useEffect(() => {
     const pathnames = location.pathname.split("/")
@@ -96,10 +109,10 @@ const TemplateContentPage = ({}) => {
 
     if (tabName === "footer") {
       loadFooterData()
+    } else if (tabName === "welcome-message") {
+      loadWelcomeMessageData()
     }
-    //else if (tabName === "syarat-administrasi") {
-    // 	setSyaratType("administrasi")
-  }, [location.key, setTabKey, setFooterFormData])
+  }, [location.key, setTabKey, setFooterFormData, setWelcomeMessageFormData])
   return (
     <MainContentLayout
       pageTitle={pageTitle}
@@ -108,8 +121,39 @@ const TemplateContentPage = ({}) => {
       <div className="col-12 grid-margin stretch-card">
         <div className="card">
           <div className="card-body">
-            {alert}
             <Tabs id="content-template-tab" activeKey={tabKey} onSelect={(k) => onSelectTab(k)}>
+              <Tab eventKey="welcome-message" title="Welcome Message">
+                {tabKey === "welcome-message" && (
+                  <>
+                    {welcomeMessageFormShown ? (
+                      <>
+                        <JsonForm
+                          schema={welcomeMessageSchema}
+                          uiSchema={welcomeMessageUiSchema}
+                          title="Edit Welcome Message"
+                          formData={welcomeMessageFormData}
+                          onCancel={(e) => showWelcomeMessageForm(false)}
+                          onSubmit={(e) => onSaveWelcomeMessageForm(e)}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <RowDataDisplay
+                          schema={welcomeMessageSchema}
+                          rowData={welcomeMessageFormData}
+                          title="Welcome Message"
+                        />
+                        <div className="twx-py-4 twx-flex twx-justify-end">
+                          <Button size="sm" onClick={(e) => showEditWelcomeMessageForm(true)}>
+                            <i className="mdi mdi-pencil-box-outline" /> Ubah
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </>
+                )}
+              </Tab>
+
               <Tab eventKey="footer" title="Footer">
                 {tabKey === "footer" && (
                   <>

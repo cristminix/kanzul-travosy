@@ -1,12 +1,13 @@
 {
   "type": "object",
   "required": [
-    "name",
+    "title",
     "description",
-    "image"
+    "image",
+    "link"
   ],
   "properties": {
-    "name": {
+    "title": {
       "title": "Title",
       "type": "string"
     },

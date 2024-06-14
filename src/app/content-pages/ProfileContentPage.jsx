@@ -82,6 +82,10 @@ const ProfileContentPage = ({ subModule }) => {
   const [shortProfileFormData, setShortProfileFormData] = useState(mShortProfile.defaultValue)
   const [shortProfileFormShown, showShortProfileForm] = useState(false)
 
+  const showAlert = (type,title,message)=>{
+      dispatch(displayAlert(["danger","error",e.toString()]))
+  }
+
   const loadShortProfileData = async () => {
     const data = await mShortProfile.get()
     setShortProfileFormData(data)
@@ -96,7 +100,7 @@ const ProfileContentPage = ({ subModule }) => {
       await mShortProfile.update(formData)
       await mShortProfile.commit(true)
     } catch (e) {
-      dispatch(displayAlert(["danger","error",e.toString()]))
+     showAlert("danger","error",e.toString())
     }
 
     showLoading(false)
@@ -121,7 +125,7 @@ const ProfileContentPage = ({ subModule }) => {
       await mFullProfile.update(formData)
       await mFullProfile.commit(true)
     } catch (e) {
-      dispatch(displayAlert(["danger","error",e.toString()]))
+      showAlert("danger","error",e.toString())
     }
 
     showLoading(false)
@@ -148,7 +152,7 @@ const ProfileContentPage = ({ subModule }) => {
       await mMetaProfile.update(formData)
       await mMetaProfile.commit(true)
     } catch (e) {
-      dispatch(displayAlert(["danger","error",e.toString()]))
+      showAlert("danger","error",e.toString())
     }
 
     showLoading(false)
@@ -195,6 +199,7 @@ const ProfileContentPage = ({ subModule }) => {
                     trigger={trigger}
                     schema={bannerSchema}
                     uiSchema={bannerUiSchema}
+                    showAlert={showAlert}
                   />
                 )}
               </Tab>

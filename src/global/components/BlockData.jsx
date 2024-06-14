@@ -1,10 +1,20 @@
 import Output from "editorjs-react-renderer"
-import {isBlockData} from "@/global/fn/isBlockData"
+import { isBlockData } from "@/global/fn/isBlockData"
 
 import { arrayToBlockData } from "@/global/fn/arrayToBlockData"
-
-const BlockData = ({ data, limit, start }) => {
-  if(!isBlockData(data)){
+const config = {
+  paragraph: {
+    disableDefaultStyle: true,
+  },
+  image: {
+    disableDefaultStyle: true,
+  },
+  video: {
+    disableDefaultStyle: true,
+  },
+}
+const BlockData = ({ className, data, limit, start }) => {
+  if (!isBlockData(data)) {
     return null
   }
   const dataLength = data.length
@@ -22,7 +32,11 @@ const BlockData = ({ data, limit, start }) => {
     console.log(e)
   }
 
-  return <Output data={arrayToBlockData(newData)} />
+  return (
+    <div className={`block-data ${className}`}>
+      <Output data={arrayToBlockData(newData)} config={config} />
+    </div>
+  )
 }
 
 export default BlockData

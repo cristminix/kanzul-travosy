@@ -3,7 +3,7 @@ import RowDataDisplay from "../RowDataDisplay"
 import { Button } from "react-bootstrap"
 import { Edit as IconEdit } from "react-feather"
 import JsonForm from "../JsonForm"
-const BannerEditor = ({ showLoading, schema, uiSchema, page, model, trigger }) => {
+const BannerEditor = ({ showLoading, schema, uiSchema, page, model, trigger ,showAlert}) => {
 	const [rowData, setRowData] = useState(model.defaultValue)
 	const [formShown, showForm] = useState(false)
 	const [formData, setFormData] = useState(null)
@@ -15,8 +15,12 @@ const BannerEditor = ({ showLoading, schema, uiSchema, page, model, trigger }) =
 	const onSaveForm = async (e) => {
 		const { formData } = e
 		showLoading(true)
-		await model.update(formData)
-		await model.commit(true)
+		try{
+			await model.update(formData)
+			await model.commit(true)
+		}catch(e){
+      		showAlert("danger","error",e.toString())
+		}
 		showLoading(false)
 		showForm(false)
 		loadBannerData()

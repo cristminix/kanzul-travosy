@@ -1,8 +1,8 @@
 import { tns } from "tiny-slider"
 import { useEffect } from "react"
-const ShortGalerySlider = ({ galeryList }) => {
+const ShortGalerySlider = ({ galeryList, className }) => {
   const cls0 = "cls-0 container relative"
-  const cls1 = "cls-1 grid grid-cols-1 relative"
+  const cls1 = "cls-1  mt-6 grid grid-cols-1 relative"
   const cls2 = "cls-2 tiny-twelve-item"
   const cls3 = "cls-3 tiny-slide"
   const cls4 = "cls-4 lightbox d-inline-block"
@@ -62,15 +62,14 @@ const ShortGalerySlider = ({ galeryList }) => {
   return (
     <>
       {/*<!-- Insta Post Start -->*/}
-      <div className={cls0}>
+      <div className={`${cls0} ${className}`}>
         <div className="cls-1 grid grid-cols-1 pb-6 text-center">
           <h3 className="cls-2 mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold">
-            {" "}
-            Galeri Kami{" "}
+            Galeri Kami
           </h3>
 
           <p className="cls-3 text-slate-400 max-w-xl mx-auto"> Foto kegiatan Pondok Pesantren Kanzululum. </p>
-        </div>{" "}
+        </div>
         {/*<!--end grid-->*/}
         <div className={cls1}>
           <div className={cls2}>

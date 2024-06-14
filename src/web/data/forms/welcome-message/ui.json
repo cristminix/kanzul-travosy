@@ -1,11 +1,8 @@
 {
   "title": {
-    "ui:description": "Judul",
-    "ui:autofocus": true,
-    "ui:placeholder": "Judul"
+    "ui:autofocus": true
   },
   "content": {
-    "ui:description": "Konten",
-    "ui:widget": "textarea"
+    "ui:widget": "block"
   }
 }

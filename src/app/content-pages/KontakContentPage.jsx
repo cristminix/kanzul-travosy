@@ -33,11 +33,16 @@ import RowDataDisplay from "./RowDataDisplay"
 import ContactPersonList from "./components/ContactPersonList"
 import BannerEditor from './components/BannerEditor';
 
+import socialNetworkLinkSchema from "@/web/data/forms/social-network-link/schema.json"
+import socialNetworkLinkUiSchema from "@/web/data/forms/social-network-link/ui.json"
+import MSocialNetworkLink from "@/global/git/models/MSocialNetworkLink"
+
 const git = createGit()
 const mCompany = new MCompany(git, companySchema)
 const mContactPeron = new MContactPerson(git, contactPersonSchema)
 const mKontakBanner = new MKontakBanner(git, bannerSchema)
 const mMetaKontak = new MMetaKontak(git, metaSchema)
+const mSocialNetworkLink = new MSocialNetworkLink(git, socialNetworkLinkSchema)
 
 const pageTitle = "Konten Company"
 const breadcrumbs = [
@@ -66,6 +71,9 @@ const KontakContentPage = ({ subModule }) => {
     } else {
       dispatch(setLoading(false))
     }
+  }
+  const showAlert = (type,title,message)=>{
+      dispatch(displayAlert(["danger","error",e.toString()]))
   }
   const onSelectTab = (tabKey) => {
     navigate(`${routePath}/${tabKey}`)
@@ -151,6 +159,30 @@ const KontakContentPage = ({ subModule }) => {
     loadMetaData()
   }
 
+  const [socialNetworkLinkFormShown, showSocialNetworkLinkForm] = useState(false)
+  const [socialNetworkLinkFormData, setSocialNetworkLinkFormData] = useState(MSocialNetworkLink.defaultValue)
+  const loadSocialNetworkLinkData = async () => {
+    const data = await mSocialNetworkLink.get()
+    console.log(data)
+    setSocialNetworkLinkFormData(data)
+  }
+  const showEditSocialNetworkLinkForm = () => {
+    showSocialNetworkLinkForm(true)
+  }
+  const onSaveSocialNetworkLinkForm = async (e) => {
+    const { formData } = e
+    showLoading(true)
+    try {
+      await mSocialNetworkLink.update(formData)
+      await mSocialNetworkLink.commit(true)
+    } catch (e) {
+      showAlert("danger", "error", e.toString())
+    }
+    showSocialNetworkLinkForm(false)
+    showLoading(false)
+    loadSocialNetworkLinkData()
+  }
+
   useEffect(() => {
     const pathnames = location.pathname.split("/")
     const tabName = pathnames.at(-1)
@@ -163,7 +195,10 @@ const KontakContentPage = ({ subModule }) => {
     else if (tabName === "contact-person") {
       loadContactPersonListData()
     } 
-  }, [location.key, setTabKey,setCompanyFormData,setContactPersonListData])
+    else if (tabName === "social-network-link") {
+      loadSocialNetworkLinkData()
+    } 
+  }, [location.key, setTabKey,setCompanyFormData,setContactPersonListData,setSocialNetworkLinkFormData])
   return (
     <MainContentLayout
       pageTitle={pageTitle}
@@ -182,6 +217,7 @@ const KontakContentPage = ({ subModule }) => {
                     trigger={trigger}
                     schema={bannerSchema}
                     uiSchema={bannerUiSchema}
+                    showAlert={showAlert}
                   />
                 )}
               </Tab>
@@ -241,6 +277,34 @@ const KontakContentPage = ({ subModule }) => {
                 )}
               </Tab>
               
+              <Tab eventKey="social-network-link" title="Social Network Link">
+{tabKey === "social-network-link" && (
+    <>
+    {socialNetworkLinkFormShown ? (
+        <>
+        <JsonForm
+            schema={socialNetworkLinkSchema}
+            uiSchema={socialNetworkLinkUiSchema}
+            title="Edit SocialNetworkLink Data"
+            formData={socialNetworkLinkFormData}
+            onCancel={(e) => showSocialNetworkLinkForm(false)}
+            onSubmit={(e) => onSaveSocialNetworkLinkForm(e)}
+        />
+        </>
+    ) : (
+        <>
+        <RowDataDisplay schema={socialNetworkLinkSchema} rowData={socialNetworkLinkFormData} title="Social Network Link Data" />
+        <div className="twx-py-4 twx-flex twx-justify-end">
+            <Button size="sm" onClick={(e) => showEditSocialNetworkLinkForm(true)}>
+            <i className="mdi mdi-pencil-box-outline" /> Ubah
+            </Button>
+        </div>
+        </>
+    )}
+    </>
+)}
+</Tab>
+
             </Tabs>
           </div>
         </div>

@@ -1,6 +1,4 @@
 {
-  "title": "welcomeMessage Form",
-  "description": "Form untuk data welcomeMessage",
   "type": "object",
   "required": [
     "title",
@@ -8,11 +6,11 @@
   ],
   "properties": {
     "title": {
-      "title": "welcomeMessage",
+      "title": "Title",
       "type": "string"
     },
     "content": {
-      "title": "welcomeMessage",
+      "title": "Konten",
       "type": "string"
     }
   }

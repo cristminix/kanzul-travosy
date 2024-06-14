@@ -8,17 +8,17 @@ import ShortBeritaList from "../blocks/ShortBeritaList"
 
 // import Counter from "@/global/store/features/counter/Counter"
 
-const HomepageMainContent = ({ profileData, galeryList, beritaList }) => {
+const HomepageMainContent = ({ profileData, galeryList, beritaList, welcomeMessageData }) => {
   return (
     <>
       <Hero />
 
-      <section className="relative md:py-24 py-16 overflow-hidden">
-        <WelcomeMessage />
+      <section className="twx-relative md:twx-py-24 twx-py-16 twx-overflow-hidden">
+        <WelcomeMessage welcomeMessageData={welcomeMessageData} />
 
-        <ShortProfile profile={profileData} className="mt-12" />
+        <ShortProfile profile={profileData} className="twx-mt-12" />
         <ShortLembaga />
-        <ShortGalerySlider galeryList={galeryList} />
+        <ShortGalerySlider galeryList={galeryList} className="twx-mt-12" />
         <ShortBeritaList beritaList={beritaList} />
       </section>
     </>
