@@ -1,3 +1,4 @@
+import {Link} from "react-router-dom"
 
  const BeritaList = ({beritaData})=>{
     const styles = {  }
@@ -47,17 +48,17 @@
                                  <circle cx="12" cy="12" r="10"> </circle> 
                                  <polyline points="12 6 12 12 16 14"> </polyline> 
                              </svg> 5 menit baca </span> 
-                         <span className={cls14}> oleh  <a href={`berita/by/${item.author}`} className={cls15}> {item.author} </a> </span> 
+                         <span className={cls14}> oleh  <Link to={`/penulis/${item.author}`} className={cls15}> {item.author} </Link> </span> 
                      </div> 
 
-                     <a href={`berita-detail/${item.slug}`} className={cls16}> {item.title} </a> 
+                     <Link to={`/baca/${item.id}/${item.slug}`} className={cls16}> {item.title} </Link> 
                      <p className={`${cls17} twx-line-clamp-3`}> {item.headline}
                      </p> 
 
                      <div className={cls18}> 
-                         <a href={`berita-detail/${item.slug}`} className={cls19}> Selengkapnya  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={cls20}> 
+                         <Link to={`/baca/${item.id}/${item.slug}`} className={cls19}> Selengkapnya  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={cls20}> 
                                  <polyline points="9 18 15 12 9 6"> </polyline> 
-                             </svg> </a> 
+                             </svg> </Link> 
                      </div> 
                  </div> 
              </div> 

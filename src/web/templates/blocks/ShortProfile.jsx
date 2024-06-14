@@ -34,7 +34,7 @@ const ShortProfile = ({ className, profile }) => {
               </h3>
               <BlockData className="text-slate-400" data={shortProfile.contents} />
 
-              <a href="/profil/index.html" className={cls17}>
+              <a href="/profile/" className={cls17}>
                 {shortProfile.linkText} <i className={cls18}> </i>
               </a>
             </div>

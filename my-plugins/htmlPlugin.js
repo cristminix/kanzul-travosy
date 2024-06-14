@@ -40,7 +40,7 @@ const htmlPlugin =  () => {
 <meta property="og:type" content="website"/>
 <meta property="og:locale" content="id_ID" />
 <meta property="og:URL" content="${url}"/>
-<meta property="og:image" content="${baseUrl}/assets/images/logo/logo-dark.png" />
+<meta property="og:image" content="${baseUrl}/assets/images/og-preview.png" />
 <meta property="og:description" content="${pageProps['meta-description']}" />`  
         )
       }

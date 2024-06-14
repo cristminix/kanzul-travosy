@@ -1,6 +1,5 @@
 import Hero from "../blocks/Hero"
 
-import FullBerita from "../blocks/FullBerita"
 import BannerCrumb from "../blocks/BannerCrumb"
 
 // import Counter from "@/global/store/features/counter/Counter"

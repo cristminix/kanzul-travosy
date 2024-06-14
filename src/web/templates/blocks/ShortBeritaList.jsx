@@ -1,4 +1,3 @@
-
  const ShortBeritaList = ({beritaList})=>{
     const styles = {  }
     const cls0 = "cls-0 container relative md:mt-24 mt-16"
@@ -33,7 +32,7 @@
 
                  <div className={cls4}> 
                  {beritaList.map((post,index)=>{
-                    const postUrl=`/berita/${post.slug}.html`
+                    const postUrl=`/berita/#/baca/${post.id}/${post.slug}`
                     return <div className={cls5} key={index}> 
                          <div className={cls6}> 
                              <img src={post.cover} alt={post.title} className={cls7}/> 
@@ -45,7 +44,7 @@
                          <div className={cls10}> 
                              <div className={cls11}> 
                                  <span className={cls12}> <i data-feather="clock" className={cls13}> </i> {post.readTime?`${post.readTime} min baca`:null}  </span> 
-                                 <span className={cls14}> oleh  <a href="" className={cls15}> {post.author?`${post.author}`:'Admin'} </a> </span> 
+                                 <span className={cls14}> oleh  <a href={`/berita/#/penulis/${post.author}`} className={cls15}> {post.author?`${post.author}`:'Admin'} </a> </span> 
                              </div> 
 
                              <a href={postUrl} className={cls16}> {post.title} </a> 
