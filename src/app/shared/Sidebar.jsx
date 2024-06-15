@@ -68,7 +68,8 @@ class Sidebar extends Component {
     { title: "Kontak", path: "contents/kontak/banner" },  
     { title: "Template", path: "contents/template/footer" },
     { title: "Daftar File", path: "contents/files" },
-    { title: "Block Editor", path: "contents/block-editor" },
+    // { title: "Block Editor", path: "contents/block-editor" },
+    { title: "Drizzle Admin", path: "contents/drizzle" },
   ]
   render() {
     return (

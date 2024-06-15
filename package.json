@@ -102,7 +102,11 @@
     "prettier": "^3.2.5",
     "rimraf": "^5.0.7",
     "sass": "1.32.13",
+    "sql-wasm": "^1.1.4",
     "vite": "^5.2.0",
-    "vite-plugin-chunk-split": "^0.5.0"
-  }
+    "vite-node": "^1.6.0",
+    "vite-plugin-chunk-split": "^0.5.0",
+    "vitest": "^1.6.0"
+  },
+  "packageManager": "pnpm@9.3.0+sha256.e1f9e8d1a16607a46dd3c158b5f7a7dc7945501d1c6222d454d63d033d1d918f"
 }

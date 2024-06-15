@@ -1,12 +1,13 @@
 {
   "type": "object",
-  "required": ["image", "link", "linkText", "title", "description"],
+  "required": [
+    "title",
+    "description",
+    "image",
+    "link",
+    "linkText"
+  ],
   "properties": {
-    "image": {
-      "title": "Image",
-      "type": "string",
-      "format": "data-url"
-    },
     "link": {
       "title": "Link",
       "type": "string"
@@ -19,9 +20,16 @@
       "title": "Title",
       "type": "string"
     },
+
     "description": {
       "title": "Keterangan",
       "type": "string"
+    },
+    "image": {
+      "title": "Image",
+      "type": "string",
+      "format":"data-url"
+      
     }
   }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 
-import CompanyContentPage from "./CompanyContentPage"
+// import CompanyContentPage from "./CompanyContentPage"
 import FooterContentPage from "./FooterContentPage"
 import PagesContentPage from "./PagesContentPage"
 import KegiatanContentPage from "./KegiatanContentPage"
@@ -13,7 +13,10 @@ import ProfileContentPage from './ProfileContentPage';
 import KontakContentPage from "./KontakContentPage"
 import GaleryContentPage from "./GaleryContentPage"
 import BeritaContentPage from "./BeritaContentPage"
+// import BlockEditorContentPage from "./BlockEditorContentPage"
 import BlockEditorContentPage from "./BlockEditorContentPage"
+import DrizzleContentPage from "./DrizzleContentPage"
+
 export async function loader({ params }) {
   const { mod, sub, pk, fk } = params
   return { mod, sub, pk, fk }
@@ -25,10 +28,12 @@ const ContentPage = ({}) => {
   const { mod, sub, pk, fk } = loaderData
   // console.log(mod, sub, pk, fk)
 
-  if (mod === "company") {
-    return <CompanyContentPage />
-  }
-  else if (mod === "pages") {
+  // if (mod === "company") {
+  //   return <CompanyContentPage />
+  // }
+  // else 
+
+  if (mod === "pages") {
     return <PagesContentPage />
   }
   else if (mod === "footer") {
@@ -61,9 +66,12 @@ const ContentPage = ({}) => {
   else if (mod === "berita") {
     return <BeritaContentPage subModule={sub}/>
   }
-  else if (mod === "block-editor") {
-    return <BlockEditorContentPage subModule={sub}/>
+  else if (mod === "drizzle") {
+    return <DrizzleContentPage subModule={sub}/>
   }
+  // else if (mod === "block-editor") {
+  //   return <BlockEditorContentPage subModule={sub}/>
+  // }
 }
 
 export default ContentPage
