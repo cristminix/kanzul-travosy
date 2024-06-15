@@ -12,13 +12,36 @@ const mBeritaRw = new MBeritaRw(git)
 
 
 const main=async()=>{
-	console.log(`-------HELLO-${new Date}----`)
+	console.log(`-----------${new Date}---------------`)
 	// console.log(git)
 	await mBeritaRw.initOrm()
 	const countAll = await mBeritaRw.count()
 	console.log({countAll})
 	const countWithFilter = await mBeritaRw.count({author:"Admin"})
 	console.log({countWithFilter})
+
+	const list = await mBeritaRw.getList()
+	console.log({list})
+
+
+	const listWithSearch = await mBeritaRw.getList({
+		search:{
+			type:"single",
+			field:"mana",
+			query:"uang"
+		},
+		order:{title:'asc'},
+		limit:2
+	})
+	console.log({listWithSearch,display:listWithSearch.records.map(item=>item.title)})
+
+	try{
+		const row = await mBeritaRw.getRow({id:1})
+		console.log({row})
+	}catch(e){
+		console.log(e)
+	}
+
 	// const rows=mBeritaRw.getAll()
 	/*
 	const updates=[]
