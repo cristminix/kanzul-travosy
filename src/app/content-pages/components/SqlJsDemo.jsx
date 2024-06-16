@@ -1,15 +1,15 @@
-import {Button} from "react-bootstrap"
-import JsonView from "react18-json-view"
-import { useEffect, useRef, useState } from "react"
-import { github, DirectoryListing, dataUrlToFile, dataUrlToUint8Array } from "@cp/cloud/iso-git"
-import { getFile64 } from "@cp/global/fn"
-import initSqlJs from "sql.js"
-import { initOrm } from "../orm/initOrm"
-import { cms_user } from "../orm/schema"
-const { fs, fsp, dir, git } = github
+// import {Button} from "react-bootstrap"
+// import JsonView from "react18-json-view"
+// import { useEffect, useRef, useState } from "react"
+// import { github, DirectoryListing, dataUrlToFile, dataUrlToUint8Array } from "@cp/cloud/iso-git"
+// import { getFile64 } from "@cp/global/fn"
+// import initSqlJs from "sql.js"
+// import { initOrm } from "../orm/initOrm"
+// import { cms_user } from "../orm/schema"
+// const { fs, fsp, dir, git } = github
 
 const SqlJsDemo = ({}) => {
-  const containerCls = "border mb-2 rounded-xl shadow-sm p-6 dark:bg-gray-800 dark:border-gray-700"
+  const containerCls = "twx-border twx-mb-2 twx-rounded-xl twx-shadow-sm twx-p-6 dark:twx-bg-gray-800 dark:twx-border-gray-700"
   const [databasePath, setDatabasePath] = useState(`${dir}/cms.sqlite`)
   const db = null
   const loadDatabase = async () => {

@@ -1,5 +1,5 @@
 import DrizzleModelRw from './DrizzleModelRw';
-import {BeritaSchema} from "../../schema/berita"
+import {BeritaSchema} from "../../schema/schema"
 import { inArray, sql } from 'drizzle-orm';
 
 class MBeritaRw extends DrizzleModelRw{
@@ -10,7 +10,7 @@ class MBeritaRw extends DrizzleModelRw{
 		super(git)
 		// this.initOrm()
 	}
-
+	
 	async updateContentRows(updates){
 		const sqlChunks = [];
 		const ids = [];

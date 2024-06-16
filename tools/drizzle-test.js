@@ -15,7 +15,7 @@ const main=async()=>{
 	console.log(`-----------${new Date}---------------`)
 	// console.log(git)
 	await mBeritaRw.initOrm()
-	const countAll = await mBeritaRw.count()
+/*	const countAll = await mBeritaRw.count()
 	console.log({countAll})
 	const countWithFilter = await mBeritaRw.count({author:"Admin"})
 	console.log({countWithFilter})
@@ -23,19 +23,35 @@ const main=async()=>{
 	const list = await mBeritaRw.getList()
 	console.log({list})
 
-
+*/
 	const listWithSearch = await mBeritaRw.getList({
-		search:{
-			type:"single",
-			field:"mana",
-			query:"uang"
+		// search:{
+		// 	type:"all",
+		// 	field:"title",
+		// 	query:"anak"
+		// },
+		filter:{
+			author:"Admin"
 		},
 		order:{title:'asc'},
-		limit:2
+		// limit:2
 	})
 	console.log({listWithSearch,display:listWithSearch.records.map(item=>item.title)})
-
-	try{
+	const states = await mBeritaRw.getState({
+		search:{
+			type:"all",
+			field:"title",
+			query:"anak"
+		},
+		// filter:{
+		// 	author:"Admin"
+		// },
+		// order:{title:'asc'},
+		// page:1,
+		// limit:2
+	})
+	console.log(states)
+	/*try{
 		const row = await mBeritaRw.getRow({id:1})
 		console.log({row})
 	}catch(e){
@@ -43,7 +59,7 @@ const main=async()=>{
 	}
 
 	// const rows=mBeritaRw.getAll()
-	/*
+	
 	const updates=[]
 	for(const row of rows){
 		let content = JSON.parse(row.content)

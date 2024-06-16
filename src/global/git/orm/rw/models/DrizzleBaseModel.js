@@ -1,11 +1,10 @@
 import initSqlJs, { SqlValue } from "sql.js"
 import { drizzle } from "drizzle-orm/sql-js"
 import { count, sql, eq, and, asc, desc, like, or } from "drizzle-orm"
-// import createSqlWasm from "sql-wasm"
 import { isBrowser } from "@/global/fn/isBrowser"
 import { calculateTotalPages } from "@/global/fn/calculateTotalPages"
 import { calculateOffset } from "@/global/fn/calculateOffset"
-
+import * as schema from "../../schema/schema"
 class Logger {
 	info() {}
 	error() {}
@@ -24,12 +23,27 @@ class DrizzleBaseModel {
 	ready = false
 	dir = null
 	sqldb = null
+	searchFields=[]
 
 	constructor(git) {
 		this.git = git
 		this.fs = git.fs
 		this.dir = git.dir
 	}
+	
+	getSearchFields(){
+		const allFields = Object.keys(this.schema)
+		
+		if(this.searchFields.length === 0){
+			for(const field of allFields){
+				if(this.schema[field].dataType === 'string')
+				this.searchFields.push(field)		
+			}
+		}
+
+		return this.searchFields
+	}
+
 	isValidOrder(order) {
 		const validValue = typeof order === "object" && order !== null
 		if (!validValue) return false
@@ -80,19 +94,29 @@ class DrizzleBaseModel {
 		if (fields.length > 1) {
 			console.log(`Warning: filter field > 1 left is unused`)
 		}
-		let condition = null
+		let conditionArr = []
+
 		for (const field of fields) {
 			if (allFields.includes(field)) {
-				condition = sql`${this.schema[field]} = ${filter[field]}`
-				break
+				conditionArr.push(eq(this.schema[field],filter[field]))
+				// break
 			} else {
 				console.log(`invalid filter ${field} not exists in [${allFields.join(",")}]`)
 			}
 		}
-
-		return condition
+		if(conditionArr.length>0)
+			return and.apply(this,conditionArr)
+		return null
 	}
-
+	addQuerySearch(searchFields,searchQuery){
+		const likes = []
+		for(const field of searchFields){
+			likes.push(like(this.schema[field],`%${searchQuery}%`))
+		}
+		if(likes.length>0)
+			return or.apply(this,likes)
+		return null
+	}
 	async count(filter = null, search = null) {
 		let result = null
 		if (this.isValidFilter(filter)) {
@@ -145,7 +169,7 @@ class DrizzleBaseModel {
 			})
 
 			this.sqldb = new sqlPromise.Database(filebuffer)
-			const db = drizzle(this.sqldb)
+			const db = drizzle(this.sqldb,{ schema })
 			this.db = db
 			this.ready = true
 		} catch (e) {
@@ -162,13 +186,16 @@ class DrizzleBaseModel {
 	async getRecords_withPage(orderBy, limit, offset) {
 		return await this.db.select().from(this.schema).orderBy(orderBy).limit(limit).offset(offset)
 	}
-	async getLRecordsWithFilter(orderBy, condition) {
-		await this.db.select().from(this.schema).where(condition).orderBy(orderBy)
+	async getRecordsWithFilter(orderBy, condition) {
+		return await this.db.select().from(this.schema).where(condition).orderBy(orderBy)
 	}
-	async getLRecordsWithFilter_withPage(orderBy, limit, offset, condition) {
-		await this.db.select().from(this.schema).where(condition).orderBy(orderBy).limit(limit).offset(offset)
+	async getRecordsWithFilter_withPage(orderBy, limit, offset, condition) {
+		// console.log(limit,offset,condition)
+		return await this.db.select().from(this.schema).where(condition).orderBy(orderBy).limit(limit).offset(offset)
 	}
-	async getLRecordsWithSearch(orderBy, searchType, searchField, searchQuery) {
+	async getRecordsWithSearch(orderBy, searchType, searchField, searchQuery) {
+		let records=[]
+		
 		if (searchType === "single") {
 			records = await this.db
 				.select()
@@ -176,20 +203,19 @@ class DrizzleBaseModel {
 				.where(like(this.schema[searchField], `%${searchQuery}%`))
 				.orderBy(orderBy)
 		} else {
+			const searchFields = this.getSearchFields()
+			const searchCondition = this.addQuerySearch(searchFields,searchQuery)
 			records = await this.db
 				.select()
 				.from(this.schema)
-				.where(
-					or(
-						like(this.schema.title, `%${searchQuery}%`),
-						like(this.schema.content, `%${searchQuery}%`),
-						like(this.schema.author, `%${searchQuery}%`),
-					),
-				)
+				.where(searchCondition)
 				.orderBy(orderBy)
 		}
+		return records
 	}
-	async getLRecordsWithSearch_withPage(orderBy, limit, offset, searchType, searchField, searchQuery) {
+	
+	async getRecordsWithSearch_withPage(orderBy, limit, offset, searchType, searchField, searchQuery) {
+		let records=[]
 		if (searchType === "single") {
 			records = await this.db
 				.select()
@@ -199,20 +225,67 @@ class DrizzleBaseModel {
 				.limit(limit)
 				.offset(offset)
 		} else {
+			const searchFields = this.getSearchFields()
+			const searchCondition = this.addQuerySearch(searchFields,searchQuery)
 			records = await this.db
 				.select()
 				.from(this.schema)
-				.where(
-					or(
-						like(this.schema.title, `%${searchQuery}%`),
-						like(this.schema.content, `%${searchQuery}%`),
-						like(this.schema.author, `%${searchQuery}%`),
-					),
-				)
+				.where(searchCondition)
 				.orderBy(orderBy)
 				.limit(limit)
 				.offset(offset)
 		}
+		return records
+	}
+	async getRecordsWithSearch_withFilter_withPage(orderBy, condition,limit, offset, searchType, searchField, searchQuery){
+		let records=[]
+		
+		if (searchType === "single") {
+			records = await this.db
+				.select()
+				.from(this.schema)
+				.where(and(
+					condition,
+					like(this.schema[searchField], `%${searchQuery}%`),
+				))
+				.orderBy(orderBy)
+				.limit(limit)
+				.offset(offset)
+		} else {
+			const searchFields = this.getSearchFields()
+			const searchCondition = this.addQuerySearch(searchFields,searchQuery)
+			records = await this.db
+				.select()
+				.from(this.schema)
+				.where(and(condition,searchCondition))
+				.orderBy(orderBy)
+				.limit(limit)
+				.offset(offset)
+		}
+		return records
+	}
+	async getRecordsWithSearch_with_filter(orderBy, condition,searchType, searchField, searchQuery){
+		let records=[]
+		
+		if (searchType === "single") {
+			records = await this.db
+				.select()
+				.from(this.schema)
+				.where(and(
+					condition,
+					like(this.schema[searchField], `%${searchQuery}%`),
+				))
+				.orderBy(orderBy)
+		} else {
+			const searchFields = this.getSearchFields()
+			const searchCondition = this.addQuerySearch(searchFields,searchQuery)
+			records = await this.db
+				.select()
+				.from(this.schema)
+				.where(and(condition,searchCondition))
+				.orderBy(orderBy)
+		}
+		return records
 	}
 	async getRow(pk) {
 		let condition
@@ -228,56 +301,248 @@ class DrizzleBaseModel {
 
 		return result.get(0)
 	}
-	async getList(limit = 5, page = 1, order = null, filter = null, search = null) {
+	getListParam(limit,page,order,filter,search){
 		if (typeof limit === "object" && limit !== null) {
 			const objectParam = limit
 
-			search = objectParam.search ?? null
 			limit = objectParam.limit ?? 5
+			page = objectParam.page ?? 1
 			order = objectParam.order ?? null
 			filter = objectParam.filter ?? null
-			page = objectParam.page ?? 1
+			search = objectParam.search ?? null
+
 		}
-		// console.log({limit})
+
+		const defaultOrder = this.defaultOrder ?? { [this.pk]: "asc" }
+		const orderBy = this.addQueryOrder(this.isValidOrder(order) ? order : defaultOrder)
+
+		const validSearch = this.isValidSearch(search)
+
+		let searchQuery, searchType, searchField
+		if (validSearch) {
+			searchType = search.type
+			searchField = search.field
+			searchQuery = search.query
+		}
+		const hasFilter = this.isValidFilter(filter)
+		const hasSearch = validSearch
+		const hasPage = this.isValidPage(page)
+		const hasSearchAndFilter = hasFilter && hasSearch
+		// priority is search,filter,default
+		return {
+			limit,page,order,filter,search,search,
+			orderBy,
+			validSearch,searchType,searchField,searchQuery,
+			hasFilter,hasSearch,hasPage,hasSearchAndFilter
+		}
+	}
+	async getCountWithSearch_withFilter_withPage(condition,limit, offset, searchType, searchField, searchQuery){
+		if(searchType==='single'){
+			let result = await this.db.select({pk:this.schema[this.pk]})
+								  .from(this.schema)
+								  .where(and(
+								  	like(this.schema[searchField], `%${searchQuery}%`)),
+								  	condition
+								  )
+								  .limit(limit)
+								  .offset(offset)	
+			result = [...result]
+			return result.length
+		}else{
+			const searchFields = this.getSearchFields()
+			const searchCondition = this.addQuerySearch(searchFields,searchQuery)
+			let result = await this.db.select({pk:this.schema[this.pk]})
+								  .from(this.schema)
+								  .where(and(searchCondition,searchCondition))
+								  .limit(limit)
+								  .offset(offset)	
+			result = [...result]
+			return result.length
+		}	
+	}
+	async getCountWithSearch_with_filter(condition,searchType, searchField, searchQuery){
+		let result
+		if(searchType==='single'){
+			result = await this.db
+				.select({ count: count(this.schema.id) })
+				.from(this.schema)
+				.where(and(
+				  	like(this.schema[searchField], `%${searchQuery}%`)),
+				  	condition
+				 )
+		
+		}else{
+			result = await this.db
+				.select({ count: count(this.schema.id) })
+				.from(this.schema)
+				.where(and(condition,searchCondition))
+		}
+		const [row] = result
+		if (row) return row.count
+		return 0
+	}
+	async getCountWithSearch_withPage(limit, offset, searchType, searchField, searchQuery){
+		if(searchType==='single'){
+			let result = await this.db.select({pk:this.schema[this.pk]})
+								  .from(this.schema)
+								  .where(like(this.schema[searchField], `%${searchQuery}%`))
+								  .limit(limit)
+								  .offset(offset)	
+			result = [...result]
+			return result.length
+		}else{
+			const searchFields = this.getSearchFields()
+			const searchCondition = this.addQuerySearch(searchFields,searchQuery)
+			let result = await this.db.select({pk:this.schema[this.pk]})
+								  .from(this.schema)
+								  .where(searchCondition)
+								  .limit(limit)
+								  .offset(offset)	
+			result = [...result]
+			return result.length
+		}
+	}
+	async getCountWithSearch(searchType, searchField, searchQuery){
+		let result
+		if(searchType==='single'){
+			result = await this.db
+				.select({ count: count(this.schema.id) })
+				.from(this.schema)
+				.where(like(this.schema[searchField], `%${searchQuery}%`))
+				  
+		
+		}else{
+			result = await this.db
+				.select({ count: count(this.schema.id) })
+				.from(this.schema)
+				.where(searchCondition)
+		}
+		const [row] = result
+		if (row) return row.count
+		return 0
+	}
+	async getCountWithFilter_withPage(limit, offset, condition){
+		let result = await this.db.select({pk:this.schema[this.pk]})
+								  .from(this.schema)
+								  .where(condition)
+								  .limit(limit)
+								  .offset(offset)	
+		result = [...result]
+		return result.length
+	}
+	async getCountWithFilter(condition){
+		const result = await this.db
+				.select({ count: count(this.schema.id) })
+				.from(this.schema)
+				.where(condition)
+		const [row] = result
+		if (row) return row.count
+		return 0
+	}
+	async getCount_withPage(limit, offset){
+		let result = await this.db.select({pk:this.schema[this.pk]})
+								  .from(this.schema)
+								  .limit(limit)
+								  .offset(offset)	
+		result = [...result]
+		return result.length
+	}
+	async getState(_limit = 5, _page = null, _filter = null, _search = null) {
+		
+		let {
+			limit,page,order,filter,search,
+			orderBy,
+			validSearch,searchType,searchField,searchQuery,
+			hasFilter,hasSearch,hasPage,hasSearchAndFilter
+
+		} = this.getListParam(_limit,_page,null,_filter,_search)
+
+		const totalRecords = await this.countAll()
+		const totalPages = calculateTotalPages(totalRecords, limit)
+		const offset = calculateOffset(page, limit)
+
+		let recordCount = 0
+
+		if(hasSearchAndFilter){
+			let condition = this.addQueryFilter(filter)
+
+			if (hasPage) {
+				recordCount = await this.getCountWithSearch_withFilter_withPage(condition,limit, offset, searchType, searchField, searchQuery)
+			} else {
+				recordCount = await this.getCountWithSearch_with_filter(condition,searchType, searchField, searchQuery)
+			}
+		}
+		else if (hasSearch) {
+			if (hasPage) {
+				recordCount = await this.getCountWithSearch_withPage(limit, offset, searchType, searchField, searchQuery)
+			} else {
+				recordCount = await this.getCountWithSearch(searchType, searchField, searchQuery)
+			}
+		} else if (hasFilter) {
+			let condition = this.addQueryFilter(filter)
+
+			if (hasPage) {
+				// console.log("here")
+				recordCount = await this.getCountWithFilter_withPage(limit, offset, condition)
+			} else {
+				recordCount = await this.getCountWithFilter(condition)
+			}
+		} else {
+			if (hasPage) {
+				recordCount = await this.getCount_withPage(limit, offset)
+			} else {
+				recordCount = await this.countAll()
+			}
+		}
+    	
+    	return { 
+    		limit, 
+    		totalPages, 
+    		totalRecords, 
+    		recordCount
+    	}
+		
+	}
+	async getList(_limit = 5,_page = 1,_order = null, _filter = null, _search = null) {
+		let {
+			limit,page,order,filter,search,
+			orderBy,
+			validSearch,searchType,searchField,searchQuery,
+			hasFilter,hasSearch,hasPage,hasSearchAndFilter
+
+		} = this.getListParam(_limit,_page,_order,_filter,_search)
 
 		const totalRecords = await this.countAll()
 		const totalPages = calculateTotalPages(totalRecords, limit)
 
 		let records = []
 
-		const defaultOrder = { dateUpdated: "asc" }
-		let orderBy = this.addQueryOrder(this.isValidOrder(order) ? order : defaultOrder)
-
-		// console.log({validOrder:this.isValidOrder(order)})
-
-		const validSearch = this.isValidSearch(search)
-		let searchQuery, searchType, searchField
-		if (validSearch) {
-			searchType = search.type
-			searchQuery = search.query
-			searchField = search.field
-		}
-
-		const hasFilter = this.isValidFilter(filter)
-		const hasSearch = validSearch
-		const hasPage = this.isValidPage(page)
-
-		// priority is search,filter,default
+		
 		const offset = calculateOffset(page, limit)
 
-		if (hasSearch) {
+		if(hasSearchAndFilter){
+			let condition = this.addQueryFilter(filter)
+
+			if (hasPage) {
+				records = await this.getRecordsWithSearch_withFilter_withPage(orderBy, condition,limit, offset, searchType, searchField, searchQuery)
+			} else {
+				records = await this.getRecordsWithSearch_with_filter(orderBy, condition,searchType, searchField, searchQuery)
+			}
+		}
+		else if (hasSearch) {
 			if (hasPage) {
 				records = await this.getRecordsWithSearch_withPage(orderBy, limit, offset, searchType, searchField, searchQuery)
 			} else {
-				records = await this.getRecordstWithSearch(orderBy, searchType, searchField, searchQuery)
+				records = await this.getRecordsWithSearch(orderBy, searchType, searchField, searchQuery)
 			}
 		} else if (hasFilter) {
 			let condition = this.addQueryFilter(filter)
 
 			if (hasPage) {
-				records = await this.getRecordstWithFilter_withPage(orderBy, limit, offset, condition)
+				// console.log("here")
+				records = await this.getRecordsWithFilter_withPage(orderBy, limit, offset, condition)
 			} else {
-				records = await this.getRecordstWithFilter(orderBy, condition)
+				records = await this.getRecordsWithFilter(orderBy, condition)
 			}
 		} else {
 			if (hasPage) {
