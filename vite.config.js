@@ -14,25 +14,31 @@ import fg from "fast-glob"
 import { nodePolyfills } from "vite-plugin-node-polyfills"
 import { chunkSplitPlugin } from "vite-plugin-chunk-split"
 
-let jsonDataFileList = fg.globSync("./src/web/data/**/*.json")
+let jsonDataFileList = fg.globSync("./src/web/data/**/*.{json,db}")
+// console.log(jsonDataFileList)
 let pages_jsonFileList = []
 let templates_jsonFileList = []
 let forms_jsonFileList = []
 let default_jsonFileList = []
+let berita_dbFileList = []
 
-for(const jsonFile of jsonDataFileList){
-  // console.log(jsonFile)
-  if(jsonFile.match(/\web\/data\/pages/)){
-    pages_jsonFileList.push(jsonFile)
+for(const file of jsonDataFileList){
+  // console.log(file)
+  if(file.match(/\web\/data\/pages/)){
+    pages_jsonFileList.push(file)
   }
   //web/data/forms/
-  else if(jsonFile.match(/\web\/data\/forms/)){
-    forms_jsonFileList.push(jsonFile)
+  else if(file.match(/\web\/data\/forms/)){
+    forms_jsonFileList.push(file)
   }
-  else if(jsonFile.match(/\web\/data\/templates/)){
-    templates_jsonFileList.push(jsonFile)
-  }else{
-    default_jsonFileList.push(jsonFile)
+  else if(file.match(/\web\/data\/templates/)){
+    templates_jsonFileList.push(file)
+  }
+  else if(file.match(/\web\/data\/berita/)){
+    berita_dbFileList.push(file)
+  }
+  else{
+    default_jsonFileList.push(file)
   }
   // web/data/templates
 }
@@ -40,14 +46,14 @@ let template_sectionFileList = []
 let template_blockFileList = []
 let template_rootFileList = []
 
-for(const jsonFile of templates_jsonFileList){
-  if(jsonFile.match(/\web\/data\/templates\/sections/)){
-    template_sectionFileList.push(jsonFile)
+for(const file of templates_jsonFileList){
+  if(file.match(/\web\/data\/templates\/sections/)){
+    template_sectionFileList.push(file)
   }
-  else if(jsonFile.match(/\web\/data\/templates\/blocks/)){
-    template_blockFileList.push(jsonFile)
+  else if(file.match(/\web\/data\/templates\/blocks/)){
+    template_blockFileList.push(file)
   }else{
-    template_rootFileList.push(jsonFile)
+    template_rootFileList.push(file)
   }
 }
 
@@ -93,6 +99,10 @@ export default defineConfig({
         {
           src: template_blockFileList,
           dest:"web/data/templates/blocks"
+        },
+        {
+          src:berita_dbFileList,
+          dest:'web/data/berita'
         }
       ],
     }),

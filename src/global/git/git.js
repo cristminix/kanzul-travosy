@@ -159,7 +159,7 @@ class Git {
   //   // }
   //   return option
   // }
-  async commit(filepaths, message) {
+  async commit(filepaths, message=null) {
     let messages = []
     for (const fileItem of filepaths) {
       await git.add({ fs: this.fs, dir: this.dir, filepath: fileItem })

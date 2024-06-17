@@ -4,7 +4,6 @@
     "title",
     "slug",
     "cover",
-    "date",
     "headline",
     "content"
   ],
@@ -23,10 +22,6 @@
       "type": "string",
         "format": "data-url"
     },
-    "date": {
-      "title": "Date",
-      "type": "string"
-    },
     "headline": {
       "title": "Headline",
       "type": "string"
@@ -42,6 +37,10 @@
     "readTime": {
       "title": "Read Time",
       "type": "number"
+    },
+    "author": {
+      "title": "Penulis",
+      "type": "string"
     }
   }
 }

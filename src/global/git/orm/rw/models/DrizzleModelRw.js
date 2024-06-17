@@ -3,10 +3,9 @@ import { drizzle } from "drizzle-orm/sql-js"
 import { count, sql, eq, and, asc, desc, like, or } from "drizzle-orm"
 import { calculateTotalPages } from "@/global/fn/calculateTotalPages"
 import { calculateOffset } from "@/global/fn/calculateOffset"
-import DrizzleBaseModel from "./DrizzleBaseModel"
+import DrizzleBaseModelRw from "./DrizzleBaseModelRw"
 
-class DrizzleModelRw extends DrizzleBaseModel {
-	defaultOrder = { dateUpdated: "asc" }
+class DrizzleModelRw extends DrizzleBaseModelRw {
 
 	
 	async update(pk, row) {

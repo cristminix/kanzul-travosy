@@ -9,12 +9,26 @@ import MBeritaRw from "../src/global/git/orm/rw/models/MBeritaRw"
 
 const mBeritaRw = new MBeritaRw(git)
 
-
+const fixBeritaBlocks = async()=>{
+	const list = mBeritaRw.getAll()
+	const updates=[]
+	for(const row of list){
+		let {id,content} = row
+		content = JSON.parse(content)
+		const {blocks} = content
+		content = JSON.stringify(blocks)
+		updates.push({id,content})
+		// console.log(blocks)
+	}
+	await mBeritaRw.updateContentRows(updates)
+	await mBeritaRw.commit()
+}
 
 const main=async()=>{
 	console.log(`-----------${new Date}---------------`)
 	// console.log(git)
 	await mBeritaRw.initOrm()
+	await fixBeritaBlocks()
 /*	const countAll = await mBeritaRw.count()
 	console.log({countAll})
 	const countWithFilter = await mBeritaRw.count({author:"Admin"})
@@ -23,7 +37,7 @@ const main=async()=>{
 	const list = await mBeritaRw.getList()
 	console.log({list})
 
-*/
+
 	const listWithSearch = await mBeritaRw.getList({
 		// search:{
 		// 	type:"all",
@@ -68,10 +82,12 @@ const main=async()=>{
 		// updates[row.id]=
 		// console.log(blocks)
 	}
-	*/
+	
 	// console.log(updates)
 	// await mBeritaRw.updateContentRows(updates)
 	// await mBeritaRw.commit()
+
+	*/
 }
 
 main()

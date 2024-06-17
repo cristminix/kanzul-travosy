@@ -31,7 +31,8 @@ import metaSchema from "@/web/data/forms/pages/schema.json"
 import metaUiSchema from "@/web/data/forms/pages/ui.json"
 
 import BeritaList from "./components/BeritaList"
-import MBerita from "@/global/git/models/MBerita"
+// import MBerita from "@/global/git/models/MBerita"
+import MBeritaRw from "@/global/git/orm/rw/models/MBeritaRw"
 
 import MMetaBerita from "@/global/git/models/m-meta/MMetaBerita"
 import MBeritaBanner from "@/global/git/models/m-banner/MBeritaBanner"
@@ -42,11 +43,16 @@ import RowDataDisplay from "./RowDataDisplay"
 import { crc32id } from "@/global/fn/crc32id"
 
 import BannerEditor from "./components/BannerEditor"
+import {getBlocksReadingTime} from "@/global/fn/getBlocksReadingTime"
+import {dateToSqlDateTime} from "@/global/fn/dateToSqlDateTime"
+import {createDateFromSqlDateTime} from "@/global/fn/createDateFromSqlDateTime"
+import {Plus as IconPlus} from "react-feather"
 
 const git = createGit()
-const mBerita = new MBerita(git, beritaSchema)
+// const mBerita = new MBerita(git, beritaSchema)
 const mBeritaBanner = new MBeritaBanner(git, bannerSchema)
 const mMetaBerita = new MMetaBerita(git, metaSchema)
+const mBeritaRw = new MBeritaRw(git)
 
 const pageTitle = "Konten Berita"
 const breadcrumbs = [
@@ -89,19 +95,81 @@ const BeritaContentPage = ({ subModule }) => {
   const [formBeritaShown, showFormBerita] = useState(false)
 
   const loadBeritaListData = async () => {
-    const data = await mBerita.getData()
+    await mBeritaRw.initOrm()
+    const data =  mBeritaRw.getAll()
     setBeritaListData(data)
   }
   const showEditFormBerita = async (row) => {
-    // const formData =
-    setBeritaFormData(row)
+    const formData = {...row}
+    formData.cover = await git.getFile64Data(`/assets/images/berita/covers/${formData.cover}`)
+    // console.log(formData.cover)
+    formData.content = JSON.parse(formData.content)
+    formData.readTime = getBlocksReadingTime(formData.content)
+
+    // console.log(formData)  
+    setBeritaFormData(oFormData=>({...oFormData,...formData}))
     showFormBerita(true)
+  }
+  const showAddFormBerita = async (row) => {
+    const formData = {}
+    // formData.cover = await git.getFile64Data(`/assets/images/berita/covers/${formData.cover}`)
+    // console.log(formData.cover)
+    formData.content = []
+    formData.readTime = 0
+
+    // console.log(formData)  
+    setBeritaFormData(oFormData=>({...formData}))
+    showFormBerita(true)
+  }
+  const saveCoverImage = async(dataUrl)=>{
+    let fileInfo
+    try {
+      fileInfo = getFileInfo(dataUrl, true)
+      
+    } catch (e) {
+      console.log(`fileTransform error: getFileInfo failed`)
+    }
+    if(fileInfo){
+      const coverImageGitPath = `assets/images/berita/covers/${fileInfo.name}`
+      const coverImageFsPath = git.basePath(coverImageGitPath)
+      
+      try {
+        await git.fs.writeFileSync(coverImageFsPath, fileInfo.buffer)
+        
+        await git.add(coverImageGitPath)
+        await git.commit([coverImageGitPath])
+
+      } catch (e) {
+        console.log(`lfs: cant writeFile ${coverImageGitPath}`, e)
+      }  
+    }
+    return fileInfo
   }
   const onSaveFormBerita = async (e) => {
     const { formData } = e
+    console.log(formData)
     showLoading(true)
+
     try {
-      await mBerita.updateRow(formData, true)
+      const fileInfo = await saveCoverImage(formData.content)
+      if(fileInfo){
+        const {name} = fileInfo
+        formData.cover = name
+      }
+      formData.content = JSON.stringify(formData.content)
+      formData.dateUpdated=dateToSqlDateTime()
+
+
+      if(formData.id){
+        // perform update
+        await mBerita.update(formData.id, formData)
+        
+      }else{
+        // perform create
+        formData.dateCreated=dateToSqlDateTime()
+        await mBerita.create(formData)
+      }
+      
     } catch (e) {
       dispatch(displayAlert(["danger","error",e.toString()]))
 
@@ -124,6 +192,7 @@ const BeritaContentPage = ({ subModule }) => {
     // setMetaFormData(row)
     showFormMeta(true)
   }
+
   const onSaveFormMeta = async (e) => {
     const { formData } = e
     showLoading(true)
@@ -189,11 +258,16 @@ const BeritaContentPage = ({ subModule }) => {
                           data={beritaListData}
                           onEditRow={(row) => showEditFormBerita(row, "utama")}
                         />
+                         <div className="twx-py-4 twx-flex twx-justify-end">
+                          <Button size="sm" onClick={(e) => showAddFormBerita()}>
+                            <IconPlus className="feather-icon" /> Add
+                          </Button>
+                        </div>
                       </>
                     ) : (
                       <>
                         <JsonForm
-                          title={`Edit Item Berita`}
+                          title={`${beritaFormData.id?'Edit':'Add'} Item Berita`}
                           formData={beritaFormData}
                           schema={beritaSchema}
                           uiSchema={beritaUiSchema}

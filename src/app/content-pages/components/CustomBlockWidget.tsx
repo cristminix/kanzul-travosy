@@ -34,8 +34,10 @@ const CustomBlockWidget = (props: WidgetProps) => {
     if(Array.isArray(props.value))
       setTimeout(() => {
         updateValue(arrayToBlockData(props.value))
+        props.onChange(JSON.stringify(props.value))
+
       }, 256)
-   
+       
   }, [props.value])
 
   return (<>

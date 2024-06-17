@@ -18,12 +18,9 @@
 
   },
   "content":{
-    "ui:widget": "textarea"
+    "ui:widget": "block"
 
   },
   "tags": {
-  },
-  "readTime": {
   }
-
 }

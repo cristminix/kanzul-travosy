@@ -11,7 +11,7 @@ class Logger {
 	warning() {}
 }
 
-class DrizzleBaseModel {
+class DrizzleBaseModelRw {
 	wasmPath = "web/data/sql/sql-wasm.wasm"
 	pk = "id"
 	path = null
@@ -556,4 +556,4 @@ class DrizzleBaseModel {
 	}
 }
 
-export default DrizzleBaseModel
+export default DrizzleBaseModelRw

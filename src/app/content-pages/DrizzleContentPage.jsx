@@ -44,7 +44,7 @@ const DrizzleContentPage = ({}) => {
   
 
   const loadBeritaList = async () => {
-
+    await mBeritaRw.initOrm()
     const data = mBeritaRw.getAll()
     console.log(data)
     // const {time,version,blocks} = data

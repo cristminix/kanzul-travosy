@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom"
 
- const BeritaList = ({beritaData})=>{
+ const BeritaList = ({list})=>{
     const styles = {  }
     const cls0 = "cls-0 relative md:twx-mt-12 twx-mt-8"
 		const cls1 = "cls-1 grid grid-cols-1 pb-6 text-center"
@@ -33,12 +33,12 @@ import {Link} from "react-router-dom"
      </div> {/*<!--end grid-->*/} 
 
      <div className={cls4}> 
-        {beritaData&& Array.isArray(beritaData.contents)&&beritaData.contents.map((item,index)=>{
+        {list&& Array.isArray(list.records)&&list.records.map((item,index)=>{
             return <div className={cls5}> 
                  <div className={cls6}> 
-                     <img src={item.cover} alt={item.title} className={cls7}/> 
+                     <img src={`/assets/images/berita/covers/${item.cover}`} alt={item.title} className={cls7}/> 
                      <div className={cls8}> 
-                         <span className={cls9}> {item.tags} </span> 
+                         <span className={cls9}> {item.tags??'Berita'} </span> 
                      </div> 
                  </div> 
 
