@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import beritaData from "@/web/data/berita.json"
 import { randStamp } from "@/global/fn"
 export const fetchBerita= createAsyncThunk("fetch-berita", async () => {
-    const response = await fetch(`/web/data/berita.json?_=${randStamp()}`)
+    const response = await fetch(`/web/data/berita/berita.json?_=${randStamp()}`)
     return response.json()
 })
 export const pushBerita = createAsyncThunk("push-berita", async (company) => {
