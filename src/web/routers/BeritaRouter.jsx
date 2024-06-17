@@ -14,7 +14,6 @@ import {ROUTER_BASE} from "@/config.json"
 
 import BeritaApp,{loader as beritaLoader} from "@/web/apps/BeritaApp"
 import BeritaList from "@/web/apps/berita/BeritaList"
-import BeritaListByAuthor from "@/web/apps/berita/BeritaListByAuthor"
 import BeritaDetail from "@/web/apps/berita/BeritaDetail"
 import MBeritaRo from "@/global/git/orm/ro/models/MBeritaRo"
 const mBeritaRo = new MBeritaRo()
@@ -34,15 +33,16 @@ const Router = ({}) => {
     initModel()
   }, [setReload,setLoadingModel])
 
-  useEffect(()=>{
-    console.info('ROUTER')
-  },[])
+  // useEffect(()=>{
+  //   console.info('ROUTER')
+  // },[])
   const router = createHashRouter(
     createRoutesFromElements(
       <Route path="" element={<BeritaApp />}>
         <Route index={true} element={<BeritaList model={mBeritaRo} loadingModel={loadingModel}  reload={reload}/>} loader={beritaLoader} />
         <Route path="page/:pageNumber" element={<BeritaList  model={mBeritaRo} loadingModel={loadingModel} reload={reload}/>} loader={beritaLoader} />
-        <Route path="penulis/:author/page/:pageNumber" element={<BeritaListByAuthor loadingModel={loadingModel} model={mBeritaRo} reload={reload}/>} loader={beritaLoader} />
+        <Route path="penulis/:author/page/:pageNumber" element={<BeritaList byAuthor={true} loadingModel={loadingModel} model={mBeritaRo} reload={reload}/>} loader={beritaLoader} />
+        <Route path="penulis/:author" element={<BeritaList byAuthor={true} loadingModel={loadingModel} model={mBeritaRo} reload={reload}/>} loader={beritaLoader} />
         <Route path="baca/:id/:slug" element={<BeritaDetail  model={mBeritaRo} loadingModel={loadingModel} reload={reload}/>} loader={beritaLoader} />
 
       </Route>,

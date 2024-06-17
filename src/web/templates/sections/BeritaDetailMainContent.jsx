@@ -1,11 +1,12 @@
 import Hero from "../blocks/Hero"
 
 import FullBeritaDetail from "../blocks/FullBeritaDetail"
-import BannerCrumb from "../blocks/BannerCrumb"
+import BeritaBanner from "../blocks/BeritaBanner"
 import { useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
-
-// import Counter from "@/global/store/features/counter/Counter"
+import {getBlocksReadingTime} from "@/global/fn/getBlocksReadingTime"
+import moment from "moment" 
+import {createDateFromSqlDateTime} from "@/global/fn/createDateFromSqlDateTime"
 
 const BeritaDetailMainContent = ({ model,loadingModel,reload }) => {
   const {id}=useLoaderData()
@@ -17,6 +18,12 @@ const BeritaDetailMainContent = ({ model,loadingModel,reload }) => {
   const loadBeritaDetail = async()=>{
     setLoading(true)
     const detail = await model.get(id)
+    
+    try{detail.content = JSON.parse(detail.content)}catch(e){detail.content=[]}
+    detail.readingTime = getBlocksReadingTime(detail.content)
+    detail.tanggal = moment(createDateFromSqlDateTime(detail.dateCreated)).format('DD/MM/YYYY')
+    const link = `${document.location.href}`
+    detail.shareLink = encodeURIComponent(link)
     setBerita(oData=>({...oData,...detail}))
     const breadcrumbs = [
       { title: "Home", path: "/" },
@@ -34,7 +41,7 @@ const BeritaDetailMainContent = ({ model,loadingModel,reload }) => {
   },[id,setBerita,reload,setLoading])
   return (
     <>
-      <BannerCrumb banner={banner} breadcrumbs={breadcrumbs} />
+      <BeritaBanner banner={banner} breadcrumbs={breadcrumbs} berita={berita}/>
       <section className="relative md:py-24 py-16 overflow-hidden">
         <FullBeritaDetail className="mt-12" berita={berita} loading={loading} />
       </section>

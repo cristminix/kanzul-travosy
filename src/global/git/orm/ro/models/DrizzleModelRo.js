@@ -181,7 +181,7 @@ class DrizzleModelRo extends DrizzleBaseModelRo {
 	}
 	async countAll() {
 		const result = await this.drizzleQuery(this.db.select({ count: count() }).from(this.schema))
-		console.log(result)
+		// console.log(result)
 		const [row] = result
 		if (row) return row[Object.keys(row).at(0)]
 		return 0
@@ -240,6 +240,26 @@ class DrizzleModelRo extends DrizzleBaseModelRo {
 		}
 		return records
 	}
+	async getCountWithSearch(searchType, searchField, searchQuery){
+		let result
+		if(searchType==='single'){
+			result = await this.drizzleQuery(this.db
+				.select({ count: count(this.schema.id) })
+				.from(this.schema)
+				.where(like(this.schema[searchField], `%${searchQuery}%`))
+			)	  
+		
+		}else{
+			result = await this.drizzleQuery(this.db
+				.select({ count: count(this.schema.id) })
+				.from(this.schema)
+				.where(searchCondition)
+			)
+		}
+		const [row] = result
+		if (row) return row[Object.keys(row).at(0)]
+		return 0
+	}
 	async getList(_limit = 5, _page = 1, _order = null, _filter = null, _search = null) {
 		let {
 			limit,
@@ -258,8 +278,8 @@ class DrizzleModelRo extends DrizzleBaseModelRo {
 			hasSearchAndFilter,
 		} = this.getListParam(_limit, _page, _order, _filter, _search)
 
-		const totalRecords = await this.countAll()
-		const totalPages = calculateTotalPages(totalRecords, limit)
+		let totalRecords = 0 
+		 
 
 		let records = []
 
@@ -271,6 +291,7 @@ class DrizzleModelRo extends DrizzleBaseModelRo {
 			} else {
 				records = await this.getRecordsWithSearch(orderBy, searchType, searchField, searchQuery)
 			}
+			totalRecords = await this.getCountWithSearch(searchType, searchField, searchQuery)
 		} else if (hasFilter) {
 			let condition = this.addQueryFilter(filter)
 
@@ -286,7 +307,9 @@ class DrizzleModelRo extends DrizzleBaseModelRo {
 			} else {
 				records = await this.getRecords(orderBy)
 			}
+			totalRecords = await this.countAll()
 		}
+		const totalPages = calculateTotalPages(totalRecords, limit)
 
 		return { limit, totalPages, totalRecords, recordCount: records.length, records }
 	}

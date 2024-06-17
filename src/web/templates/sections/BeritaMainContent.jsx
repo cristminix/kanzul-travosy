@@ -13,8 +13,10 @@ const breadcrumbs = [
 import {useState,useEffect} from "react"
 import {useLoaderData} from "react-router-dom"
 
-const BeritaMainContent = ({ beritaData , model,reload,loadingModel}) => {
-  const {pageNumber} = useLoaderData()
+const BeritaMainContent = ({ beritaData , model,reload,loadingModel,byAuthor}) => {
+  const {pageNumber,author} = useLoaderData()
+  console.log({byAuthor,author,pageNumber})
+
   // console.log(beritaData)
   const [list,setList] = useState([])
   const [loading,setLoading] = useState(loadingModel)
@@ -27,8 +29,24 @@ const BeritaMainContent = ({ beritaData , model,reload,loadingModel}) => {
   const updateList=async(pageNumber)=>{
     setLoading(true)
     const page = parseInt(pageNumber||1)
-    const newList = await model.getList(limit,page)
-    console.log(newList)
+    let newList = null 
+    if(!byAuthor){
+      newList = await model.getList(limit,page)
+    }else{
+        newList = await model.getList({limit,page,search:{
+          type:'single',
+          field:'author',
+          query:author
+        }})
+    }
+    if(!newList) {
+      setLoading(false)
+      return
+    }
+    // console.log(newList)
+    for(const row of newList.records){
+        row.readingTime = await model.getReadingTime(row.id)
+    }
     setList(oList=>newList)
     setPager(oPager=>({
       ...oPager,limit,page,
@@ -42,15 +60,15 @@ const BeritaMainContent = ({ beritaData , model,reload,loadingModel}) => {
 
     if(model && model.ready)
       updateList(pageNumber)
-  },[setList,reload,setPager,pageNumber,setLoading])
-
+  },[setList,reload,setPager,pageNumber,setLoading,byAuthor,author])
+  const routeName=byAuthor?`penulis/${author}/page`:'page'
   return (
     <>
       <BannerCrumb banner={beritaData.banner} breadcrumbs={breadcrumbs} />
       <section className="relative md:twx-py-12 twx-py-8 overflow-hidden">      
         <div className="container twx-relative">
           <BeritaList list={list} loading={loading}/>
-          <BeritaPager pager={pager} loading={loading}/>
+          <BeritaPager pager={pager} loading={loading} routeName={routeName}/>
           {/*<section className="relative md:py-24 py-16 overflow-hidden">
         <FullBerita className="mt-12" berita={beritaData} />
       </section>*/}

@@ -1,5 +1,6 @@
 import {Link} from "react-router-dom"
 import BeritaItemSkeleton from '../../apps/berita/components/BeritaItemSkeleton';
+import {fixTags} from "@/global/fn/fixTags"
 import {User as IconUser} from "react-feather"
  const BeritaList = ({list,loading})=>{
     const styles = {  }
@@ -26,12 +27,7 @@ import {User as IconUser} from "react-feather"
         const cls20 = "cls-20 feather feather-chevron-right size-4 ms-1"
         const skeleton = "twx-shadow twx-bg-slate-300 twx-opacity-80 twx-shadow twx-rounded-md"
 
-    const fixTags = (tags)=>{
-        tags=tags?tags.trim():""
-        if(tags == "null" || tags=="")
-            return "No Tags"
-        return tags
-    }    
+      
         
     return <>
     <div className={cls0}> 
@@ -82,7 +78,7 @@ import {User as IconUser} from "react-feather"
                          <span className={cls12}> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={cls13}> 
                                  <circle cx="12" cy="12" r="10"> </circle> 
                                  <polyline points="12 6 12 12 16 14"> </polyline> 
-                             </svg> {item.readTime||5} menit baca </span> 
+                             </svg> {item.readingTime} menit baca </span> 
                          <span className={`${cls14} twx-flex twx-items-center`}> <IconUser className="feather-icon inline-block twx-text-black !twx-w-[14.6px] !twx-h-[14.6px]"/>  <Link to={`/penulis/${item.author}`} className={cls15}> {item.author} </Link> </span> 
                      </div> 
 

@@ -26,7 +26,7 @@
                      <img src="/assets/images/logo/logo-dark.png" alt="" className={cls4}/> 
                      <img src="/assets/images/logo/logo-light.png" alt="" className={cls5}/> 
                  </span> 
-                 <img src="/assets/images/logo-white.png" alt="" className={cls6}/> 
+                 <img src="/assets/images/logo/logo-white.png" alt="" className={cls6}/> 
              </a> 
              {/*<!-- End Logo container-->*/} 
 

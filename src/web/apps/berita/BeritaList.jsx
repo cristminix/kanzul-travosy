@@ -5,7 +5,7 @@ import BeritaMainContent from "@/web/templates/sections/BeritaMainContent"
 
 import {useEffect,useState} from "react"
 
-const BeritaList = ({model, reload, loadingModel})=>{
+const BeritaList = ({model, reload, loadingModel, byAuthor})=>{
   const beritaState = useSelector(state=>state.berita)
   const dispatch = useDispatch()
  
@@ -14,7 +14,7 @@ const BeritaList = ({model, reload, loadingModel})=>{
 
   }, [dispatch])
  	
-	return <BeritaMainContent beritaData={beritaState.data} loadingModel={loadingModel} reload={reload} model={model}/>
+	return <BeritaMainContent byAuthor={byAuthor} beritaData={beritaState.data} loadingModel={loadingModel} reload={reload} model={model}/>
 }
 
 export default BeritaList
