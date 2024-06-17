@@ -7,6 +7,20 @@ class DrizzleModelRo extends DrizzleBaseModelRo {
 	pk = "id"
 	searchFields=[]
 	selectList={}
+	async get(pk) {
+		let condition
+		if (typeof pk === "object" && pk !== null) {
+			const objectParam = pk
+			const validFilter = this.isValidFilter(objectParam)
+			if (!validFilter) return null
+			condition = this.addQueryFilter(objectParam)
+		} else {
+			condition = this.addQueryFilter({ [this.pk]: pk })
+		}
+		const result = await this.drizzleQuery(this.db.select().from(this.schema).where(condition))
+		const [row] = result
+		return row
+	}
 
 	buildSelectList(excludeFields=[]){
 		const allFields=Object.keys(this.schema)
