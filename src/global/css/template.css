@@ -22,9 +22,12 @@ body {
 
 #topnav {
    max-height: 75px;
-   overflow: hidden;
+/*   overflow: hidden;*/
 }
 
 .block-data > p{
     @apply twx-mb-4
+}
+.sub-menu-item{
+    @apply twx-uppercase
 }

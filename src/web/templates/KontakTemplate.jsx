@@ -1,27 +1,28 @@
 import { useEffect, useState } from "react"
 
 import { useDispatch, useSelector } from "react-redux"
-import kontakSlice, { fetchKontak } from "@/global/store/features/kontakSlice"
+import { fetchKontak } from "@/global/store/features/kontakSlice"
+import { fetchCompany } from "@/global/store/features/companySlice"
 
-import ColumnLayout from "./layouts/ColumnLayout" 
+import ColumnLayout from "./layouts/ColumnLayout"
 import KontakMainContent from "./sections/KontakMainContent"
 
 const KontakTemplate = ({}) => {
-  
-  
   const dispatch = useDispatch()
 
   const kontakState = useSelector((state) => state.kontak)
+  const companyState = useSelector((state) => state.company)
+
   console.log(kontakState)
   useEffect(() => {
-  
     dispatch(fetchKontak())
-    feather.replace()
+    dispatch(fetchCompany())
 
+    feather.replace()
   }, [dispatch])
   return (
     <ColumnLayout>
-      <KontakMainContent kontakData={kontakState.data} />
+      <KontakMainContent companyData={companyState.data} kontakData={kontakState.data} />
     </ColumnLayout>
   )
 }

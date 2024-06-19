@@ -19,7 +19,17 @@
     "template": "profile/index.html",
     "inject": {
       "data": {
-        "title": "profil Page"
+        "title": "Profil Page"
+      }
+    }
+  },
+  "produk": {
+    "entry": "src/web/pages/produk.jsx",
+    "filename": "/produk/index.html",
+    "template": "produk/index.html",
+    "inject": {
+      "data": {
+        "title": "Produk Page"
       }
     }
   },
@@ -29,7 +39,7 @@
     "template": "lembaga/index.html",
     "inject": {
       "data": {
-        "title": "lembaga Page"
+        "title": "Lembaga Page"
       }
     }
   },
@@ -39,7 +49,7 @@
     "template": "kegiatan/index.html",
     "inject": {
       "data": {
-        "title": "kegiatan Page"
+        "title": "Kegiatan Page"
       }
     }
   },
@@ -49,7 +59,7 @@
     "template": "pendaftaran/index.html",
     "inject": {
       "data": {
-        "title": "pendaftaran Page"
+        "title": "Pendaftaran Page"
       }
     }
   },

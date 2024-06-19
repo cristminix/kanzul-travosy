@@ -21,21 +21,21 @@ import companyUiSchema from "@/web/data/forms/company/ui.json"
 import contactPersonSchema from "@/web/data/forms/contact-person/schema.json"
 import contactPersonUiSchema from "@/web/data/forms/contact-person/ui.json"
 
-import shortBeritaSchema from "@/web/data/forms/profile/short/schema.json"
-import shortBeritaUiSchema from "@/web/data/forms/profile/short/ui.json"
+import shortProdukSchema from "@/web/data/forms/profile/short/schema.json"
+import shortProdukUiSchema from "@/web/data/forms/profile/short/ui.json"
 
-import beritaSchema from "@/web/data/forms/berita/schema.json"
-import beritaUiSchema from "@/web/data/forms/berita/ui.json"
+import produkSchema from "@/web/data/forms/produk/schema.json"
+import produkUiSchema from "@/web/data/forms/produk/ui.json"
 
 import metaSchema from "@/web/data/forms/pages/schema.json"
 import metaUiSchema from "@/web/data/forms/pages/ui.json"
 
-import BeritaList from "./components/BeritaList"
-// import MBerita from "@/global/git/models/MBerita"
-import MBeritaRw from "@/global/git/orm/rw/models/MBeritaRw"
+import ProdukList from "./components/ProdukList"
+// import MProduk from "@/global/git/models/MProduk"
+import MProdukRw from "@/global/git/orm/rw/models/MProdukRw"
 
-import MMetaBerita from "@/global/git/models/m-meta/MMetaBerita"
-import MBeritaBanner from "@/global/git/models/m-banner/MBeritaBanner"
+import MMetaProduk from "@/global/git/models/m-meta/MMetaProduk"
+import MProdukBanner from "@/global/git/models/m-banner/MProdukBanner"
 
 
 import JsonForm from "./JsonForm"
@@ -49,21 +49,21 @@ import {createDateFromSqlDateTime} from "@/global/fn/createDateFromSqlDateTime"
 import {Plus as IconPlus} from "react-feather"
 import {getFileInfo} from "@/global/fn/getFileInfo"
 const git = createGit()
-// const mBerita = new MBerita(git, beritaSchema)
-const mBeritaBanner = new MBeritaBanner(git, bannerSchema)
-const mMetaBerita = new MMetaBerita(git, metaSchema)
-const mBeritaRw = new MBeritaRw(git)
+// const mProduk = new MProduk(git, produkSchema)
+const mProdukBanner = new MProdukBanner(git, bannerSchema)
+const mMetaProduk = new MMetaProduk(git, metaSchema)
+const mProdukRw = new MProdukRw(git)
 
-const pageTitle = "Konten Berita"
+const pageTitle = "Konten Produk"
 const breadcrumbs = [
   { title: "Konten", path: "contents" },
-  { title: "Berita", path: "content/berita" },
+  { title: "Produk", path: "content/produk" },
 ] 
 
-const routePath = "/contents/berita"
+const routePath = "/contents/produk"
 
 
-const BeritaContentPage = ({ subModule }) => {
+const ProdukContentPage = ({ subModule }) => {
   const location = useLocation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -90,36 +90,36 @@ const BeritaContentPage = ({ subModule }) => {
   }
 
   
-  const [beritaListData, setBeritaListData] = useState([])
-  const [beritaFormData, setBeritaFormData] = useState(null)
-  const [formBeritaShown, showFormBerita] = useState(false)
+  const [produkListData, setProdukListData] = useState([])
+  const [produkFormData, setProdukFormData] = useState(null)
+  const [formProdukShown, showFormProduk] = useState(false)
 
-  const loadBeritaListData = async () => {
-    await mBeritaRw.initOrm()
-    const data =  mBeritaRw.getAll()
-    setBeritaListData(data)
+  const loadProdukListData = async () => {
+    await mProdukRw.initOrm()
+    const data =  mProdukRw.getAll()
+    setProdukListData(data)
   }
-  const showEditFormBerita = async (row) => {
+  const showEditFormProduk = async (row) => {
     const formData = {...row}
-    formData.cover = await git.getFile64Data(`/assets/images/berita/covers/${formData.cover}`)
+    formData.cover = await git.getFile64Data(`/assets/images/produk/covers/${formData.cover}`)
     // console.log(formData.cover)
     formData.content = JSON.parse(formData.content)
     formData.readTime = getBlocksReadingTime(formData.content)
 
     // console.log(formData)  
-    setBeritaFormData(oFormData=>({...oFormData,...formData}))
-    showFormBerita(true)
+    setProdukFormData(oFormData=>({...oFormData,...formData}))
+    showFormProduk(true)
   }
-  const showAddFormBerita = async (row) => {
+  const showAddFormProduk = async (row) => {
     const formData = {}
-    // formData.cover = await git.getFile64Data(`/assets/images/berita/covers/${formData.cover}`)
+    // formData.cover = await git.getFile64Data(`/assets/images/produk/covers/${formData.cover}`)
     // console.log(formData.cover)
     formData.content = []
     formData.readTime = 0
 
     // console.log(formData)  
-    setBeritaFormData(oFormData=>({...formData}))
-    showFormBerita(true)
+    setProdukFormData(oFormData=>({...formData}))
+    showFormProduk(true)
   }
   const saveCoverImage = async(dataUrl)=>{
     let fileInfo
@@ -130,7 +130,7 @@ const BeritaContentPage = ({ subModule }) => {
       console.log(`fileTransform error: getFileInfo failed`)
     }
     if(fileInfo){
-      const coverImageGitPath = `assets/images/berita/covers/${fileInfo.name}`
+      const coverImageGitPath = `assets/images/produk/covers/${fileInfo.name}`
       const coverImageFsPath = git.basePath(coverImageGitPath)
       
       try {
@@ -145,7 +145,7 @@ const BeritaContentPage = ({ subModule }) => {
     }
     return fileInfo
   }
-  const onSaveFormBerita = async (e) => {
+  const onSaveFormProduk = async (e) => {
     const { formData } = e
     console.log(formData)
     showLoading(true)
@@ -162,18 +162,18 @@ const BeritaContentPage = ({ subModule }) => {
 
       if(formData.id){
         // perform update
-        const oldRow = await mBeritaRw.getRow(formData.id)
+        const oldRow = await mProdukRw.getRow(formData.id)
         if(!fileInfo){
           formData.cover = oldRow.cover
         }
-        await mBeritaRw.update(formData.id, formData)
+        await mProdukRw.update(formData.id, formData)
         
       }else{
         // perform create
         formData.dateCreated=dateToSqlDateTime()
-        await mBeritaRw.create(formData)
+        await mProdukRw.create(formData)
       }
-      await mBeritaRw.commit(true)
+      await mProdukRw.commit(true)
       
     } catch (e) {
       dispatch(displayAlert(["danger","error",e.toString()]))
@@ -181,15 +181,15 @@ const BeritaContentPage = ({ subModule }) => {
     }
 
     showLoading(false)
-    showFormBerita(false)
-    loadBeritaListData()
+    showFormProduk(false)
+    loadProdukListData()
   }
 
-  const [metaFormData, setMetaFormData] = useState(mMetaBerita.defaultValue)
+  const [metaFormData, setMetaFormData] = useState(mMetaProduk.defaultValue)
   const [formMetaShown, showFormMeta] = useState(false)
 
   const loadMetaData = async () => {
-    const data = await mMetaBerita.get()
+    const data = await mMetaProduk.get()
     // console.log(data)
     setMetaFormData(data)
   }
@@ -202,8 +202,8 @@ const BeritaContentPage = ({ subModule }) => {
     const { formData } = e
     showLoading(true)
     try {
-      await mMetaBerita.update(formData)
-      await mMetaBerita.commit(true)
+      await mMetaProduk.update(formData)
+      await mMetaProduk.commit(true)
     } catch (e) {
       dispatch(displayAlert(["danger","error",e.toString()]))
     }
@@ -218,8 +218,8 @@ const BeritaContentPage = ({ subModule }) => {
     const tabName = pathnames.at(-1)
     setTabKey(tabName)
 
-    if (tabName === "berita") {
-      loadBeritaListData()
+    if (tabName === "produk") {
+      loadProdukListData()
     } 
      
     else if (tabName === "meta") {
@@ -228,7 +228,7 @@ const BeritaContentPage = ({ subModule }) => {
     setTrigger(crc32id())
       
     }
-  }, [location.key, setTabKey,setBeritaFormData,setMetaFormData])
+  }, [location.key, setTabKey,setProdukFormData,setMetaFormData])
   return (
     <MainContentLayout
       pageTitle={pageTitle}
@@ -243,7 +243,7 @@ const BeritaContentPage = ({ subModule }) => {
                   <BannerEditor
                     showLoading={showLoading}
                     page="profile"
-                    model={mBeritaBanner}
+                    model={mProdukBanner}
                     trigger={trigger}
                     schema={bannerSchema}
                     uiSchema={bannerUiSchema}
@@ -251,20 +251,20 @@ const BeritaContentPage = ({ subModule }) => {
                   />
                 )}
               </Tab>
-              <Tab eventKey="berita" title="Berita">
-                {tabKey === "berita" && (
+              <Tab eventKey="produk" title="Produk">
+                {tabKey === "produk" && (
                   <>
-                    {!formBeritaShown ? (
+                    {!formProdukShown ? (
                       <>
-                        <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Daftar Berita</h4>
-                        <BeritaList
+                        <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Daftar Produk</h4>
+                        <ProdukList
                           git={git}
                           className="twx-border twx-border-slate-200 twx-border-solid"
-                          data={beritaListData}
-                          onEditRow={(row) => showEditFormBerita(row, "utama")}
+                          data={produkListData}
+                          onEditRow={(row) => showEditFormProduk(row, "utama")}
                         />
                          <div className="twx-py-4 twx-flex twx-justify-end">
-                          <Button size="sm" onClick={(e) => showAddFormBerita()}>
+                          <Button size="sm" onClick={(e) => showAddFormProduk()}>
                             <IconPlus className="feather-icon" /> Add
                           </Button>
                         </div>
@@ -272,12 +272,12 @@ const BeritaContentPage = ({ subModule }) => {
                     ) : (
                       <>
                         <JsonForm
-                          title={`${beritaFormData.id?'Edit':'Add'} Item Berita`}
-                          formData={beritaFormData}
-                          schema={beritaSchema}
-                          uiSchema={beritaUiSchema}
-                          onSubmit={(e) => onSaveFormBerita(e)}
-                          onCancel={(e) => showFormBerita(false)}
+                          title={`${produkFormData.id?'Edit':'Add'} Item Produk`}
+                          formData={produkFormData}
+                          schema={produkSchema}
+                          uiSchema={produkUiSchema}
+                          onSubmit={(e) => onSaveFormProduk(e)}
+                          onCancel={(e) => showFormProduk(false)}
                         />
                       </>
                     )}
@@ -319,4 +319,4 @@ const BeritaContentPage = ({ subModule }) => {
   )
 }
 
-export default BeritaContentPage
+export default ProdukContentPage

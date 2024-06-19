@@ -21,6 +21,7 @@ let templates_jsonFileList = []
 let forms_jsonFileList = []
 let default_jsonFileList = []
 let berita_dbFileList = []
+let produk_dbFileList = []
 
 for(const file of jsonDataFileList){
   // console.log(file)
@@ -36,6 +37,9 @@ for(const file of jsonDataFileList){
   }
   else if(file.match(/\web\/data\/berita/)){
     berita_dbFileList.push(file)
+  }
+  else if(file.match(/\web\/data\/produk/)){
+    produk_dbFileList.push(file)
   }
   else{
     default_jsonFileList.push(file)
@@ -103,6 +107,10 @@ export default defineConfig({
         {
           src:berita_dbFileList,
           dest:'web/data/berita'
+        },
+        {
+          src:produk_dbFileList,
+          dest:'web/data/produk'
         }
       ],
     }),

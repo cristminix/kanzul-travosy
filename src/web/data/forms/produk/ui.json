@@ -1,0 +1,26 @@
+{
+
+  "title": {
+    "ui:autofocus": true
+
+  },
+  "slug": {
+  },
+  "cover": {
+    "ui:options": {
+        "filePreview": true
+      }
+  },
+  "date": {
+  },
+  "headline": {
+    "ui:widget": "textarea"
+
+  },
+  "content":{
+    "ui:widget": "block"
+
+  },
+  "tags": {
+  }
+}

@@ -1,21 +1,22 @@
-import Hero from "../blocks/Hero"
+import GoogleMap from "../blocks/GoogleMap"
+import ContactForm from "../blocks/ContactForm"
+import ContactAddress from "../blocks/ContactAddress"
 
-import FullKontak from "../blocks/FullKontak"
-import BannerCrumb from "../blocks/BannerCrumb"
+const KontakMainContent = ({ kontakData, companyData }) => {
+  const cls4 = "cls-4 relative lg:py-24 py-16"
 
-// import Counter from "@/global/store/features/counter/Counter"
-
-const KontakMainContent = ({ kontakData }) => {
   console.log(kontakData)
-  const breadcrumbs = [
-    { title: "Home", path: "/" },
-    { title: "Kontak", path: "/kontak" },
-  ]
+  console.log(companyData)
+  // const breadcrumbs = [
+  //   { title: "Home", path: "/" },
+  //   { title: "Kontak", path: "/kontak" },
+  // ]
   return (
     <>
-      <BannerCrumb banner={kontakData.banner} breadcrumbs={breadcrumbs} />
-      <section className="relative md:py-24 py-16 overflow-hidden">
-        <FullKontak className="mt-12" kontak={kontakData} />
+      <GoogleMap embedUrl={companyData.googleMapEmbedUrl} />
+      <section className={cls4}>
+        <ContactForm />
+        <ContactAddress company={companyData}/>
       </section>
     </>
   )

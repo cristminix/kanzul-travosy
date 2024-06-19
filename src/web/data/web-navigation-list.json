@@ -5,11 +5,17 @@
 	},
 	{
 		"title": "Profile",
-		"path": "/profile"
+		"path": "/profile",
+		"children":[
+			{
+				"title": "Lembaga",
+				"path": "/lembaga"
+			}
+		]
 	},
 	{
-		"title": "Lembaga",
-		"path": "/lembaga"
+		"title": "Produk",
+		"path": "/produk"
 	},
 	{
 		"title": "Kegiatan",

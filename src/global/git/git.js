@@ -279,7 +279,7 @@ class Git {
     await git.remove({ fs: this.fs, dir: this.dir, filepath: gitPath })
   }
   async add(gitPath) {
-    await git.remove({ fs: this.fs, dir: this.dir, filepath: gitPath })
+    await git.add({ fs: this.fs, dir: this.dir, filepath: gitPath })
   }
 }
 

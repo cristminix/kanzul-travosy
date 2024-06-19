@@ -19,6 +19,7 @@ import pendaftaranSlice from "./features/pendaftaranSlice"
 import kontakSlice from "./features/kontakSlice"
 import kegiatanSlice from "./features/kegiatanSlice"
 import explorerSlice from "./features/explorerSlice"
+import produkSlice from "./features/produkSlice"
 // import storage from 'redux-persist/lib/storage';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import storageSession from 'redux-persist/lib/storage/session'
@@ -64,7 +65,8 @@ const rootReducer = combineReducers( {
     pendaftaran: pendaftaranSlice.reducer,
     kontak:kontakSlice.reducer,
     kegiatan:kegiatanSlice.reducer,
-    explorer:explorerSlice.reducer
+    explorer:explorerSlice.reducer,
+    produk: produkSlice.reducer
   }); 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 const listenerMiddleware = createListenerMiddleware()

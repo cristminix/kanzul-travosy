@@ -3,11 +3,11 @@ import HeaderSocialLinkList from "../blocks/HeaderSocialLinkList"
 export default function TagLine ({companyData,socialNetworkLinks}){
     return <>
     {/* <!-- TAGLINE START--> */}
-    <div className="tagline bg-slate-900">
+    <div className="tagline bg-slate-900 !twx-pb-0 !twx-pt-[7px] twx-h-[47px]">
         <div className="container relative">
             <div className="grid grid-cols-1">
                 <div className="flex items-center justify-between">
-                    <ul className="list-none">
+                    <ul className="list-none twx-leading-8">
                         <li className="inline-flex items-center">
                             <i data-feather="award" className="text-red-500 size-4"></i>
                             <span className="ms-2 text-slate-300">Pondok Pesantren Kanzululum</span>
@@ -18,7 +18,7 @@ export default function TagLine ({companyData,socialNetworkLinks}){
                         </li>
                     </ul>
 
-                    <ul className="list-none">
+                    <ul className="list-none twx-leading-8">
                         <li className="inline-flex items-center">
                             <i data-feather="mail" className="text-red-500 size-4"></i>
                             <a href={`mailto:${companyData.email}`}

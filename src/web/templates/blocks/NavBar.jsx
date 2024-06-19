@@ -3,7 +3,7 @@
  import Navigation from "./Navigation"
  const NavBar = ({webNavigationList})=>{
     const styles = {  }
-    const cls0 = "cls-0 defaultscroll is-sticky tagline-height"
+    const cls0 = "cls-0 defaultscroll tagline-height"
 		const cls1 = "cls-1 container relative"
 		const cls2 = "cls-2 logo"
 		const cls3 = "cls-3 inline-block dark:hidden"
@@ -15,7 +15,18 @@
 		const cls9 = "cls-9 navbar-toggle"
 		const cls10 = "cls-10 lines"
 		
-
+        /*********************/
+/* Toggle Menu */
+/*********************/
+const toggleMenu = () =>{
+    document.getElementById('isToggle').classList.toggle('open');
+    var isOpen = document.getElementById('navigation')
+    if (isOpen.style.display === "block") {
+        isOpen.style.display = "none";
+    } else {
+        isOpen.style.display = "block";
+    }
+};
     return <>
       {/*<!-- Start Navbar -->*/} 
      <nav id="topnav" className={cls0}> 

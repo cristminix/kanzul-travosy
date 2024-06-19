@@ -10,7 +10,7 @@
   "properties": {
   
     "title": {
-      "title": "Title",
+      "title": "Nama Produk",
       "type": "string"
     },
     "slug": {
@@ -18,16 +18,16 @@
       "type": "string"
     },
     "cover": {
-      "title": "Cover Image",
+      "title": "Gambar",
       "type": "string",
         "format": "data-url"
     },
     "headline": {
-      "title": "Headline",
+      "title": "Keterangan Singkat",
       "type": "string"
     },
     "content": {
-      "title": "Content",
+      "title": "Keterangan",
       "type": "string"
     },
     "tags": {
@@ -35,7 +35,7 @@
       "type": "string"
     },
     "author": {
-      "title": "Penulis",
+      "title": "Kategori",
       "type": "string"
     }
   }

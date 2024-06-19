@@ -141,12 +141,14 @@ class DrizzleBaseModelRw {
 	async commit(push = false) {
 		const arrBuffer = this.sqldb.export()
 		console.log(`Write ${this.path}`)
+		await this.git.commit([this.path])
 		try {
 			await this.fs.writeFileSync(this.getDbPath(), arrBuffer)
 		} catch (e) {
 			console.log(`lfs:error cant write ${this.path}`, e)
 		}
 		if (push) {
+			await this.git.push()
 		}
 	}
 	getDbPath() {
