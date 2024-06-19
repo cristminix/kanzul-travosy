@@ -65,11 +65,12 @@ class Sidebar extends Component {
     { title: "Pendaftaran", path: "contents/pendaftaran/banner" },
     { title: "Galeri", path: "contents/galery/banner" },
     { title: "Berita", path: "contents/berita/banner" },
+    { title: "Produk", path: "contents/produk/banner" },
     { title: "Kontak", path: "contents/kontak/banner" },  
     { title: "Template", path: "contents/template/footer" },
     { title: "Daftar File", path: "contents/files" },
     // { title: "Block Editor", path: "contents/block-editor" },
-    { title: "Drizzle Admin", path: "contents/drizzle" },
+    // { title: "Drizzle Admin", path: "contents/drizzle" },
   ]
   render() {
     return (

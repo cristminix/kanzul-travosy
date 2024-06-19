@@ -14,7 +14,7 @@ const AsyncImage=({callback,className})=>{
 	if(source) return <img className={className} src={source}/>
 		return 'loading ...'
 }
-const BeritaList = ({git, className,data, onEditRow = (f) => f }) => {
+const ProdukList = ({git, className,data, onEditRow = (f) => f }) => {
 	const columns = [
 		{
 			name: "No",
@@ -24,20 +24,20 @@ const BeritaList = ({git, className,data, onEditRow = (f) => f }) => {
 			cell:(row, index, column, id) => `${index+1}.`
 		},
 		{
-			name: "Cover",
+			name: "Gambar",
 			prop: "cover",
 			width:"130px",
 			selector: (row) => row.cover,
 			cell: (row) => (<LazyLoadImage className="twx-max-w-[100px]" src={`/assets/images/berita/covers/${row.cover}`}/>)
 		},
 		{
-			name: "Title",
+			name: "Nama Produk",
 			prop: "title",
 			width:"270px",
 			selector: (row) => row.title,
 		},
 		{
-			name: "Headline",
+			name: "Keterangan",
 			width:"300px",
 			
 			prop: "headline",
@@ -84,4 +84,4 @@ const BeritaList = ({git, className,data, onEditRow = (f) => f }) => {
 	)
 }
 
-export default BeritaList
+export default ProdukList
