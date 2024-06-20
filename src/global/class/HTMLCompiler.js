@@ -9,10 +9,12 @@ class HTMLCompiler {
 	baseDir = null
 	parser = null
 	errorHandler=null
+	prefix="baca"
 	constructor(model) {
 		this.model = model
 		this.source = model.compiler.source
 		this.outDir = model.compiler.outDir
+		this.prefix = model.compiler.prefix
 	}
 	setBaseDir(path) {
 		this.baseDir = path
@@ -94,7 +96,7 @@ class HTMLCompiler {
 				dir = this.baseDir
 			}
 			const sourceFsPath = `${dir}/${this.source}`
-			const outDirGitPath = `${this.outDir}/baca/${row.id}/${row.slug}`
+			const outDirGitPath = `${this.outDir}/${this.prefix}/${row.id}/${row.slug}`
 
 			const initOutDirSuccess = await this.initOutputDir(outDirGitPath,dir)
 

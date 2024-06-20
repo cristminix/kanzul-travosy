@@ -98,7 +98,7 @@ const ProdukContentPage = ({ subModule }) => {
   const [formProdukShown, showFormProduk] = useState(false)
 
   const loadProdukListData = async () => {
-    showLoading(true,"Memuat Berita")
+    showLoading(true,"Memuat Produk")
     setProdukListData([])
     await mProdukRw.initOrm()
     setTimeout(()=>{

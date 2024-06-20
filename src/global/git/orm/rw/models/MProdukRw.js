@@ -10,7 +10,8 @@ class MProdukRw extends DrizzleModelRw{
 
 	compiler={
 		source:"lihat-produk/index.html",
-		outDir:"produk"
+		outDir:"produk",
+		prefix:"lihat"
 	}
 	// compiler=null
 		

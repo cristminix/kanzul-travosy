@@ -11,7 +11,8 @@ class MBeritaRw extends DrizzleModelRw{
 
 	compiler={
 		source:"baca-berita/index.html",
-		outDir:"berita"
+		outDir:"berita",
+		prefix:"baca"
 	}
 	// compiler=null
 		
