@@ -73,7 +73,8 @@ const KegiatanContentPage = ({ subModule }) => {
     navigate(`${routePath}/${tabKey}`)
   }
   const showAlert = (type,title,message)=>{
-      dispatch(displayAlert(["danger","error",e.toString()]))
+      dispatch(displayAlert([type,title,message]))
+
   }
   
   const [kegiatanListData, setKegiatanListData] = useState([])

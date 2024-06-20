@@ -83,7 +83,8 @@ const ProfileContentPage = ({ subModule }) => {
   const [shortProfileFormShown, showShortProfileForm] = useState(false)
 
   const showAlert = (type,title,message)=>{
-      dispatch(displayAlert(["danger","error",e.toString()]))
+      dispatch(displayAlert([type,title,message]))
+
   }
 
   const loadShortProfileData = async () => {

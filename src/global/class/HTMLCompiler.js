@@ -1,4 +1,5 @@
 import MetaParser from './MetaParser';
+import {calculateChecksum} from "../fn/calculateChecksum"
 
 class HTMLCompiler {
 	model = null
@@ -7,6 +8,7 @@ class HTMLCompiler {
 	git = null
 	baseDir = null
 	parser = null
+	errorHandler=null
 	constructor(model) {
 		this.model = model
 		this.source = model.compiler.source
@@ -18,7 +20,9 @@ class HTMLCompiler {
 	setTitle(title){
 
 	}
-
+	setErrorLogger(handler=f=>f){
+		this.errorHandler = handler
+	}
 	compileTransform(sourceContent, row) {
 		this.parser = new MetaParser(sourceContent)
 		const source = this.model.compile(this.parser,row)
@@ -27,87 +31,113 @@ class HTMLCompiler {
 		// console.log(source)
 		return source
 	}
-	async compile(id) {
-		const row = await this.model.getRow(id)
+	async initOutputDir(outDirGitPath,baseDir){
+		const { fs, dir } = this.model.git
+		const outDirSplit = outDirGitPath.split('/')
+		let index = 0
+		let lastPath=[]
+		const success=true
+		for(const directory of outDirSplit){
+			const dirPath = index > 0 ? `${lastPath.join("/")}/${directory}` : directory
+			lastPath.push(directory) 
+
+			const dirFsPath = `${baseDir}/${dirPath}`
+			if(!await fs.existsSync(dirFsPath)){
+				try{
+					console.log(`lfs: mkdir ${dirFsPath}`)
+					await fs.mkdirSync(dirFsPath)
+				}catch(e){
+					const message = `lfs error:cant mkdir ${dirFsPath}`
+					this.errorHandler(message,e)
+					console.log(message,e)
+				}
+			}
+			if(!await fs.existsSync(dirFsPath)){
+				success = false
+			}
+			// console.log(dirFsPath)
+			index += 1
+		}
+		// console.log(outDirSplit)
+		return success
+	}
+	async getChecksum(row){
+		let checksum = null
+		// const row = await this.model.getRow(id)
 		if (row) {
-			const { slug } = row
 			let { fs, dir } = this.model.git
 			if (this.baseDir) {
 				dir = this.baseDir
 			}
 			const sourceFsPath = `${dir}/${this.source}`
-			const outDirFsPath = `${dir}/${this.outDir}`
-
-			const outDirGitPath_id_target = `${this.outDir}/${id}`
-			const outDirGitPath_target = `${outDirGitPath_id_target}/${slug}`
-
-			const outDirFsPath_id_target = `${dir}/${outDirGitPath_id_target}`
-			const outDirFsPath_target = `${dir}/${outDirGitPath_target}`
-			const targetGitPath = `${outDirGitPath_target}/index.html`
-			const targetFsPath = `${dir}/${targetGitPath}`
-
-			console.log({
-				sourceFsPath,
-				outDirFsPath_target,
-				targetGitPath,
-				targetFsPath
-			})
-
-			const outDirGitPath_exists = async () => await fs.existsSync(outDirFsPath)
-			const outDirGitPath_id_target_exists = async () => await fs.existsSync(outDirFsPath_id_target)
-			const outDirGitPath_target_exists = async () => await fs.existsSync(outDirFsPath_target)
-
-			if (!(await outDirGitPath_exists())) {
-				try {
-					await fs.mkdirSync(outDirFsPath)
-				} catch (e) {
-					console.log(`lfs error : cant mkdir ${outDirFsPath}`)
-				}
+			let sourceContent = null
+			try {
+				sourceContent = (await fs.readFileSync(sourceFsPath, "utf-8")).toString()
+				const targetOutputBuffer = this.compileTransform(sourceContent, row)
+				checksum = calculateChecksum(targetOutputBuffer)
+			} catch (e) {
+				const message = `lfs error : cant read ${sourceFsPath}`
+				this.errorHandler(message,e)
+				console.log(message,e)
 			}
+		}
 
-			if (await outDirGitPath_exists()) {
-				if (!(await outDirGitPath_id_target_exists())) {
-					try {
-						await fs.mkdirSync(outDirFsPath_id_target)
-					} catch (e) {
-						console.log(`lfs error : cant mkdir ${outDirFsPath_id_target}`)
-					}
-				}
+		return checksum
+	}
+	async compile(row) {
+		// const row = await this.model.getRow(id)
+		let checksum = null
+		let targetGitPath = null
+		if (row) {
+			let { fs, dir } = this.model.git
+			if (this.baseDir) {
+				dir = this.baseDir
 			}
-			if (await outDirGitPath_id_target_exists()) {
-				if (!(await outDirGitPath_target_exists())) {
-					try {
-						await fs.mkdirSync(outDirFsPath_target)
-					} catch (e) {
-						console.log(`lfs error : cant mkdir ${outDirFsPath_target}`)
-					}
-				}
-			}
+			const sourceFsPath = `${dir}/${this.source}`
+			const outDirGitPath = `${this.outDir}/baca/${row.id}/${row.slug}`
 
-			///done check dir///
-			if (await outDirGitPath_target_exists()) {
+			const initOutDirSuccess = await this.initOutputDir(outDirGitPath,dir)
+
+			if(initOutDirSuccess){
+				const outDirFsPath  = `${dir}/${outDirGitPath}`
+				targetGitPath = `${outDirGitPath}/index.html`
+				const targetFsPath  =	`${dir}/${targetGitPath}`
+				
 				console.log(`compiler starting compile ${targetGitPath}`)
+
 				let sourceContent = null
 				try {
 					sourceContent = (await fs.readFileSync(sourceFsPath, "utf-8")).toString()
 				} catch (e) {
-					console.log(`lfs error : cant read ${sourceFsPath}`)
+					const message = `lfs error : cant read ${sourceFsPath}`
+					this.errorHandler(message,e)
+					console.log(message,e)
 				}
 				if (sourceContent) {
 					// console.log(sourceContent)
 					const targetOutputBuffer = this.compileTransform(sourceContent, row)
+					checksum = calculateChecksum(targetOutputBuffer)
 					try{
 						console.log(`Write ${targetFsPath}`)
 						await fs.writeFileSync(targetFsPath,targetOutputBuffer)
 					}catch(e){
-						console.log(`lfs error: cant write ${targetFsPath}`,e)
+						const message = `lfs error: cant write ${targetFsPath}`
+						console.log(message,e)
 					}
 					// console.log(targetOutputBuffer)
+				}else{
+					const message = `compiler error: empty source`
+					this.errorHandler(message)
+					console.log(message)
 				}
+				
 			} else {
-				console.log(`compile error : cant initialize ${outDirFsPath_target}`)
+				const message = `compile error : cant initialize ${outDirGitPath}`
+				this.errorHandler(message)
+				console.log(message)
 			}
 		}
+		return {checksum,targetGitPath}
 	}
 }
 

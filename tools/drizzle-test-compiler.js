@@ -14,8 +14,6 @@ const mBeritaRw = new MBeritaRw(git)
 const compiler = new HTMLCompiler(mBeritaRw)
 
 
-// const compilerBaseDir = path.join(CWD,"dist")
-
 const main=async()=>{
 	console.log(`-----------${new Date}---------------`)
 	await mBeritaRw.initOrm()

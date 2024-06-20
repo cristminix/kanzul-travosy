@@ -2,7 +2,8 @@ import DrizzleModelRw from './DrizzleModelRw';
 import {BeritaSchema} from "../../schema/schema"
 import { inArray, sql } from 'drizzle-orm';
 // import Compiler from './Compiler';
-import {BASE_URL} from "@/config"
+import CONFIG from "../../../../../config.json" assert {type:'json'}
+const BASE_URL = CONFIG.BASE_URL
 class MBeritaRw extends DrizzleModelRw{
 	defaultOrder = { dateUpdated: "asc" }
 	path="web/data/berita/berita.db"

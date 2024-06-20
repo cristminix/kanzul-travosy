@@ -14,9 +14,14 @@ class Fs extends LightningFs {
     return await this.promises.writeFile(path, data)
   }
 
-  async mkdirSync(name) {
+  async mkdirSync(name,opt={}) {
+    if(opt.recursive){
+      return await this.mkdirRecursiveSync(name)
+    }
     return await this.promises.mkdir(name)
   }
+
+  
 
   async existsSync(path) {
     try {

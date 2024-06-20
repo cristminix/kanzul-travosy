@@ -78,7 +78,8 @@ const LembagaContentPage = ({ subModule }) => {
   }
 
   const showAlert = (type,title,message)=>{
-      dispatch(displayAlert(["danger","error",e.toString()]))
+      dispatch(displayAlert([type,title,message]))
+
   }
 
   const onSelectTab = (tabKey) => {

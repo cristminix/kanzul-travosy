@@ -33,7 +33,7 @@ import metaUiSchema from "@/web/data/forms/pages/ui.json"
 import BeritaList from "./components/BeritaList"
 // import MBerita from "@/global/git/models/MBerita"
 import MBeritaRw from "@/global/git/orm/rw/models/MBeritaRw"
-import Compiler from "@/global/git/orm/rw/models/Compiler"
+import HTMLCompiler from "@/global/class/HTMLCompiler"
 
 import MMetaBerita from "@/global/git/models/m-meta/MMetaBerita"
 import MBeritaBanner from "@/global/git/models/m-banner/MBeritaBanner"
@@ -47,6 +47,7 @@ import BannerEditor from "./components/BannerEditor"
 import {getBlocksReadingTime} from "@/global/fn/getBlocksReadingTime"
 import {dateToSqlDateTime} from "@/global/fn/dateToSqlDateTime"
 import {createDateFromSqlDateTime} from "@/global/fn/createDateFromSqlDateTime"
+
 import {Plus as IconPlus} from "react-feather"
 import {getFileInfo} from "@/global/fn/getFileInfo"
 const git = createGit()
@@ -54,7 +55,7 @@ const git = createGit()
 const mBeritaBanner = new MBeritaBanner(git, bannerSchema)
 const mMetaBerita = new MMetaBerita(git, metaSchema)
 const mBeritaRw = new MBeritaRw(git)
-const compiler = new Compiler(mBeritaRw)
+const compiler = new HTMLCompiler(mBeritaRw)
 const pageTitle = "Konten Berita"
 const breadcrumbs = [
   { title: "Konten", path: "contents" },
@@ -62,7 +63,6 @@ const breadcrumbs = [
 ] 
 
 const routePath = "/contents/berita"
-
 
 const BeritaContentPage = ({ subModule }) => {
   const location = useLocation()
@@ -84,7 +84,7 @@ const BeritaContentPage = ({ subModule }) => {
     }
   }
   const showAlert = (type,title,message)=>{
-      dispatch(displayAlert(["danger","error",e.toString()]))
+      dispatch(displayAlert([type,title,message]))
   }
   const onSelectTab = (tabKey) => {
     navigate(`${routePath}/${tabKey}`)
@@ -96,9 +96,16 @@ const BeritaContentPage = ({ subModule }) => {
   const [formBeritaShown, showFormBerita] = useState(false)
 
   const loadBeritaListData = async () => {
+    showLoading(true)
+    setBeritaListData([])
     await mBeritaRw.initOrm()
-    const data =  mBeritaRw.getAll()
-    setBeritaListData(data)
+    setTimeout(()=>{
+      const data =  mBeritaRw.getAll()
+      setBeritaListData(data)
+      showLoading(false)
+
+    },1000)
+   
   }
   const showEditFormBerita = async (row) => {
     const formData = {...row}
@@ -146,9 +153,43 @@ const BeritaContentPage = ({ subModule }) => {
     }
     return fileInfo
   }
+  const validHash= async(row)=>{
+    const checksum = await compiler.getChecksum(row)
+    return row.compiledHash === checksum
+  }
   const onCompileBerita = async(row)=>{
     // console.log(row)
-    await compiler.compile(row.id)
+    showLoading(true)
+    let checksum = await compiler.getChecksum(row)
+    if(checksum){
+      if(row.compiledHash !== checksum){
+         const result = await compiler.compile(row)
+         const targetGitPath = result.targetGitPath
+         if(result.checksum && targetGitPath){
+          checksum = result.checksum
+          await git.add(targetGitPath)
+          await git.commit([targetGitPath])
+          
+          const update = await mBeritaRw.getRow(row.id)
+          update.compiledHash = checksum
+          try{
+            await mBeritaRw.update(row.id,update)
+            await mBeritaRw.commit(true)
+            showAlert('info','Success','Compile Success')
+            loadBeritaListData()
+          }catch(e){
+            showAlert('danger','Error Compile Failed',e.toString())
+
+          }
+         }else{
+          showAlert('danger','error','Compile Failed')
+         }
+
+      }
+    }
+    console.log(checksum)
+    showLoading(false)
+
   }
   const onSaveFormBerita = async (e) => {
     const { formData } = e
@@ -268,6 +309,7 @@ const BeritaContentPage = ({ subModule }) => {
                           data={beritaListData}
                           onEditRow={(row) => showEditFormBerita(row)}
                           onCompileRow={(row) => onCompileBerita(row)}
+                          validHash={validHash}
                         />
                          <div className="twx-py-4 twx-flex twx-justify-end">
                           <Button size="sm" onClick={(e) => showAddFormBerita()}>

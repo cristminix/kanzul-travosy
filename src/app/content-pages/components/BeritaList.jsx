@@ -15,7 +15,23 @@ const AsyncImage=({callback,className})=>{
 	if(source) return <img className={className} src={source}/>
 		return 'loading ...'
 }
-const BeritaList = ({git, className,data, onEditRow = (f) => f , onCompileRow = (f) => f }) => {
+
+const AsyncButton =({callback,onClick,children})=>{
+	const [shown,setShown]=useState(false)
+	const runCallback = async()=>{
+		callback().then(showButton=>setShown(!showButton))
+		// setShown(showButton)
+	}
+	useEffect(()=>{
+		runCallback()
+	},[setShown])
+	if(shown)
+		return <Button size="sm xs" onClick={onClick}>
+			{children}
+		</Button>
+	return null
+}
+const BeritaList = ({git, className,data, onEditRow = (f) => f , onCompileRow = (f) => f ,validHash=(f)=>true}) => {
 	const columns = [
 		{
 			name: "No",
@@ -54,9 +70,9 @@ const BeritaList = ({git, className,data, onEditRow = (f) => f , onCompileRow = 
 					<Button size="sm xs" onClick={(e) => onEditRow(row)}>
 						<IconEdit />
 					</Button>
-					<Button size="sm xs" onClick={(e) => onCompileRow(row)}>
+					<AsyncButton size="sm xs" callback={async(e)=> await validHash(row)} onClick={(e) => onCompileRow(row)}>
 						<IconArchive />
-					</Button>
+					</AsyncButton>
 				</>
 			),
 		},
