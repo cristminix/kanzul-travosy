@@ -80,10 +80,11 @@ import {User as IconUser} from "react-feather"
                                  <circle cx="12" cy="12" r="10"> </circle> 
                                  <polyline points="12 6 12 12 16 14"> </polyline> 
                              </svg> {item.readingTime} menit baca </span> 
-                         <span className={`${cls14} twx-flex twx-items-center`}> <IconUser className="feather-icon inline-block twx-text-black !twx-w-[14.6px] !twx-h-[14.6px]"/>  <Link to={`/penulis/${item.author}`} className={cls15}> {item.author} </Link> </span> 
+                         <span className={`${cls14} twx-flex twx-items-center`}> <IconUser className="feather-icon inline-block twx-text-black !twx-w-[14.6px] !twx-h-[14.6px]"/>  <a href={`/berita/#/penulis/${item.author}`} className={cls15}> {item.author} </a> </span> 
                      </div> 
-
-                     <Link to={`/baca/${item.id}/${item.slug}`} className={cls16}> {item.title} </Link> 
+                     {item.compiledHash?<a href={`/berita/baca/${item.id}/${item.slug}`} className={cls16}> {item.title} </a>:
+                        <Link to={`/baca/${item.id}/${item.slug}`} className={cls16}> {item.title} </Link> 
+                     }
                      <p className={`${cls17} twx-line-clamp-3`}> {item.headline}
                      </p> 
 

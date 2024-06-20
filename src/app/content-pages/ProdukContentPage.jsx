@@ -36,6 +36,7 @@ import MProdukRw from "@/global/git/orm/rw/models/MProdukRw"
 
 import MMetaProduk from "@/global/git/models/m-meta/MMetaProduk"
 import MProdukBanner from "@/global/git/models/m-banner/MProdukBanner"
+import HTMLCompiler from "@/global/class/HTMLCompiler"
 
 
 import JsonForm from "./JsonForm"
@@ -46,13 +47,14 @@ import BannerEditor from "./components/BannerEditor"
 import {getBlocksReadingTime} from "@/global/fn/getBlocksReadingTime"
 import {dateToSqlDateTime} from "@/global/fn/dateToSqlDateTime"
 import {createDateFromSqlDateTime} from "@/global/fn/createDateFromSqlDateTime"
-import {Plus as IconPlus} from "react-feather"
+import {Plus as IconPlus,RefreshCcw as IconReload} from "react-feather"
 import {getFileInfo} from "@/global/fn/getFileInfo"
 const git = createGit()
 // const mProduk = new MProduk(git, produkSchema)
 const mProdukBanner = new MProdukBanner(git, bannerSchema)
 const mMetaProduk = new MMetaProduk(git, metaSchema)
 const mProdukRw = new MProdukRw(git)
+const compiler = new HTMLCompiler(mProdukRw)
 
 const pageTitle = "Konten Produk"
 const breadcrumbs = [
@@ -96,9 +98,16 @@ const ProdukContentPage = ({ subModule }) => {
   const [formProdukShown, showFormProduk] = useState(false)
 
   const loadProdukListData = async () => {
+    showLoading(true,"Memuat Berita")
+    setProdukListData([])
     await mProdukRw.initOrm()
-    const data =  mProdukRw.getAll()
-    setProdukListData(data)
+    setTimeout(()=>{
+      const data =  mProdukRw.getAll()
+      setProdukListData(oData=>[...data])
+      showLoading(false)
+
+    },256)
+ 
   }
   const showEditFormProduk = async (row) => {
     const formData = {...row}
@@ -145,6 +154,58 @@ const ProdukContentPage = ({ subModule }) => {
       }  
     }
     return fileInfo
+  }
+  const validHash= async(row)=>{
+    const checksum = await compiler.getChecksum(row)
+    // console.log({
+    //   savedHash:row.compiledHash,
+    //   checksum
+    // })
+    return row.compiledHash === checksum
+  }
+  const reloadProdukList = ()=>{
+    console.log('reloading produk list')
+    setTimeout(()=>{
+      const button = document.querySelector("button.reload-produk-btn")
+      button.click()
+    },2000)
+    
+  }
+  const onCompileProduk = async(row)=>{
+    // console.log(row)
+    showLoading(true,"Sedang Mengkompail")
+    let checksum = await compiler.getChecksum(row)
+
+    if(checksum){
+      if(row.compiledHash !== checksum){
+         const result = await compiler.compile(row)
+         const targetGitPath = result.targetGitPath
+         if(result.checksum && targetGitPath){
+          checksum = result.checksum
+          await git.add(targetGitPath)
+          await git.commit([targetGitPath])
+          
+          const update = await mProdukRw.getRow(row.id)
+          update.compiledHash = checksum
+          try{
+            await mProdukRw.update(row.id,update)
+            await mProdukRw.commit(true)
+            showAlert('info','Success','Compile Success')
+            
+          }catch(e){
+            showAlert('danger','Error Compile Failed',e.toString())
+
+          }
+         }else{
+          showAlert('danger','error','Compile Failed')
+         }
+
+      }
+    }
+    console.log(checksum)
+    showLoading(false)
+    reloadProdukList()
+
   }
   const onSaveFormProduk = async (e) => {
     const { formData } = e
@@ -263,10 +324,15 @@ const ProdukContentPage = ({ subModule }) => {
                           className="twx-border twx-border-slate-200 twx-border-solid"
                           data={produkListData}
                           onEditRow={(row) => showEditFormProduk(row, "utama")}
+                          onCompileRow={(row) => onCompileProduk(row)}
+                          validHash={validHash}
                         />
-                         <div className="twx-py-4 twx-flex twx-justify-end">
+                         <div className="twx-py-4 twx-flex twx-justify-between">
+                         <Button size="sm" className="reload-produk-btn" onClick={(e) => loadProdukListData()}>
+                            <IconReload className="feather-icon" /> 
+                          </Button>
                           <Button size="sm" onClick={(e) => showAddFormProduk()}>
-                            <IconPlus className="feather-icon" /> Add
+                            <IconPlus className="feather-icon" />
                           </Button>
                         </div>
                       </>

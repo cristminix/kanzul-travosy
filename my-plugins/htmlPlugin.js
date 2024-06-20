@@ -37,6 +37,9 @@ const htmlPlugin =  () => {
       let htmlContent = html
       const baseUrl = CONFIG.BASE_URL//"https://kanzululum.github.io"
       let url = pageName === "homepage" ? baseUrl:`${baseUrl}/${origPageName}`
+      htmlContent = htmlContent.replace(/<meta-version(\s+)?\/>/,'<meta name="version" content="1.0.0"/>')
+        .replace(/<meta-email(\s+)?\/>/,'<meta name="email" content="cristminix@gmail.com"/>')
+        .replace(/<meta-website(\s+)?\/>/,'<meta name="type" content="website"/>')
       if(pageProps !== null){
         htmlContent = htmlContent.replace(
           /<title>(.*?)<\/title>/,
@@ -56,9 +59,7 @@ const htmlPlugin =  () => {
 <meta property="og:image" content="${baseUrl}/assets/images/og-preview.png"/>
 <meta property="og:description" content="${pageProps['meta-description']}"/>`  
         )
-        .replace(/<meta-version(\s+)?\/>/,'<meta name="version" content="1.0.0"/>')
-        .replace(/<meta-email(\s+)?\/>/,'<meta name="email" content="cristminix@gmail.com"/>')
-        .replace(/<meta-website(\s+)?\/>/,'<meta name="type" content="website"/>')
+        
       }
 
       if(pageName==="baca-berita"){

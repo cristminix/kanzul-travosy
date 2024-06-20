@@ -56,7 +56,8 @@ const mProdukRo = new MProdukRo()
 
                  <div className={cls4}> 
                  {produkList.map((post,index)=>{
-                    const postUrl=`/produk/#/lihat/${post.id}/${post.slug}`
+                    const postUrlCompiled=`/produk/lihat/${post.id}/${post.slug}`
+                    const postUrl=post.compiledHash?postUrlCompiled:`/produk/#/lihat/${post.id}/${post.slug}`
                     return <div className={cls5} key={index}> 
                          <div className={cls6}> 
                              <img src={`/assets/images/produk/covers/${post.cover}`} alt={post.title} className={cls7}/> 
@@ -68,7 +69,7 @@ const mProdukRo = new MProdukRo()
                          <div className={cls10}> 
                              <div className={cls11}> 
                                  <span className={cls12}> <IconClock className={`${cls21} ${cls13} `}/> {`${post.readingTime??0} min baca`}  </span> 
-                                 <span className={cls14}> <IconUser className={`${cls21} ${cls13} `}/> <a href={`/produk/#/kategori/${post.kategori}`} className={cls15}> {post.kategori?`${post.kategori}`:'Admin'} </a> </span> 
+                                 <span className={cls14}> <IconUser className={`${cls21} ${cls13} `}/> <a href={`/produk/#/kategori/${post.kategori}`} className={cls15}> {post.kategori?`${post.kategori}`:'Produk'} </a> </span> 
                              </div> 
 
                              <a href={postUrl} className={cls16}> {post.title} </a> 

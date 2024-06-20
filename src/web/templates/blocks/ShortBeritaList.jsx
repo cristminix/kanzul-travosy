@@ -56,7 +56,9 @@ const mBeritaRo = new MBeritaRo()
 
                  <div className={cls4}> 
                  {beritaList.map((post,index)=>{
-                    const postUrl=`/berita/#/baca/${post.id}/${post.slug}`
+                    const postUrlCompiled=`/berita/baca/${post.id}/${post.slug}`
+
+                    const postUrl=post.compiledHash?postUrlCompiled:`/berita/#/baca/${post.id}/${post.slug}`
                     return <div className={cls5} key={index}> 
                          <div className={cls6}> 
                              <img src={`/assets/images/berita/covers/${post.cover}`} alt={post.title} className={cls7}/> 
@@ -68,7 +70,11 @@ const mBeritaRo = new MBeritaRo()
                          <div className={cls10}> 
                              <div className={cls11}> 
                                  <span className={cls12}> <IconClock className={`${cls21} ${cls13} `}/> {`${post.readingTime??0} min baca`}  </span> 
-                                 <span className={cls14}> <IconUser className={`${cls21} ${cls13} `}/> <a href={`/berita/#/penulis/${post.author}`} className={cls15}> {post.author?`${post.author}`:'Admin'} </a> </span> 
+                                 <span className={cls14}> <IconUser className={`${cls21} ${cls13} `}/> 
+                                 <a href={`/berita/#/penulis/${post.author}`} className={cls15}> 
+                                 {post.author?`${post.author}`:'Admin'} 
+                                 </a> 
+                                 </span> 
                              </div> 
 
                              <a href={postUrl} className={cls16}> {post.title} </a> 
