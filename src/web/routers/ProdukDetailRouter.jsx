@@ -13,7 +13,7 @@ import {useEffect} from "react"
 import {ROUTER_BASE} from "@/config.json"
 
 import ProdukApp,{loader as produkLoader} from "@/web/apps/ProdukApp"
-import ProdukList from "@/web/apps/produk/ProdukList"
+
 import ProdukDetail from "@/web/apps/produk/ProdukDetail"
 import MProdukRo from "@/global/git/orm/ro/models/MProdukRo"
 const mProdukRo = new MProdukRo()
@@ -39,12 +39,7 @@ const Router = ({}) => {
   const router = createHashRouter(
     createRoutesFromElements(
       <Route path="" element={<ProdukApp />}>
-        <Route index={true} element={<ProdukList model={mProdukRo} loadingModel={loadingModel}  reload={reload}/>} loader={produkLoader} />
-        <Route path="page/:pageNumber" element={<ProdukList  model={mProdukRo} loadingModel={loadingModel} reload={reload}/>} loader={produkLoader} />
-        <Route path="kategori/:author/page/:pageNumber" element={<ProdukList byAuthor={true} loadingModel={loadingModel} model={mProdukRo} reload={reload}/>} loader={produkLoader} />
-        <Route path="kategori/:author" element={<ProdukList byAuthor={true} loadingModel={loadingModel} model={mProdukRo} reload={reload}/>} loader={produkLoader} />
-        <Route path="lihat/:id/:slug" element={<ProdukDetail  model={mProdukRo} loadingModel={loadingModel} reload={reload}/>} loader={produkLoader} />
-
+        <Route index={true} element={<ProdukDetail metaMode={true} model={mProdukRo} loadingModel={loadingModel}  reload={reload}/>} loader={produkLoader} />
       </Route>,
     ),
     { basename: '/' },

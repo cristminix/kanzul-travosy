@@ -28,7 +28,7 @@ const ProdukList = ({git, className,data, onEditRow = (f) => f }) => {
 			prop: "cover",
 			width:"130px",
 			selector: (row) => row.cover,
-			cell: (row) => (<LazyLoadImage className="twx-max-w-[100px]" src={`/assets/images/berita/covers/${row.cover}`}/>)
+			cell: (row) => (<LazyLoadImage className="twx-max-w-[100px]" src={`/assets/images/produk/covers/${row.cover}`}/>)
 		},
 		{
 			name: "Nama Produk",

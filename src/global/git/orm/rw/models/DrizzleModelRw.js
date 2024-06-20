@@ -13,10 +13,10 @@ class DrizzleModelRw extends DrizzleBaseModelRw {
 		await this.db.update(this.schema).set(row).where(eq(this.schema[this.pk], pk))
 	}
 	async delete(pk, row) {
-		await db.delete(this.schema).where(eq(this.schema[this.pk], pk))
+		await this.db.delete(this.schema).where(eq(this.schema[this.pk], pk))
 	}
-	async create(pk, row) {
-		await await db.insert(this.schema).values(row)
+	async create( row) {
+		await await this.db.insert(this.schema).values(row)
 	}
 }
 

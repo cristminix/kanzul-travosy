@@ -93,7 +93,7 @@ const Comments = ({}) => {
     </div>
   )
 }
-const AuthorDetail = ({berita,loading})=>{
+const KategoriDetail = ({produk,loading})=>{
     return <div className={`${cls21} `}>
     {loading?<div className=" twx-animate-pulse ">
          <h5 className={`${''} ${skeleton} twx-h-6`}>  </h5>
@@ -117,33 +117,33 @@ const AuthorDetail = ({berita,loading})=>{
                      </ul>  
                 
         </div>:<>
-         <h5 className={cls22}> Penulis </h5>
+         <h5 className={cls22}> Kategori </h5>
                   <div className={cls23}>
                     <IconUser className={cls24} />
 
-                    <Link to={`/penulis/${berita.author}`} className={cls25}>
+                    <Link to={`/kategori/${produk.author}`} className={cls25}>
                       
-                      {berita.author}
+                      {produk.author}
                     </Link>
                     {/*<p className={cls5}> Content Writer </p>*/}
                   </div>
                  <h5 className={`${cls26} twx-flex twx-items-center twx-justify-center`}> <IconShare className={`${cls30} twx-mr-2`}/> Bagikan </h5> 
                  <ul className={cls27}> 
-                     <li className={cls28}> <a target="_blank" href={`https://www.facebook.com/sharer.php?u=${berita.shareLink}`} className={cls29}> <IconFacebook className={cls30}/> </a> </li> 
-                     <li className={cls28}> <a target="_blank" href={`mailto://?subject=${encodeURIComponent(berita.title)}&amp;body=${encodeURIComponent(berita.title)}%20${berita.shareLink}`} className={cls29}> <IconEmail className={cls30}/> </a> </li> 
-                     <li className={cls28}> <a target="_blank"  href={`http://www.twitter.com/share?url=${berita.shareLink}`} className={cls29}> <IconTwitter className={cls30}/> </a> </li> 
-                     <li className={cls28}> <a target="_blank" href={`https://wa.me/?text=${berita.shareLink}`} className={cls29}> <IconWhatsapp className={cls30}/> </a> </li> 
+                     <li className={cls28}> <a target="_blank" href={`https://www.facebook.com/sharer.php?u=${produk.shareLink}`} className={cls29}> <IconFacebook className={cls30}/> </a> </li> 
+                     <li className={cls28}> <a target="_blank" href={`mailto://?subject=${encodeURIComponent(produk.title)}&amp;body=${encodeURIComponent(produk.title)}%20${produk.shareLink}`} className={cls29}> <IconEmail className={cls30}/> </a> </li> 
+                     <li className={cls28}> <a target="_blank"  href={`http://www.twitter.com/share?url=${produk.shareLink}`} className={cls29}> <IconTwitter className={cls30}/> </a> </li> 
+                     <li className={cls28}> <a target="_blank" href={`https://wa.me/?text=${produk.shareLink}`} className={cls29}> <IconWhatsapp className={cls30}/> </a> </li> 
                  </ul>  
     </>}
     </div>
 
                  
 }
-const BeritaDisplay = ({ berita, loading }) => {
+const ProdukDisplay = ({ produk, loading }) => {
   // const [blocks, setBlocks] = useState([])
   // useEffect(() => {
-  //   if (berita) {
-  //     const { content } = berita
+  //   if (produk) {
+  //     const { content } = produk
   //     let newBlocks = []
   //     try{
   //       newBlocks = JSON.parse(content)
@@ -151,7 +151,7 @@ const BeritaDisplay = ({ berita, loading }) => {
   //     }catch(e){}
   //     // console.log(content)
   //   }
-  // }, [berita, setBlocks])
+  // }, [produk, setBlocks])
   const styles = {}
 
   return (
@@ -175,25 +175,25 @@ const BeritaDisplay = ({ berita, loading }) => {
                 <Comments />
               </div>
               <div className={cls20}>
-                <AuthorDetail berita={berita} loading={loading}/>
+                <KategoriDetail produk={produk} loading={loading}/>
               </div>
            </>
 
-          ) : (berita&&
+          ) : (produk&&
             <>
               <div className={cls2}>
                 <div className={cls3}>
-                  <img className="twx-w-full" src={`/assets/images/berita/covers/${berita.cover}`} alt={berita.title} />
+                  <img className="twx-w-full" src={`/assets/images/produk/covers/${produk.cover}`} alt={produk.title} />
 
                   <div className={cls4}>
-                    <BlockData data={berita.content}/>
+                    <BlockData data={produk.content}/>
                   </div>
                 </div>
 
                 <Comments />
               </div>
               <div className={cls20}>
-                <AuthorDetail berita={berita}/>
+                <KategoriDetail produk={produk}/>
               </div>
             </>
           )}
@@ -203,4 +203,4 @@ const BeritaDisplay = ({ berita, loading }) => {
   )
 }
 
-export default BeritaDisplay
+export default ProdukDisplay

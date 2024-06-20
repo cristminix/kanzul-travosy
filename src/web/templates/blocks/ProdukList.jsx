@@ -51,7 +51,7 @@ import {User as IconUser} from "react-feather"
              
                      </div> 
 
-                     <Link to={`/baca/${item.id}/${item.slug}`} className={cls16}> {item.title} </Link> 
+                     <Link to={`/lihat/${item.id}/${item.slug}`} className={cls16}> {item.title} </Link> 
                      <p className={`${cls17} ${skeleton} twx-h-2`}> {item.headline}</p> 
                      <p className={`${cls17} ${skeleton} twx-h-2`}> {item.headline}</p> 
                      <p className={`${cls17} ${skeleton} twx-h-2`}> {item.headline}</p> 
@@ -67,7 +67,7 @@ import {User as IconUser} from "react-feather"
          {list&& Array.isArray(list.records)&&list.records.map((item,index)=>{
             return <div className={cls5}> 
                  <div className={cls6}> 
-                     <img src={`/assets/images/berita/covers/${item.cover}`} alt={item.title} className={`${cls7}`}/> 
+                     <img src={`/assets/images/produk/covers/${item.cover}`} alt={item.title} className={`${cls7}`}/> 
                      <div className={cls8}> 
                          <span className={cls9}> {fixTags(item.tags)} </span> 
                      </div> 
@@ -79,7 +79,7 @@ import {User as IconUser} from "react-feather"
                                  <circle cx="12" cy="12" r="10"> </circle> 
                                  <polyline points="12 6 12 12 16 14"> </polyline> 
                              </svg> {item.readingTime} menit baca </span> 
-                         <span className={`${cls14} twx-flex twx-items-center`}> <IconUser className="feather-icon inline-block twx-text-black !twx-w-[14.6px] !twx-h-[14.6px]"/>  <Link to={`/penulis/${item.author}`} className={cls15}> {item.author} </Link> </span> 
+                         <span className={`${cls14} twx-flex twx-items-center`}> <IconUser className="feather-icon inline-block twx-text-black !twx-w-[14.6px] !twx-h-[14.6px]"/>  <Link to={`/kategori/${item.author}`} className={cls15}> {item.author} </Link> </span> 
                      </div> 
 
                      <Link to={`/baca/${item.id}/${item.slug}`} className={cls16}> {item.title} </Link> 

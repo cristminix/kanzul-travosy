@@ -33,6 +33,7 @@
       }
     }
   },
+  
   "lembaga": {
     "entry": "src/web/pages/lembaga.jsx",
     "filename": "/lembaga/index.html",
@@ -79,7 +80,27 @@
     "template": "berita/index.html",
     "inject": {
       "data": {
-        "title": "berita Page"
+        "title": "Baca Berita Page"
+      }
+    }
+  },
+  "lihat-produk": {
+    "entry": "src/web/pages/lihat-produk.jsx",
+    "filename": "/lihat-produk/index.html",
+    "template": "lihat-produk/index.html",
+    "inject": {
+      "data": {
+        "title": "Lihat Produk Page"
+      }
+    }
+  },
+  "baca-berita": {
+    "entry": "src/web/pages/baca-berita.jsx",
+    "filename": "/baca-berita/index.html",
+    "template": "baca-berita/index.html",
+    "inject": {
+      "data": {
+        "title": "Baca Berita Page"
       }
     }
   },

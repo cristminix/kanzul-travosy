@@ -5,10 +5,11 @@ import ShortLembaga from "../blocks/ShortLembaga"
 // import ShortGalery from "../blocks/ShortGalery"
 import ShortGalerySlider from "../blocks/ShortGalerySlider"
 import ShortBeritaList from "../blocks/ShortBeritaList"
+import ShortProdukList from "../blocks/ShortProdukList"
 
 // import Counter from "@/global/store/features/counter/Counter"
 
-const HomepageMainContent = ({heroData, profileData, galeryList, beritaList, welcomeMessageData }) => {
+const HomepageMainContent = ({heroData, profileData, galeryList, produkList,beritaList, welcomeMessageData }) => {
   return (
     <>
       <Hero heroData={heroData}/>
@@ -20,6 +21,7 @@ const HomepageMainContent = ({heroData, profileData, galeryList, beritaList, wel
         <ShortLembaga />
         <ShortGalerySlider galeryList={galeryList} className="twx-mt-12" />
         <ShortBeritaList beritaList={beritaList} />
+        <ShortProdukList produkList={produkList} />
       </section>
     </>
   )
