@@ -8,10 +8,10 @@ const git={
 	dir: GIT_REPO_DIR
 }
 import MBeritaRw from "../src/global/git/orm/rw/models/MBeritaRw"
-import Compiler from "../src/global/git/orm/rw/models/Compiler"
+import HTMLCompiler from "../src/global/class/HTMLCompiler"
 
 const mBeritaRw = new MBeritaRw(git)
-const compiler = new Compiler(mBeritaRw)
+const compiler = new HTMLCompiler(mBeritaRw)
 
 
 // const compilerBaseDir = path.join(CWD,"dist")
