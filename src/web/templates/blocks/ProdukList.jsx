@@ -79,15 +79,15 @@ import {User as IconUser} from "react-feather"
                                  <circle cx="12" cy="12" r="10"> </circle> 
                                  <polyline points="12 6 12 12 16 14"> </polyline> 
                              </svg> {item.readingTime} menit baca </span> 
-                         <span className={`${cls14} twx-flex twx-items-center`}> <IconUser className="feather-icon inline-block twx-text-black !twx-w-[14.6px] !twx-h-[14.6px]"/>  <Link to={`/kategori/${item.author}`} className={cls15}> {item.author} </Link> </span> 
+                         <span className={`${cls14} twx-flex twx-items-center`}> <IconUser className="feather-icon inline-block twx-text-black !twx-w-[14.6px] !twx-h-[14.6px]"/>  <Link to={`/kategori/${item.kategori}`} className={cls15}> {item.kategori} </Link> </span> 
                      </div> 
 
-                     <Link to={`/baca/${item.id}/${item.slug}`} className={cls16}> {item.title} </Link> 
+                     <Link to={`/lihat/${item.id}/${item.slug}`} className={cls16}> {item.title} </Link> 
                      <p className={`${cls17} twx-line-clamp-3`}> {item.headline}
                      </p> 
 
                      <div className={cls18}> 
-                         <Link to={`/baca/${item.id}/${item.slug}`} className={cls19}> Selengkapnya  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={cls20}> 
+                         <Link to={`/lihat/${item.id}/${item.slug}`} className={cls19}> Selengkapnya  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={cls20}> 
                                  <polyline points="9 18 15 12 9 6"> </polyline> 
                              </svg> </Link> 
                      </div> 

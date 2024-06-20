@@ -18,6 +18,7 @@ export const BeritaSchema = sqliteTable('berita', {
   tags: text('tags'),
   cover: text('cover'),
   content: text('content'),
+  compiledHash: text('compiledHash'),
   dateCreated:text('dateCreated'),
   dateUpdated:text('dateUpdated')
 })
@@ -25,11 +26,12 @@ export const ProdukSchema = sqliteTable('produk', {
   id: int('id').primaryKey(),
   title: text('title').notNull(),
   slug: text('slug').notNull(),
-  author: text('author'),
+  kategori: text('kategori'),
   headline: text('headline'),
   tags: text('tags'),
   cover: text('cover'),
   content: text('content'),
+  compiledHash: text('compiledHash'),
   dateCreated:text('dateCreated'),
   dateUpdated:text('dateUpdated')
 })

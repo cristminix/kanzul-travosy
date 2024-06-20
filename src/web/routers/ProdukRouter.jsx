@@ -41,8 +41,8 @@ const Router = ({}) => {
       <Route path="" element={<ProdukApp />}>
         <Route index={true} element={<ProdukList model={mProdukRo} loadingModel={loadingModel}  reload={reload}/>} loader={produkLoader} />
         <Route path="page/:pageNumber" element={<ProdukList  model={mProdukRo} loadingModel={loadingModel} reload={reload}/>} loader={produkLoader} />
-        <Route path="kategori/:author/page/:pageNumber" element={<ProdukList byAuthor={true} loadingModel={loadingModel} model={mProdukRo} reload={reload}/>} loader={produkLoader} />
-        <Route path="kategori/:author" element={<ProdukList byAuthor={true} loadingModel={loadingModel} model={mProdukRo} reload={reload}/>} loader={produkLoader} />
+        <Route path="kategori/:kategori/page/:pageNumber" element={<ProdukList byKategori={true} loadingModel={loadingModel} model={mProdukRo} reload={reload}/>} loader={produkLoader} />
+        <Route path="kategori/:kategori" element={<ProdukList byKategori={true} loadingModel={loadingModel} model={mProdukRo} reload={reload}/>} loader={produkLoader} />
         <Route path="lihat/:id/:slug" element={<ProdukDetail  model={mProdukRo} loadingModel={loadingModel} reload={reload}/>} loader={produkLoader} />
 
       </Route>,

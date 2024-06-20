@@ -34,7 +34,7 @@
       "title": "Tags",
       "type": "string"
     },
-    "author": {
+    "kategori": {
       "title": "Kategori",
       "type": "string"
     }

@@ -5,7 +5,7 @@ import ProdukMainContent from "@/web/templates/sections/ProdukMainContent"
 
 import {useEffect,useState} from "react"
 
-const ProdukList = ({model, reload, loadingModel, byAuthor})=>{
+const ProdukList = ({model, reload, loadingModel, byKategori})=>{
   const produkState = useSelector(state=>state.produk)
   const dispatch = useDispatch()
  
@@ -14,7 +14,7 @@ const ProdukList = ({model, reload, loadingModel, byAuthor})=>{
 
   }, [dispatch])
  	
-	return <ProdukMainContent byAuthor={byAuthor} produkData={produkState.data} loadingModel={loadingModel} reload={reload} model={model}/>
+	return <ProdukMainContent byKategori={byKategori} produkData={produkState.data} loadingModel={loadingModel} reload={reload} model={model}/>
 }
 
 export default ProdukList

@@ -8,7 +8,6 @@ import {
 const skeleton = "twx-shadow twx-bg-slate-300 twx-opacity-80 twx-shadow twx-rounded-md"
 
 const BeritaPager = ({pager,base="",routeName="page", loading}) => {
-	console.log(pager)
 	useEffect(()=>{
 		// feather.replace()
 	},[])

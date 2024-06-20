@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import DataTable from "react-data-table-component"
 import { Button } from "react-bootstrap"
-import { Edit as IconEdit } from "react-feather"
+import { Edit as IconEdit, Archive as IconArchive } from "react-feather"
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const AsyncImage=({callback,className})=>{
@@ -14,7 +14,7 @@ const AsyncImage=({callback,className})=>{
 	if(source) return <img className={className} src={source}/>
 		return 'loading ...'
 }
-const ProdukList = ({git, className,data, onEditRow = (f) => f }) => {
+const ProdukList = ({git, className,data, onEditRow = (f) => f , onCompileRow = (f) => f }) => {
 	const columns = [
 		{
 			name: "No",
@@ -51,7 +51,10 @@ const ProdukList = ({git, className,data, onEditRow = (f) => f }) => {
 			cell: (row) => (
 				<>
 					<Button size="sm xs" onClick={(e) => onEditRow(row)}>
-						<IconEdit /> Edit{" "}
+						<IconEdit />
+					</Button>
+					<Button size="sm xs" onClick={(e) => onCompileRow(row)}>
+						<IconArchive />
 					</Button>
 				</>
 			),

@@ -68,7 +68,7 @@ const mProdukRo = new MProdukRo()
                          <div className={cls10}> 
                              <div className={cls11}> 
                                  <span className={cls12}> <IconClock className={`${cls21} ${cls13} `}/> {`${post.readingTime??0} min baca`}  </span> 
-                                 <span className={cls14}> <IconUser className={`${cls21} ${cls13} `}/> <a href={`/produk/#/kategori/${post.author}`} className={cls15}> {post.author?`${post.author}`:'Admin'} </a> </span> 
+                                 <span className={cls14}> <IconUser className={`${cls21} ${cls13} `}/> <a href={`/produk/#/kategori/${post.kategori}`} className={cls15}> {post.kategori?`${post.kategori}`:'Admin'} </a> </span> 
                              </div> 
 
                              <a href={postUrl} className={cls16}> {post.title} </a> 

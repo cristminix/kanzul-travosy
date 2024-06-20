@@ -6,10 +6,7 @@ import BannerCrumb from "../blocks/BannerCrumb"
 // import Counter from "@/global/store/features/counter/Counter"
 import BeritaList from "../blocks/BeritaList"
 import BeritaPager from "../blocks/BeritaPager"
-const breadcrumbs = [
-    { title: "Home", path: "/" },
-    { title: "Berita", path: "/berita" },
-  ]
+
 import {useState,useEffect} from "react"
 import {useLoaderData} from "react-router-dom"
 
@@ -18,6 +15,10 @@ const BeritaMainContent = ({ beritaData , model,reload,loadingModel,byAuthor}) =
   console.log({byAuthor,author,pageNumber})
 
   // console.log(beritaData)
+  const [breadcrumbs,setBreadcrumbs] = useState([
+    { title: "Home", path: "/" },
+    { title: "Berita", path: "/berita" },
+  ])
   const [list,setList] = useState([])
   const [loading,setLoading] = useState(loadingModel)
   // const [page,setPage] = useState(pageNumber||1)
@@ -38,6 +39,12 @@ const BeritaMainContent = ({ beritaData , model,reload,loadingModel,byAuthor}) =
           field:'author',
           query:author
         }})
+
+        setBreadcrumbs([
+          { title: "Home", path: "/" },
+          { title: "Berita", path: "/berita" },
+          { title: `Oleh ${author}`, path: null },
+        ])
     }
     if(!newList) {
       setLoading(false)

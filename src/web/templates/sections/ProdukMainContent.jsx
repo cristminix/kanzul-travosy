@@ -6,18 +6,20 @@ import BannerCrumb from "../blocks/BannerCrumb"
 // import Counter from "@/global/store/features/counter/Counter"
 import ProdukList from "../blocks/ProdukList"
 import ProdukPager from "../blocks/ProdukPager"
-const breadcrumbs = [
-    { title: "Home", path: "/" },
-    { title: "Produk", path: "/produk" },
-  ]
+ 
 import {useState,useEffect} from "react"
 import {useLoaderData} from "react-router-dom"
 
-const ProdukMainContent = ({ produkData , model,reload,loadingModel,byAuthor}) => {
-  const {pageNumber,author} = useLoaderData()
-  console.log({byAuthor,author,pageNumber})
+const ProdukMainContent = ({ produkData , model,reload,loadingModel,byKategori}) => {
+  const {pageNumber,kategori} = useLoaderData()
+  // console.log({byKategori,kategori,pageNumber})
 
   // console.log(produkData)
+  const [breadcrumbs,setBreadcrumbs] = useState([
+    { title: "Home", path: "/" },
+    { title: "Produk", path: "/produk" },
+  ])
+
   const [list,setList] = useState([])
   const [loading,setLoading] = useState(loadingModel)
   // const [page,setPage] = useState(pageNumber||1)
@@ -30,14 +32,22 @@ const ProdukMainContent = ({ produkData , model,reload,loadingModel,byAuthor}) =
     setLoading(true)
     const page = parseInt(pageNumber||1)
     let newList = null 
-    if(!byAuthor){
+    if(!byKategori){
       newList = await model.getList(limit,page)
     }else{
         newList = await model.getList({limit,page,search:{
           type:'single',
-          field:'author',
-          query:author
+          field:'kategori',
+          query:kategori
         }})
+
+        setBreadcrumbs(oData=>{
+          return [
+              { title: "Home", path: "/" },
+              { title: "Produk", path: "/produk" },
+              { title: `Kategori ${kategori}`, path: null },
+            ]
+        })
     }
     if(!newList) {
       setLoading(false)
@@ -60,8 +70,8 @@ const ProdukMainContent = ({ produkData , model,reload,loadingModel,byAuthor}) =
 
     if(model && model.ready)
       updateList(pageNumber)
-  },[setList,reload,setPager,pageNumber,setLoading,byAuthor,author])
-  const routeName=byAuthor?`penulis/${author}/page`:'page'
+  },[setList,reload,setPager,pageNumber,setLoading,byKategori,kategori])
+  const routeName=byKategori?`penulis/${kategori}/page`:'page'
   return (
     <>
       <BannerCrumb banner={produkData.banner} breadcrumbs={breadcrumbs} />

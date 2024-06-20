@@ -1,9 +1,11 @@
-import initSqlJs, { SqlValue } from "sql.js"
+import initSqlJs from "sql.js"
 import { drizzle } from "drizzle-orm/sql-js"
 import { count, sql, eq, and, asc, desc, like, or } from "drizzle-orm"
-import { calculateTotalPages } from "@/global/fn/calculateTotalPages"
-import { calculateOffset } from "@/global/fn/calculateOffset"
+// import { calculateTotalPages } from "@/global/fn/calculateTotalPages"
+// import { calculateOffset } from "@/global/fn/calculateOffset"
 import DrizzleBaseModelRw from "./DrizzleBaseModelRw"
+import { calculateTotalPages } from '../../../../fn/calculateTotalPages';
+import { calculateOffset } from '../../../../fn/calculateOffset';
 
 class DrizzleModelRw extends DrizzleBaseModelRw {
 

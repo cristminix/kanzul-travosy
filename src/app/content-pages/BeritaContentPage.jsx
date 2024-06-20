@@ -33,6 +33,7 @@ import metaUiSchema from "@/web/data/forms/pages/ui.json"
 import BeritaList from "./components/BeritaList"
 // import MBerita from "@/global/git/models/MBerita"
 import MBeritaRw from "@/global/git/orm/rw/models/MBeritaRw"
+import Compiler from "@/global/git/orm/rw/models/Compiler"
 
 import MMetaBerita from "@/global/git/models/m-meta/MMetaBerita"
 import MBeritaBanner from "@/global/git/models/m-banner/MBeritaBanner"
@@ -53,7 +54,7 @@ const git = createGit()
 const mBeritaBanner = new MBeritaBanner(git, bannerSchema)
 const mMetaBerita = new MMetaBerita(git, metaSchema)
 const mBeritaRw = new MBeritaRw(git)
-
+const compiler = new Compiler(mBeritaRw)
 const pageTitle = "Konten Berita"
 const breadcrumbs = [
   { title: "Konten", path: "contents" },
@@ -144,6 +145,10 @@ const BeritaContentPage = ({ subModule }) => {
       }  
     }
     return fileInfo
+  }
+  const onCompileBerita = async(row)=>{
+    // console.log(row)
+    await compiler.compile(row.id)
   }
   const onSaveFormBerita = async (e) => {
     const { formData } = e
@@ -261,7 +266,8 @@ const BeritaContentPage = ({ subModule }) => {
                           git={git}
                           className="twx-border twx-border-slate-200 twx-border-solid"
                           data={beritaListData}
-                          onEditRow={(row) => showEditFormBerita(row, "utama")}
+                          onEditRow={(row) => showEditFormBerita(row)}
+                          onCompileRow={(row) => onCompileBerita(row)}
                         />
                          <div className="twx-py-4 twx-flex twx-justify-end">
                           <Button size="sm" onClick={(e) => showAddFormBerita()}>

@@ -93,7 +93,7 @@ const Comments = ({}) => {
     </div>
   )
 }
-const AuthorDetail = ({berita,loading})=>{
+const AuthorDetail = ({berita,loading,metaMode})=>{
     return <div className={`${cls21} `}>
     {loading?<div className=" twx-animate-pulse ">
          <h5 className={`${''} ${skeleton} twx-h-6`}>  </h5>
@@ -139,7 +139,7 @@ const AuthorDetail = ({berita,loading})=>{
 
                  
 }
-const BeritaDisplay = ({ berita, loading }) => {
+const BeritaDisplay = ({ berita, loading ,metaMode}) => {
   // const [blocks, setBlocks] = useState([])
   // useEffect(() => {
   //   if (berita) {
@@ -193,7 +193,7 @@ const BeritaDisplay = ({ berita, loading }) => {
                 <Comments />
               </div>
               <div className={cls20}>
-                <AuthorDetail berita={berita}/>
+                <AuthorDetail berita={berita} metaMode={metaMode}/>
               </div>
             </>
           )}

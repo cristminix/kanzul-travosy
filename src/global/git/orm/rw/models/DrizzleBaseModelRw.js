@@ -1,10 +1,14 @@
-import initSqlJs, { SqlValue } from "sql.js"
+import initSqlJs from "sql.js"
 import { drizzle } from "drizzle-orm/sql-js"
 import { count, sql, eq, and, asc, desc, like, or } from "drizzle-orm"
-import { isBrowser } from "@/global/fn/isBrowser"
-import { calculateTotalPages } from "@/global/fn/calculateTotalPages"
-import { calculateOffset } from "@/global/fn/calculateOffset"
+// import { isBrowser } from "@/global/fn/isBrowser"
+// import { calculateTotalPages } from "@/global/fn/calculateTotalPages"
+// import { calculateOffset } from "@/global/fn/calculateOffset"
 import * as schema from "../../schema/schema"
+import { isBrowser } from '../../../../fn/isBrowser';
+import { calculateTotalPages } from '../../../../fn/calculateTotalPages';
+import { calculateOffset } from '../../../../fn/calculateOffset';
+
 class Logger {
 	info() {}
 	error() {}
@@ -332,7 +336,7 @@ class DrizzleBaseModelRw {
 		const hasSearchAndFilter = hasFilter && hasSearch
 		// priority is search,filter,default
 		return {
-			limit,page,order,filter,search,search,
+			limit,page,order,filter,search,
 			orderBy,
 			validSearch,searchType,searchField,searchQuery,
 			hasFilter,hasSearch,hasPage,hasSearchAndFilter

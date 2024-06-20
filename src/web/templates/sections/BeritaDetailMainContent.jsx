@@ -8,16 +8,21 @@ import {getBlocksReadingTime} from "@/global/fn/getBlocksReadingTime"
 import moment from "moment" 
 import {createDateFromSqlDateTime} from "@/global/fn/createDateFromSqlDateTime"
 
-const BeritaDetailMainContent = ({ model,loadingModel,reload }) => {
+const BeritaDetailMainContent = ({ model,loadingModel,reload,metaMode }) => {
   const {id}=useLoaderData()
+  const [pk,setPk]=useState(id)
+
   const [banner,setBanner] = useState({title:"",image:null})
   const [berita,setBerita] = useState(null)
   const [breadcrumbs,setBreadcrumbs] = useState([])
   const [loading,setLoading] = useState(loadingModel)
   
   const loadBeritaDetail = async()=>{
+    if(!pk){
+      return
+    }
     setLoading(true)
-    const detail = await model.get(id)
+    const detail = await model.get(pk)
     
     try{detail.content = JSON.parse(detail.content)}catch(e){detail.content=[]}
     detail.readingTime = getBlocksReadingTime(detail.content)
@@ -35,15 +40,28 @@ const BeritaDetailMainContent = ({ model,loadingModel,reload }) => {
     setLoading(false)
 
   }
+  const getPkByMeta=()=>{
+    const meta = document.querySelector("meta[name=id]")
+    const id = meta.getAttribute("content")
+    if(id){
+      setPk(id)
+    }
+    // console.log(meta.getAttribute("content"))
+  }
   useEffect(()=>{
     if(model.ready)
       loadBeritaDetail()
-  },[id,setBerita,reload,setLoading])
+  },[pk,setBerita,reload,setLoading])
+    useEffect(()=>{
+    if(metaMode){
+      getPkByMeta()
+    }
+  },[metaMode,setPk])
   return (
     <>
       <BeritaBanner banner={banner} breadcrumbs={breadcrumbs} berita={berita}/>
       <section className="relative md:py-24 py-16 overflow-hidden">
-        <FullBeritaDetail className="mt-12" berita={berita} loading={loading} />
+        <FullBeritaDetail metaMode={metaMode} className="mt-12" berita={berita} loading={loading} />
       </section>
     </>
   )

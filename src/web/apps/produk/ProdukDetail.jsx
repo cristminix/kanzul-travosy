@@ -5,9 +5,9 @@ import ProdukDetailMainContent from "@/web/templates/sections/ProdukDetailMainCo
 
 // import {useEffect,useState} from "react"
 
-const ProdukDetail = ({model, reload, loadingModel})=>{
+const ProdukDetail = ({model, reload, loadingModel, metaMode})=>{
 
  	
-	return <ProdukDetailMainContent loadingModel={loadingModel} reload={reload} model={model}/>
+	return <ProdukDetailMainContent metaMode={metaMode} loadingModel={loadingModel} reload={reload} model={model}/>
 } 
 export default ProdukDetail

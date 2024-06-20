@@ -2,10 +2,10 @@ import ColumnLayout from "@/web/templates/layouts/ColumnLayout"
 import {Outlet} from "react-router-dom"
 
 const loader = async({params})=>{
-  const {pageNumber,id,slug,author}=params
+  const {pageNumber,id,slug,kategori}=params
 	return {
     id,slug,
-    pageNumber,author
+    pageNumber,kategori
   }
 }
 

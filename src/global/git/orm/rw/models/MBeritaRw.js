@@ -1,14 +1,22 @@
 import DrizzleModelRw from './DrizzleModelRw';
 import {BeritaSchema} from "../../schema/schema"
 import { inArray, sql } from 'drizzle-orm';
+// import Compiler from './Compiler';
 
 class MBeritaRw extends DrizzleModelRw{
 	defaultOrder = { dateUpdated: "asc" }
 	path="web/data/berita/berita.db"
 	schema=BeritaSchema
 
+	compiler={
+		source:"lihat-produk/index.html",
+		outDir:"produk"
+	}
+	// compiler=null
+		
 	// constructor(git){
 	// 	super(git)
+	// 	this.compiler = new Compiler(this,this.compilerConfig)
 	// }
 	
 	async updateContentRows(updates){

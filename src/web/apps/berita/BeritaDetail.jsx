@@ -5,9 +5,9 @@ import BeritaDetailMainContent from "@/web/templates/sections/BeritaDetailMainCo
 
 // import {useEffect,useState} from "react"
 
-const BeritaDetail = ({model, reload, loadingModel})=>{
+const BeritaDetail = ({model, reload, loadingModel,metaMode})=>{
 
  	
-	return <BeritaDetailMainContent loadingModel={loadingModel} reload={reload} model={model}/>
+	return <BeritaDetailMainContent metaMode={metaMode} loadingModel={loadingModel} reload={reload} model={model}/>
 } 
 export default BeritaDetail

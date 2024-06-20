@@ -121,10 +121,10 @@ const KategoriDetail = ({produk,loading})=>{
                   <div className={cls23}>
                     <IconUser className={cls24} />
 
-                    <Link to={`/kategori/${produk.author}`} className={cls25}>
+                    <a href={`/produk/#/kategori/${produk.kategori}`} className={cls25}>
                       
-                      {produk.author}
-                    </Link>
+                      {produk.kategori}
+                    </a>
                     {/*<p className={cls5}> Content Writer </p>*/}
                   </div>
                  <h5 className={`${cls26} twx-flex twx-items-center twx-justify-center`}> <IconShare className={`${cls30} twx-mr-2`}/> Bagikan </h5> 
@@ -139,7 +139,7 @@ const KategoriDetail = ({produk,loading})=>{
 
                  
 }
-const ProdukDisplay = ({ produk, loading }) => {
+const ProdukDisplay = ({ produk, loading ,metaMode }) => {
   // const [blocks, setBlocks] = useState([])
   // useEffect(() => {
   //   if (produk) {
@@ -193,7 +193,7 @@ const ProdukDisplay = ({ produk, loading }) => {
                 <Comments />
               </div>
               <div className={cls20}>
-                <KategoriDetail produk={produk}/>
+                <KategoriDetail produk={produk} metaMode={metaMode}/>
               </div>
             </>
           )}
