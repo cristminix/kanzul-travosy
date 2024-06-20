@@ -48,7 +48,7 @@ import {getBlocksReadingTime} from "@/global/fn/getBlocksReadingTime"
 import {dateToSqlDateTime} from "@/global/fn/dateToSqlDateTime"
 import {createDateFromSqlDateTime} from "@/global/fn/createDateFromSqlDateTime"
 
-import {Plus as IconPlus} from "react-feather"
+import {Plus as IconPlus,RefreshCcw as IconReload} from "react-feather"
 import {getFileInfo} from "@/global/fn/getFileInfo"
 const git = createGit()
 // const mBerita = new MBerita(git, beritaSchema)
@@ -96,15 +96,15 @@ const BeritaContentPage = ({ subModule }) => {
   const [formBeritaShown, showFormBerita] = useState(false)
 
   const loadBeritaListData = async () => {
-    showLoading(true)
+    showLoading(true,"Memuat Berita")
     setBeritaListData([])
     await mBeritaRw.initOrm()
     setTimeout(()=>{
       const data =  mBeritaRw.getAll()
-      setBeritaListData(data)
+      setBeritaListData(oData=>[...data])
       showLoading(false)
 
-    },1000)
+    },256)
    
   }
   const showEditFormBerita = async (row) => {
@@ -155,12 +155,25 @@ const BeritaContentPage = ({ subModule }) => {
   }
   const validHash= async(row)=>{
     const checksum = await compiler.getChecksum(row)
+    // console.log({
+    //   savedHash:row.compiledHash,
+    //   checksum
+    // })
     return row.compiledHash === checksum
+  }
+  const reloadBeritaList = ()=>{
+    console.log('reloading berita list')
+    setTimeout(()=>{
+      const button = document.querySelector("button.reload-berita-btn")
+      button.click()
+    },3000)
+    
   }
   const onCompileBerita = async(row)=>{
     // console.log(row)
-    showLoading(true)
+    showLoading(true,"Sedang Mengkompail")
     let checksum = await compiler.getChecksum(row)
+
     if(checksum){
       if(row.compiledHash !== checksum){
          const result = await compiler.compile(row)
@@ -176,7 +189,7 @@ const BeritaContentPage = ({ subModule }) => {
             await mBeritaRw.update(row.id,update)
             await mBeritaRw.commit(true)
             showAlert('info','Success','Compile Success')
-            loadBeritaListData()
+            
           }catch(e){
             showAlert('danger','Error Compile Failed',e.toString())
 
@@ -189,6 +202,7 @@ const BeritaContentPage = ({ subModule }) => {
     }
     console.log(checksum)
     showLoading(false)
+    reloadBeritaList()
 
   }
   const onSaveFormBerita = async (e) => {
@@ -312,8 +326,11 @@ const BeritaContentPage = ({ subModule }) => {
                           validHash={validHash}
                         />
                          <div className="twx-py-4 twx-flex twx-justify-end">
+                          <Button size="sm" className="reload-berita-btn" onClick={(e) => loadBeritaListData()}>
+                            <IconReload className="feather-icon" /> 
+                          </Button>
                           <Button size="sm" onClick={(e) => showAddFormBerita()}>
-                            <IconPlus className="feather-icon" /> Add
+                            <IconPlus className="feather-icon" /> 
                           </Button>
                         </div>
                       </>

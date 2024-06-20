@@ -29,7 +29,7 @@ class MBeritaRw extends DrizzleModelRw{
 		parser.set('og:description',row.headline,'property')
 		parser.set('og:title',row.title,'property')
 		parser.set('og:URL',`${BASE_URL}/berita/baca/${row.id}/${row.slug}/`,'property')
-		parser.set('og:image',`${BASE_URL}/assets/images/berita/covers/${row.cover}/`,'property')
+		parser.set('og:image',`${BASE_URL}/assets/images/berita/covers/${row.cover}`,'property')
 
 		return parser.save()
 	}

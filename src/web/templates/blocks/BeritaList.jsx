@@ -65,6 +65,7 @@ import {User as IconUser} from "react-feather"
         }
      </>:<>
          {list&& Array.isArray(list.records)&&list.records.map((item,index)=>{
+            // const link = item.compiledHash ? `/berita/baca/${item.id}/${item.slug}`
             return <div className={cls5}> 
                  <div className={cls6}> 
                      <img src={`/assets/images/berita/covers/${item.cover}`} alt={item.title} className={`${cls7}`}/> 
@@ -87,9 +88,13 @@ import {User as IconUser} from "react-feather"
                      </p> 
 
                      <div className={cls18}> 
+                     {item.compiledHash?<a href={`/berita/baca/${item.id}/${item.slug}`} className={cls19}> Selengkapnya  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={cls20}> 
+                                 <polyline points="9 18 15 12 9 6"> </polyline> 
+                             </svg> </a>:
                          <Link to={`/baca/${item.id}/${item.slug}`} className={cls19}> Selengkapnya  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={cls20}> 
                                  <polyline points="9 18 15 12 9 6"> </polyline> 
                              </svg> </Link> 
+                     }
                      </div> 
                  </div> 
              </div> 
