@@ -13,7 +13,7 @@ const KontakTemplate = ({}) => {
   const kontakState = useSelector((state) => state.kontak)
   const companyState = useSelector((state) => state.company)
 
-  console.log(kontakState)
+  // console.log(kontakState)
   useEffect(() => {
     dispatch(fetchKontak())
     dispatch(fetchCompany())

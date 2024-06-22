@@ -1,4 +1,10 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
+import { validateEmail } from "@/global/fn/validateEmail"
+import settingSlice from "@/global/store/features/settingSlice"
+import { useDispatch, useSelector } from "react-redux"
+import {CheckCircle as IconCheck} from "react-feather"
+const apiUrl = `http://127.0.0.1:8788`
+import ReCAPTCHA from "react-google-recaptcha"
 
 const ContactForm = ({}) => {
   const cls5 = "cls-5 container"
@@ -20,67 +26,144 @@ const ContactForm = ({}) => {
     "cls-19 mt-2 w-full py-2 px-3 h-28 bg-transparent dark:bg-slate-900 dark:text-slate-200 rounded outline-none border border-gray-100 dark:border-gray-800 focus:ring-0"
   const cls20 =
     "cls-20 py-2 px-5 inline-block tracking-wide align-middle duration-500 text-base text-center bg-red-500 text-white rounded-md mt-2"
-    /*********************/
-/*     Contact Form  */
-/*********************/
+  /*********************/
+  /*     Contact Form  */
+  /*********************/
+  const dispatch = useDispatch()
+  const settingState = useSelector((state) => state.setting)
+  const { updateClientId } = settingSlice.actions
 
+  const [formData, setFormData] = useState({})
+  const recaptchaRef = useRef(null)
+  const fieldNames = ["name", "email", "subject", "comments", "captchaToken"]
+  const fieldCaps = ["Nama", "Email", "Subyect", "Pesan", "Captcha"]
+  const [ticket, setTicket] = useState("")
+  const [sendStatus,setSendStatus]=useState(0) // -1 error, 0 init, 1 success
+  
 
-    const validateForm=()=>{
-        var name = document.forms["myForm"]["name"].value;
-        var email = document.forms["myForm"]["email"].value;
-        var subject = document.forms["myForm"]["subject"].value;
-        var comments = document.forms["myForm"]["comments"].value;
-        document.getElementById("error-msg").style.opacity = 0;
-        document.getElementById('error-msg').innerHTML = "";
-        if (name == "" || name == null) {
-            document.getElementById('error-msg').innerHTML = "<div class='alert alert-warning error_message'>*Please enter a Name*</div>";
-            fadeIn();
-            return false;
-        }
-        if (email == "" || email == null) {
-            document.getElementById('error-msg').innerHTML = "<div class='alert alert-warning error_message'>*Please enter a Email*</div>";
-            fadeIn();
-            return false;
-        }
-        if (subject == "" || subject == null) {
-            document.getElementById('error-msg').innerHTML = "<div class='alert alert-warning error_message'>*Please enter a Subject*</div>";
-            fadeIn();
-            return false;
-        }
-        if (comments == "" || comments == null) {
-            document.getElementById('error-msg').innerHTML = "<div class='alert alert-warning error_message'>*Please enter a Comments*</div>";
-            fadeIn();
-            return false;
-        }
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("simple-msg").innerHTML = this.responseText;
-                document.forms["myForm"]["name"].value = "";
-                document.forms["myForm"]["email"].value = "";
-                document.forms["myForm"]["subject"].value = "";
-                document.forms["myForm"]["comments"].value = "";
-            }
-        };
-        xhttp.open("POST", "php/contact.php", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("name=" + name + "&email=" + email + "&subject=" + subject + "&comments=" + comments);
-        return false;
+  const identityUrl = `${apiUrl}/contact/identity`
+  const sendUrl = `${apiUrl}/contact/send`
+  let [clientId, setClientId] = useState(settingState.clientId)
+
+  useEffect(() => {
+    console.log(settingState)
+    const { clientId } = settingState
+    if (clientId) {
+      setClientId(clientId)
+      retrieveIdentity()
+    }
+  }, [settingState, setClientId, setTicket,setSendStatus])
+
+  useEffect(() => {
+    dispatch(updateClientId())
+  }, [dispatch])
+
+  const retrieveIdentity = async () => {
+    setSendStatus(0)
+    const frmData = new FormData()
+    frmData.append("appId", "kanzululum-web")
+    frmData.append("clientId", clientId)
+    try {
+      const response = await fetch(identityUrl, { method: "POST", body: frmData }).then((r) => r.json())
+      const { ticket } = response
+      setTicket(ticket)
+      console.log({ ticket })
+    } catch (e) {}
+  }
+  const onCaptchaChange = (captchaToken) => {
+    if (captchaToken) {
+      setFormData((oData) => ({ ...oData, captchaToken }))
+    }
+  }
+  const displayError = (message) => {
+    document.getElementById("error-msg").innerHTML = `<div class='alert alert-warning error_message'>${message}</div>`
+    fadeIn()
+  }
+  const fadeIn = () => {
+    var fade = document.getElementById("error-msg")
+    var opacity = 0
+    var intervalID = setInterval(function () {
+      if (opacity < 1) {
+        opacity = opacity + 0.5
+        fade.style.opacity = opacity
+      } else {
+        clearInterval(intervalID)
+      }
+    }, 200)
+  }
+  const hideError = () => {
+    const errCnt = document.getElementById("error-msg")
+    errCnt.style.opacity = 0
+    errCnt.innerHTML = ""
+  }
+  const validateForm = () => {
+    hideError()
+    let idx = 0
+    let valid = true
+    let errorMessage = ""
+    for (const field of fieldNames) {
+      const value = formData[field]
+      const fieldRef = document.getElementById(field)
+
+      if (!value || value == "" || value == null) {
+        errorMessage =
+          field === "captchaToken" ? "Silahkan ceklist keamanan" : `* Silahkan masukkan ${fieldCaps[idx]} *`
+        valid = false
+      } else if (field === "email" && !validateEmail(value)) {
+        errorMessage = `*Silahkan masukkan email valid misal : anda@gmail.com *`
+        valid = false
+      }
+      if (!valid) {
+        displayError(errorMessage)
+        fieldRef.focus()
+        return false
+      }
+      idx += 1
     }
 
-    const fadeIn=()=> {
-        var fade = document.getElementById("error-msg");
-        var opacity = 0;
-        var intervalID = setInterval(function () {
-            if (opacity < 1) {
-                opacity = opacity + 0.5
-                fade.style.opacity = opacity;
-            } else {
-                clearInterval(intervalID);
-            }
-        }, 200);
+    return true
+  }
+
+  const onSubmitForm = (e) => {
+    try {
+      const validForm = validateForm()
+      if (validForm) {
+        // console.log(formData)
+        sendContact()
+      }
+    } catch (e) {
+      console.error(e)
     }
- 
+
+    return e.preventDefault()
+  }
+  const sendContact = async () => {
+    const frmData = new FormData()
+    frmData.append("appId", "kanzululum-web")
+    frmData.append("clientId", clientId)
+    frmData.append("ticket", ticket)
+    for (const field of fieldNames) {
+      const value = formData[field]
+      if (value) {
+        frmData.append(field, value)
+      }
+    }
+    try {
+      const response = await fetch(sendUrl, { method: "POST", body: frmData }).then((r) => r.json())
+      const { success, ticket,message } = response
+      // setTicket(ticket)
+      if(!success){
+        setSendStatus(-1)
+        displayError(message)
+      }else{
+        setSendStatus(1)
+      }
+      console.log({ success, ticket })
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   return (
     <div className={cls5}>
       <div className={cls6}>
@@ -91,44 +174,92 @@ const ContactForm = ({}) => {
         <div className={cls9}>
           <div className={cls10}>
             <div className={cls11}>
-              <h3 className={cls12}> Hubungi Kami </h3>
+              <h3 className={cls12}> {sendStatus === 1?'Terima Kasih':'Hubungi Kami'} </h3>
+              {ticket ? (<>
+                {sendStatus === 1?<>
+                  <p id="success-msg" className={`${cls13} twx-flex `}>
+                  <IconCheck className="feather-icon twx-text-green-500 twx-mr-2 twx-w-[100px]"/> Pesan Anda sudah berhasil terkirim, kami akan membalas pesan melalui email. Silahkan periksa kotak masuk email Anda beberapa waktu lagi.
+                </p>
+                </>:
+                <form
+                  onSubmit={(e) => {
+                    return onSubmitForm(e)
+                  }}>
+                  <p id="error-msg" className={cls13}></p>
+                  <div id="simple-msg"> </div>
+                  <div className={cls14}>
+                    <div className={cls15}>
+                      <label htmlFor="name" className={cls16}>
+                        Nama Anda:
+                      </label>
+                      <input
+                        name="name"
+                        id="name"
+                        type="text"
+                        placeholder="Nama :"
+                        className={cls17}
+                        onChange={(e) => setFormData((oData) => ({ ...oData, name: e.target.value }))}
+                      />
+                    </div>
 
-              <form method="post" name="myForm" id="myForm" onsubmit="return validateForm()">
-                <p id="error-msg" className={cls13}></p>
-                <div id="simple-msg"> </div>
-                <div className={cls14}>
-                  <div className={cls15}>
-                    <label htmlFor="name" className={cls16}>
-                      Nama Anda:
-                    </label>
-                    <input name="name" id="name" type="text" placeholder="Nama :" className={cls17} />
-                  </div>
+                    <div className={cls15}>
+                      <label htmlFor="email" className={cls16}>
+                        Email:
+                      </label>
+                      <input
+                        name="email"
+                        id="email"
+                        type="text"
+                        placeholder="Email :"
+                        className={cls17}
+                        onChange={(e) => setFormData((oData) => ({ ...oData, email: e.target.value }))}
+                      />
+                    </div>
 
-                  <div className={cls15}>
-                    <label htmlFor="email" className={cls16}>
-                      Email:
-                    </label>
-                    <input name="email" id="email" type="email" placeholder="Email :" className={cls17} />
-                  </div>
+                    <div className={cls18}>
+                      <label htmlFor="subject" className={cls16}>
+                        Pertanyaan Anda:
+                      </label>
+                      <input
+                        name="subject"
+                        id="subject"
+                        placeholder="Subyek :"
+                        className={cls17}
+                        onChange={(e) => setFormData((oData) => ({ ...oData, subject: e.target.value }))}
+                      />
+                    </div>
 
-                  <div className={cls18}>
-                    <label htmlFor="subject" className={cls16}>
-                      Pertanyaan Anda:
-                    </label>
-                    <input name="subject" id="subject" placeholder="Subject :" className={cls17} />
+                    <div className={cls18}>
+                      <label htmlFor="comments" className={cls16}>
+                        Komentar:
+                      </label>
+                      <textarea
+                        name="comments"
+                        id="comments"
+                        placeholder="Pesan :"
+                        className={cls19}
+                        onChange={(e) => setFormData((oData) => ({ ...oData, comments: e.target.value }))}
+                      />
+                    </div>
+                    <div className={cls8}>
+                      <ReCAPTCHA
+                        size="normal"
+                        sitekey="6LdLtP4pAAAAAAlK7NdFD-w3rOW213fRh4WYNiCU"
+                        onChange={onCaptchaChange}
+                        ref={recaptchaRef}
+                      />
+                    </div>
                   </div>
-
-                  <div className={cls18}>
-                    <label htmlFor="comments" className={cls16}>
-                      Komentar:
-                    </label>
-                    <textarea name="comments" id="comments" placeholder="Message :" className={cls19} />
-                  </div>
-                </div>
-                <button type="submit" id="submit" name="send" className={cls20}>
-                  Kirim Pesan
-                </button>
-              </form>
+                  <button type="submit" id="submit" name="send" className={cls20}>
+                    Kirim Pesan
+                  </button>
+                </form>}
+                </>
+              ) : (
+                <p id="error-msg" className={cls13}>
+                  Unable to retrieve ticket
+                </p>
+              )}
             </div>
           </div>
         </div>

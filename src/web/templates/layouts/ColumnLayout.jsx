@@ -9,6 +9,8 @@ import webNavigationSlice, { fetchWebNavigation } from "@/global/store/features/
 import FooterSection from "../sections/FooterSection"
 import HeaderSection from "../sections/HeaderSection"
 import "@/global/css/template.css"
+import settingSlice  from '@/global/store/features/settingSlice';
+import { crc32id } from '../../../global/fn/crc32id';
 
 const ColumnLayout = ({
   children,
@@ -24,8 +26,9 @@ const ColumnLayout = ({
   const contactPersonState = useSelector((state) => state.contactPerson)
   const socialNetworkLinkState = useSelector((state) => state.socialNetworkLink)
   const webNavigationState = useSelector((state) => state.webNavigation)
-
+  const {updateClientId} = settingSlice.actions
   useEffect(() => {
+    dispatch(updateClientId())
     dispatch(fetchCompany())
     dispatch(fetchWebNavigation())
     dispatch(fetchSocialNetworkLink())

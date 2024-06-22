@@ -1,7 +1,10 @@
 
 import { createSlice } from "@reduxjs/toolkit"
+import { crc32id } from '../../fn/crc32id';
+
 const initialState = {
-  hideGitNotReadyMessage : false
+  hideGitNotReadyMessage : false,
+  clientId: null
 }
 
 export const settingSlice = createSlice({
@@ -9,7 +12,12 @@ export const settingSlice = createSlice({
   initialState,
   reducers: {
     setHideGitNotReadyMessage: (state,action) => {
-    	state.hideGitNotReadyMessage =  action.payload
+      state.hideGitNotReadyMessage =  action.payload
+    },
+    updateClientId:(state,action)=>{
+      if(!state.clientId){
+        state.clientId = crc32id()
+      }
     }
   },
 })

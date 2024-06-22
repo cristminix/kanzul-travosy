@@ -41,7 +41,7 @@ const persistConfig = {
   key: 'root',
   storage:storageSession,
   version:1,
-  whitelist: ["settings","explorer"],
+  whitelist: ["setting","explorer"],
       transforms: [ArrayTransform]
 }
 

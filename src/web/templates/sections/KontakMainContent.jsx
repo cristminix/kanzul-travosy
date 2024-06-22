@@ -5,8 +5,8 @@ import ContactAddress from "../blocks/ContactAddress"
 const KontakMainContent = ({ kontakData, companyData }) => {
   const cls4 = "cls-4 relative lg:py-24 py-16"
 
-  console.log(kontakData)
-  console.log(companyData)
+  // console.log(kontakData)
+  // console.log(companyData)
   // const breadcrumbs = [
   //   { title: "Home", path: "/" },
   //   { title: "Kontak", path: "/kontak" },
