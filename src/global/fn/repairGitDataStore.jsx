@@ -34,10 +34,11 @@ export const GitDoctor = ({ logs, task }) => {
 			}, 1000)
 		} else if (taskName === "repair") {
 			setTaskStatus(true)
-			dispatch(setLoading(true))
+			dispatch(setLoading(true,"Sedang Memperbarui database"))
 			try {
+				git.setOnCloneProgressHandler(dispatch, setLoading, setLoadingMessage)
 				await git.fastForward(
-					(progressEvent) => {},
+					git.onCloneCallback,
 					(pullSuccess) => {
 						dispatch(setLoading(false))
 						setTaskStatus(false)

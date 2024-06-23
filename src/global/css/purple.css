@@ -137,3 +137,13 @@ form.rjsf ul.file-info > li.upload-items > .file-preview-container > .descriptio
 textarea.form-control{
 /*    @apply twx-*/
 }
+.form-check{
+    @apply twx-flex twx-items-center
+}
+.form-check  .form-check-label{
+/*    @apply !twx-ml-1*/
+}
+
+.form-check-input{
+    @apply twx-m-0 twx-block
+}

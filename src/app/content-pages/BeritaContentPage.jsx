@@ -3,9 +3,9 @@ import settingSlice from "@/global/store/features/settingSlice"
 
 
 import { useSelector, useDispatch } from "react-redux"
-import { useEffect, useState } from "react"
+import { useEffect, useState ,useRef} from "react"
 import MainContentLayout from "./MainContentLayout"
-import { Button, Tabs, Tab } from "react-bootstrap"
+import { Button, Tabs, Tab,Form } from "react-bootstrap"
 
 import { createGit } from "@/global/git"
 import { useLocation, Link, useNavigate } from "react-router-dom"
@@ -48,7 +48,7 @@ import {getBlocksReadingTime} from "@/global/fn/getBlocksReadingTime"
 import {dateToSqlDateTime} from "@/global/fn/dateToSqlDateTime"
 import {createDateFromSqlDateTime} from "@/global/fn/createDateFromSqlDateTime"
 
-import {Plus as IconPlus,RefreshCcw as IconReload} from "react-feather"
+import {Plus as IconPlus,RefreshCcw as IconReload,Save as IconSave} from "react-feather"
 import {getFileInfo} from "@/global/fn/getFileInfo"
 const git = createGit()
 // const mBerita = new MBerita(git, beritaSchema)
@@ -70,11 +70,12 @@ const BeritaContentPage = ({ subModule }) => {
   const navigate = useNavigate()
   const contentState = useSelector((state) => state.content)
   const settingState = useSelector((state) => state.setting)
-  const { setLoading, setLoadingMessage,displayAlert } = contentSlice.actions
+  const { setLoading, setLoadingMessage,displayAlert,displayToast  } = contentSlice.actions
 
   const [tabKey, setTabKey] = useState("banner")
   const [trigger, setTrigger] = useState(false)
-
+  const ckAutoCommitRef=useRef(null)
+  const autoCommitRef= useRef(false)
   const showLoading = (status, message = "Menyimpan Data") => {
     if (status) {
       dispatch(setLoading(true))
@@ -85,6 +86,10 @@ const BeritaContentPage = ({ subModule }) => {
   }
   const showAlert = (type,title,message)=>{
       dispatch(displayAlert([type,title,message]))
+  }
+    const showToast = (type,title,message)=>{
+      dispatch(displayToast([type,title,message]))
+
   }
   const onSelectTab = (tabKey) => {
     navigate(`${routePath}/${tabKey}`)
@@ -170,7 +175,7 @@ const BeritaContentPage = ({ subModule }) => {
     
   }
   const onCompileBerita = async(row)=>{
-    // console.log(row)
+    console.log({autoCommit:autoCommitRef.current})
     showLoading(true,"Sedang Mengkompail")
     let checksum = await compiler.getChecksum(row)
 
@@ -187,22 +192,22 @@ const BeritaContentPage = ({ subModule }) => {
           update.compiledHash = checksum
           try{
             await mBeritaRw.update(row.id,update)
-            await mBeritaRw.commit(true)
-            showAlert('info','Success','Compile Success')
+            await mBeritaRw.commit(autoCommitRef.current)
+            showToast('info','Success','Compile Success')
             
           }catch(e){
-            showAlert('danger','Error Compile Failed',e.toString())
+            showToast('danger','Error Compile Failed',e.toString())
 
           }
          }else{
-          showAlert('danger','error','Compile Failed')
+          showToast('danger','error','Compile Failed')
          }
 
       }
     }
     console.log(checksum)
     showLoading(false)
-    reloadBeritaList()
+    // reloadBeritaList()
 
   }
   const onSaveFormBerita = async (e) => {
@@ -233,7 +238,7 @@ const BeritaContentPage = ({ subModule }) => {
         formData.dateCreated=dateToSqlDateTime()
         await mBeritaRw.create(formData)
       }
-      await mBeritaRw.commit(true)
+      await mBeritaRw.commit(autoCommitRef.current)
       
     } catch (e) {
       dispatch(displayAlert(["danger","error",e.toString()]))
@@ -257,13 +262,22 @@ const BeritaContentPage = ({ subModule }) => {
     // setMetaFormData(row)
     showFormMeta(true)
   }
+  const commitRecords = async (e) => {
+    showLoading(true,"Saving Records")
+    try {
+      await git.push()
+    } catch (e) {
+      dispatch(displayAlert(["danger","error",e.toString()]))
+    }
 
+    showLoading(false)
+  }
   const onSaveFormMeta = async (e) => {
     const { formData } = e
     showLoading(true)
     try {
       await mMetaBerita.update(formData)
-      await mMetaBerita.commit(true)
+      await mMetaBerita.commit(autoCommitRef.current)
     } catch (e) {
       dispatch(displayAlert(["danger","error",e.toString()]))
     }
@@ -272,7 +286,24 @@ const BeritaContentPage = ({ subModule }) => {
     showFormMeta(false)
     loadMetaData()
   }
+  const resetCompiledHash=()=>{
+    const list = [...beritaListData]
+    console.log(list)
+    for(const item of list){
+      item.compiledHash=null
+    }
 
+    // showLoading(true,"Memuat Produk")
+    setBeritaListData([])
+    // await mProdukRw.initOrm()
+    setTimeout(()=>{
+      // const data =  mProdukRw.getAll()
+      setBeritaListData(oData=>[...list])
+      showToast('info','info','compile status reseted')
+      // showLoading(false)
+
+    },256)
+  }
   useEffect(() => {
     const pathnames = location.pathname.split("/")
     const tabName = pathnames.at(-1)
@@ -289,6 +320,10 @@ const BeritaContentPage = ({ subModule }) => {
       
     }
   }, [location.key, setTabKey,setBeritaFormData,setMetaFormData])
+  useEffect(()=>{
+    if(ckAutoCommitRef.current)
+    ckAutoCommitRef.current.checked = autoCommitRef.current?true:false
+  },[autoCommitRef.current])
   return (
     <MainContentLayout
       pageTitle={pageTitle}
@@ -317,6 +352,13 @@ const BeritaContentPage = ({ subModule }) => {
                     {!formBeritaShown ? (
                       <>
                         <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Daftar Berita</h4>
+                        <div className="twx-p-4 twx-flex twx-justify-between twx-items-center">
+                            <Form.Check ref={ckAutoCommitRef} type="checkbox" label="Auto Commit" onChange={e=>{
+                              autoCommitRef.current = ckAutoCommitRef.current.checked
+                              // console.log(newAutoCommit)
+                              // setAutoCommit(newAutoCommit)
+                            }}/>
+                        </div>
                         <BeritaList
                           git={git}
                           className="twx-border twx-border-slate-200 twx-border-solid"
@@ -325,12 +367,18 @@ const BeritaContentPage = ({ subModule }) => {
                           onCompileRow={(row) => onCompileBerita(row)}
                           validHash={validHash}
                         />
-                         <div className="twx-py-4 twx-flex twx-justify-end">
+                         <div className="twx-py-4 twx-flex twx-justify-between">
                           <Button size="sm" className="reload-berita-btn" onClick={(e) => loadBeritaListData()}>
-                            <IconReload className="feather-icon" /> 
+                            <IconReload className="feather-icon twx-mr-1" /> Reload
+                          </Button>
+                          <Button size="sm" onClick={(e) => resetCompiledHash()}>
+                            <IconReload className="feather-icon twx-mr-1" /> Reset Compile
+                          </Button>
+                          <Button size="sm" onClick={(e) => commitRecords()}>
+                            <IconSave className="feather-icon twx-mr-1" /> Commit
                           </Button>
                           <Button size="sm" onClick={(e) => showAddFormBerita()}>
-                            <IconPlus className="feather-icon" /> 
+                            <IconPlus className="feather-icon" /> Add
                           </Button>
                         </div>
                       </>

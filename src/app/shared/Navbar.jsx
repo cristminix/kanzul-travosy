@@ -86,7 +86,7 @@ class Navbar extends Component {
                     return  evt.preventDefault()
                   }}>
                     <i className="mdi mdi-logout mr-2 text-primary"></i>
-                    <Trans>Repair Git Data Store</Trans>
+                    <Trans>Perbarui Database Website</Trans>
                   </Dropdown.Item>
                   <Dropdown.Item href="!#" onClick={evt =>evt.preventDefault()}>
                     <i className="mdi mdi-logout mr-2 text-primary"></i>

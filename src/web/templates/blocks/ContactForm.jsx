@@ -2,8 +2,8 @@ import { useEffect, useState, useRef } from "react"
 import { validateEmail } from "@/global/fn/validateEmail"
 import settingSlice from "@/global/store/features/settingSlice"
 import { useDispatch, useSelector } from "react-redux"
-import {CheckCircle as IconCheck} from "react-feather"
-const apiUrl = `http://127.0.0.1:8788`
+import { CheckCircle as IconCheck, Send as IconSend } from "react-feather"
+const apiUrl = `https://kanzululum-rest-api.kanzululum.workers.dev`
 import ReCAPTCHA from "react-google-recaptcha"
 
 const ContactForm = ({}) => {
@@ -36,23 +36,22 @@ const ContactForm = ({}) => {
   const [formData, setFormData] = useState({})
   const recaptchaRef = useRef(null)
   const fieldNames = ["name", "email", "subject", "comments", "captchaToken"]
-  const fieldCaps = ["Nama", "Email", "Subyect", "Pesan", "Captcha"]
+  const fieldCaps = ["Nama", "Email", "Subyek", "Pesan", "Captcha"]
   const [ticket, setTicket] = useState("")
-  const [sendStatus,setSendStatus]=useState(0) // -1 error, 0 init, 1 success
-  
+  const [sendStatus, setSendStatus] = useState(0) // -1 error, 0 init, 1 success
 
   const identityUrl = `${apiUrl}/contact/identity`
   const sendUrl = `${apiUrl}/contact/send`
   let [clientId, setClientId] = useState(settingState.clientId)
 
   useEffect(() => {
-    console.log(settingState)
+    // console.log(settingState)
     const { clientId } = settingState
     if (clientId) {
       setClientId(clientId)
       retrieveIdentity()
     }
-  }, [settingState, setClientId, setTicket,setSendStatus])
+  }, [settingState, setClientId, setTicket, setSendStatus])
 
   useEffect(() => {
     dispatch(updateClientId())
@@ -67,7 +66,7 @@ const ContactForm = ({}) => {
       const response = await fetch(identityUrl, { method: "POST", body: frmData }).then((r) => r.json())
       const { ticket } = response
       setTicket(ticket)
-      console.log({ ticket })
+      // console.log({ ticket })
     } catch (e) {}
   }
   const onCaptchaChange = (captchaToken) => {
@@ -115,7 +114,7 @@ const ContactForm = ({}) => {
       }
       if (!valid) {
         displayError(errorMessage)
-        fieldRef.focus()
+        if (fieldRef) fieldRef.focus()
         return false
       }
       idx += 1
@@ -132,12 +131,14 @@ const ContactForm = ({}) => {
         sendContact()
       }
     } catch (e) {
+      displayError("Terjadi kesalahan")
       console.error(e)
     }
 
     return e.preventDefault()
   }
   const sendContact = async () => {
+    setSendStatus(2)
     const frmData = new FormData()
     frmData.append("appId", "kanzululum-web")
     frmData.append("clientId", clientId)
@@ -150,20 +151,20 @@ const ContactForm = ({}) => {
     }
     try {
       const response = await fetch(sendUrl, { method: "POST", body: frmData }).then((r) => r.json())
-      const { success, ticket,message } = response
+      const { success, ticket, message } = response
       // setTicket(ticket)
-      if(!success){
+      if (!success) {
         setSendStatus(-1)
         displayError(message)
-      }else{
+      } else {
         setSendStatus(1)
       }
-      console.log({ success, ticket })
+      console.log({ success, ticket, message })
     } catch (e) {
+      displayError("Terjadi kesalahan")
       console.error(e)
     }
-  }
-
+  } 
   return (
     <div className={cls5}>
       <div className={cls6}>
@@ -174,86 +175,101 @@ const ContactForm = ({}) => {
         <div className={cls9}>
           <div className={cls10}>
             <div className={cls11}>
-              <h3 className={cls12}> {sendStatus === 1?'Terima Kasih':'Hubungi Kami'} </h3>
-              {ticket ? (<>
-                {sendStatus === 1?<>
-                  <p id="success-msg" className={`${cls13} twx-flex `}>
-                  <IconCheck className="feather-icon twx-text-green-500 twx-mr-2 twx-w-[100px]"/> Pesan Anda sudah berhasil terkirim, kami akan membalas pesan melalui email. Silahkan periksa kotak masuk email Anda beberapa waktu lagi.
-                </p>
-                </>:
-                <form
-                  onSubmit={(e) => {
-                    return onSubmitForm(e)
-                  }}>
-                  <p id="error-msg" className={cls13}></p>
-                  <div id="simple-msg"> </div>
-                  <div className={cls14}>
-                    <div className={cls15}>
-                      <label htmlFor="name" className={cls16}>
-                        Nama Anda:
-                      </label>
-                      <input
-                        name="name"
-                        id="name"
-                        type="text"
-                        placeholder="Nama :"
-                        className={cls17}
-                        onChange={(e) => setFormData((oData) => ({ ...oData, name: e.target.value }))}
-                      />
-                    </div>
+              <h3 className={cls12}> {sendStatus === 1 ? "Terima Kasih" : "Hubungi Kami"} </h3>
+              {ticket ? (
+                <>
+                  {sendStatus === 1 ? (
+                    <>
+                      <p id="success-msg" className={`${cls13} twx-flex `}>
+                        <IconCheck className="feather-icon twx-text-green-500 twx-mr-2 twx-w-[100px]" /> Pesan Anda
+                        sudah berhasil terkirim, kami akan membalas pesan melalui email. Silahkan periksa kotak masuk
+                        email Anda beberapa waktu lagi.
+                      </p>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                  {sendStatus === 2 ? (
+                    <p id="success-msg" className={`${cls13} twx-flex `}>
+                      <IconSend className="feather-icon twx-text-green-500 twx-mr-2 twx-w-[80px]" /> Sedang mengirim
+                      pesan ...
+                    </p>
+                  ) : null}
+                  {sendStatus === 0 ? (
+                    <form
+                      onSubmit={(e) => {
+                        return onSubmitForm(e)
+                      }}>
+                      <p id="error-msg" className={cls13}></p>
+                      <div id="simple-msg"> </div>
+                      <div className={cls14}>
+                        <div className={cls15}>
+                          <label htmlFor="name" className={cls16}>
+                            Nama Anda:
+                          </label>
+                          <input
+                            name="name"
+                            id="name"
+                            type="text"
+                            placeholder="Nama :"
+                            className={cls17}
+                            onChange={(e) => setFormData((oData) => ({ ...oData, name: e.target.value }))}
+                          />
+                        </div>
 
-                    <div className={cls15}>
-                      <label htmlFor="email" className={cls16}>
-                        Email:
-                      </label>
-                      <input
-                        name="email"
-                        id="email"
-                        type="text"
-                        placeholder="Email :"
-                        className={cls17}
-                        onChange={(e) => setFormData((oData) => ({ ...oData, email: e.target.value }))}
-                      />
-                    </div>
+                        <div className={cls15}>
+                          <label htmlFor="email" className={cls16}>
+                            Email:
+                          </label>
+                          <input
+                            name="email"
+                            id="email"
+                            type="text"
+                            placeholder="Email :"
+                            className={cls17}
+                            onChange={(e) => setFormData((oData) => ({ ...oData, email: e.target.value }))}
+                          />
+                        </div>
 
-                    <div className={cls18}>
-                      <label htmlFor="subject" className={cls16}>
-                        Pertanyaan Anda:
-                      </label>
-                      <input
-                        name="subject"
-                        id="subject"
-                        placeholder="Subyek :"
-                        className={cls17}
-                        onChange={(e) => setFormData((oData) => ({ ...oData, subject: e.target.value }))}
-                      />
-                    </div>
+                        <div className={cls18}>
+                          <label htmlFor="subject" className={cls16}>
+                            Pertanyaan Anda:
+                          </label>
+                          <input
+                            name="subject"
+                            id="subject"
+                            placeholder="Subyek :"
+                            className={cls17}
+                            onChange={(e) => setFormData((oData) => ({ ...oData, subject: e.target.value }))}
+                          />
+                        </div>
 
-                    <div className={cls18}>
-                      <label htmlFor="comments" className={cls16}>
-                        Komentar:
-                      </label>
-                      <textarea
-                        name="comments"
-                        id="comments"
-                        placeholder="Pesan :"
-                        className={cls19}
-                        onChange={(e) => setFormData((oData) => ({ ...oData, comments: e.target.value }))}
-                      />
-                    </div>
-                    <div className={cls8}>
-                      <ReCAPTCHA
-                        size="normal"
-                        sitekey="6LdLtP4pAAAAAAlK7NdFD-w3rOW213fRh4WYNiCU"
-                        onChange={onCaptchaChange}
-                        ref={recaptchaRef}
-                      />
-                    </div>
-                  </div>
-                  <button type="submit" id="submit" name="send" className={cls20}>
-                    Kirim Pesan
-                  </button>
-                </form>}
+                        <div className={cls18}>
+                          <label htmlFor="comments" className={cls16}>
+                            Komentar:
+                          </label>
+                          <textarea
+                            name="comments"
+                            id="comments"
+                            placeholder="Pesan :"
+                            className={cls19}
+                            onChange={(e) => setFormData((oData) => ({ ...oData, comments: e.target.value }))}
+                          />
+                        </div>
+                        <div className={cls8}>
+                          <ReCAPTCHA
+                            size="normal"
+                            sitekey="6LdLtP4pAAAAAAlK7NdFD-w3rOW213fRh4WYNiCU"
+                            onChange={onCaptchaChange}
+                            ref={recaptchaRef}
+                          />
+                        </div>
+                      </div>
+                      <button type="submit" id="submit" name="send" className={cls20}>
+                        Kirim Pesan
+                      </button>
+                    </form>
+                  ) : null}
                 </>
               ) : (
                 <p id="error-msg" className={cls13}>

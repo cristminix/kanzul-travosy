@@ -68,7 +68,7 @@ const ContactAddress = ({ company }) => {
             </p>
 
             <div className={cls29}>
-              <a href={company.googleMapEmbedUrl} data-type="iframe" className={cls31}>
+              <a target="_blank" href={company.googleMapUrl} data-type="iframe" className={cls31}>
                 Lihat Peta
               </a>
             </div>

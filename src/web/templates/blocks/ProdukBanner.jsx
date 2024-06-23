@@ -37,7 +37,7 @@ import { useEffect, useState } from "react"
                      <h3 className={cls4}> {banner.title} </h3> 
 
                      <ul className={cls5}> 
-                         <li className={cls6}>   <span className={cls7}> Kategori : </span>   <span className={cls8}> {produk.author} </span> </li> 
+                         <li className={cls6}>   <span className={cls7}> Kategori : </span>   <span className={cls8}> {produk.kategori} </span> </li> 
                          <li className={cls6}>   <span className={cls7}> Tanggal : </span>   <span className={cls8}> {produk.tanggal} </span> </li> 
                          <li className={cls6}>   <span className={cls7}> Waktu : </span>   <span className={cls8}> {produk.readingTime} Menit Baca </span> </li> 
                      </ul> 

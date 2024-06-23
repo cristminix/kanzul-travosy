@@ -8,24 +8,40 @@ const initialState = {
     type:'',
     title:'',
   },
-  alertId:null
+  toast: {
+    message:'',
+    type:'',
+    title:'',
+  },
+  alertId:null,
+  toastId:null,
+  showAlert:false,
+  showToast:false
 }
 
 export const contentSlice = createSlice({
   name: "content",
   initialState,
   reducers: {
+    hideAlert:(state,action)=>{
+      state.showAlert = false
+    },
+    hideToast:(state,action)=>{
+      state.showToast = false
+    },
     displayAlert: (state, action) => {
-      console.log(action)
+      // console.log(action)
       const [type,title,message] = action.payload
       state.alert = {...state.alert, type,title,message}
+      state.showAlert=true
       state.alertId=crc32id()
     },
-    hideAlert:(state,action)=>{
-      state.alertMessage=message
-      state.alertType=type
-      state.alertTitle=title
-      state.showAlert=true
+    displayToast: (state, action) => {
+      // console.log(action)
+      const [type,title,message] = action.payload
+      state.toast = {...state.toast, type,title,message}
+      state.toastId=crc32id()
+      state.showToast=true
     },
     setLoading: (state, action) => {
       state.isLoading = action.payload
