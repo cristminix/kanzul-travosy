@@ -151,7 +151,7 @@ async function request({ onProgress, url, method = "GET", headers = {}, body }) 
           const { done, value } = await reader.read()
           if (done) break
           loaded += value.byteLength
-          console.log({ loaded, total })
+          request.onProgress({ loaded, total })
           controller.enqueue(value)
         }
         controller.close()

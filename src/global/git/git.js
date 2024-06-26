@@ -43,7 +43,12 @@ class Git {
   corsProxyUrl = null
   author = null
   token = null
-
+  onDownloadProgress = (obj) => {
+    console.log(obj)
+  }
+  setOnDownloadProgress(callback) {
+    this.onDownloadProgress = callback
+  }
   getGit() {
     return git
   }
@@ -100,6 +105,9 @@ class Git {
   onCloneCallback = (f) => f
 
   constructor(config) {
+    http.request.onProgress = (obj) => {
+      this.onDownloadProgress(obj)
+    }
     this.fs = new Fs("fs")
 
     this.initSetting(config)
