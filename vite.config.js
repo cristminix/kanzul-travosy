@@ -23,25 +23,21 @@ let default_jsonFileList = []
 let berita_dbFileList = []
 let produk_dbFileList = []
 
-for(const file of jsonDataFileList){
+for (const file of jsonDataFileList) {
   // console.log(file)
-  if(file.match(/\web\/data\/pages/)){
+  if (file.match(/\web\/data\/pages/)) {
     pages_jsonFileList.push(file)
   }
   //web/data/forms/
-  else if(file.match(/\web\/data\/forms/)){
+  else if (file.match(/\web\/data\/forms/)) {
     forms_jsonFileList.push(file)
-  }
-  else if(file.match(/\web\/data\/templates/)){
+  } else if (file.match(/\web\/data\/templates/)) {
     templates_jsonFileList.push(file)
-  }
-  else if(file.match(/\web\/data\/berita/)){
+  } else if (file.match(/\web\/data\/berita/)) {
     berita_dbFileList.push(file)
-  }
-  else if(file.match(/\web\/data\/produk/)){
+  } else if (file.match(/\web\/data\/produk/)) {
     produk_dbFileList.push(file)
-  }
-  else{
+  } else {
     default_jsonFileList.push(file)
   }
   // web/data/templates
@@ -50,13 +46,12 @@ let template_sectionFileList = []
 let template_blockFileList = []
 let template_rootFileList = []
 
-for(const file of templates_jsonFileList){
-  if(file.match(/\web\/data\/templates\/sections/)){
+for (const file of templates_jsonFileList) {
+  if (file.match(/\web\/data\/templates\/sections/)) {
     template_sectionFileList.push(file)
-  }
-  else if(file.match(/\web\/data\/templates\/blocks/)){
+  } else if (file.match(/\web\/data\/templates\/blocks/)) {
     template_blockFileList.push(file)
-  }else{
+  } else {
     template_rootFileList.push(file)
   }
 }
@@ -67,11 +62,11 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        quietDeps: true
-      }
-    }
+        quietDeps: true,
+      },
+    },
   },
-  
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -94,24 +89,24 @@ export default defineConfig({
         },
         {
           src: template_rootFileList,
-          dest:"web/data/templates"
+          dest: "web/data/templates",
         },
         {
           src: template_sectionFileList,
-          dest:"web/data/templates/sections"
+          dest: "web/data/templates/sections",
         },
         {
           src: template_blockFileList,
-          dest:"web/data/templates/blocks"
+          dest: "web/data/templates/blocks",
         },
         {
-          src:berita_dbFileList,
-          dest:'web/data/berita'
+          src: berita_dbFileList,
+          dest: "web/data/berita",
         },
         {
-          src:produk_dbFileList,
-          dest:'web/data/produk'
-        }
+          src: produk_dbFileList,
+          dest: "web/data/produk",
+        },
       ],
     }),
     mpaPlugin({
@@ -132,6 +127,8 @@ export default defineConfig({
     // }),
   ],
   build: {
-    commonjsOptions: { transformMixedEsModules: true } // Change
-  }
+    sourcemap: true,
+
+    commonjsOptions: { transformMixedEsModules: true }, // Change
+  },
 })

@@ -1,9 +1,8 @@
 import { useEffect } from "react"
 import BlockData from "@/global/components/BlockData"
 
-const Hero = ({heroData}) => {
-  
-  const initSwiper=()=>{
+const Hero = ({ heroData }) => {
+  const initSwiper = () => {
     //=========================================//
     /*            10) Swiper slider            */
     //=========================================//
@@ -78,18 +77,19 @@ const Hero = ({heroData}) => {
   useEffect(() => {
     const swiper = initSwiper()
 
-    return ()=>{
-        if(swiper){
-            swiper.destroy(true,true)
-        }
+    return () => {
+      if (swiper) {
+        swiper.destroy(true, true)
+      }
     }
-  },[])
+  }, [heroData])
   const styles = {}
   const cls0 = "cls-0 swiper-slider-hero relative block h-screen"
   const cls1 = "cls-1 swiper-container absolute end-0 top-0 w-full h-full"
   const cls2 = "cls-2 swiper-wrapper"
   const cls3 = "cls-3 swiper-slide flex items-center overflow-hidden"
-  const cls4 = "cls-4 slide-inner absolute end-0 top-0 w-full h-full slide-bg-image flex items-center bg-center bg-cover"
+  const cls4 =
+    "cls-4 slide-inner absolute end-0 top-0 w-full h-full slide-bg-image flex items-center bg-center bg-cover"
   const cls5 = "cls-5 absolute inset-0 bg-black/70"
   const cls6 = "cls-6 container relative"
   const cls7 = "cls-7 grid grid-cols-1"
@@ -108,34 +108,40 @@ const Hero = ({heroData}) => {
       <section id="home" className={cls0}>
         <div className={cls1}>
           <div className={cls2}>
-          {heroData&&Array.isArray(heroData)&&heroData.map((item,index)=>{
-            return <div className={cls3} key={index}>
-              <div data-background={item.image} className={cls4}>
-                <div className={cls5}> </div>
-                <div className={cls6}>
-                  <div className={cls7}>
-                    <div className={cls8}>
-                      <img src="/assets/images/map-plane.png" alt="" className={cls9} />
-                      <h1 className={cls10}>
-                        <BlockData data={item.title}/>
-                      </h1>
-                      <BlockData  className={cls11} data={item.description}/>
+            {heroData &&
+              Array.isArray(heroData) &&
+              heroData.map((item, index) => {
+                return (
+                  <div className={cls3} key={index}>
+                    <div data-background={item.image} className={cls4}>
+                      <div className={cls5}> </div>
+                      <div className={cls6}>
+                        <div className={cls7}>
+                          <div className={cls8}>
+                            <img src="/assets/images/map-plane.png" alt="" className={cls9} />
+                            <h1 className={cls10}>
+                              <BlockData data={item.title} />
+                            </h1>
+                            <BlockData className={cls11} data={item.description} />
 
-                      <div className={cls12}>
-                        <a href={item.link} className={cls13}>
-                          {item.linkText}
-                        </a>
+                            <div className={cls12}>
+                              <a href={item.link} className={cls13}>
+                                {item.linkText}
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        {/*<!--end grid-->*/}
                       </div>
+                      {/*<!--end container-->*/}
                     </div>
+                    {/*<!-- end slide-inner -->*/}
                   </div>
-                  {/*<!--end grid-->*/}
-                </div>
-                {/*<!--end container-->*/}
-              </div>
-              {/*<!-- end slide-inner -->*/}
-            </div>
-            {/*<!-- end swiper-slide -->*/}
-          })}
+                )
+                {
+                  /*<!-- end swiper-slide -->*/
+                }
+              })}
           </div>
           {/*<!-- end swiper-wrapper -->*/}
 

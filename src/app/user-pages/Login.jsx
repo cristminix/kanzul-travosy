@@ -2,6 +2,8 @@ import { Button, Form } from "react-bootstrap"
 import { useState, useEffect } from "react"
 import { signIn, useAuth } from "../../global/firebase/auth"
 import { useNavigate } from "react-router-dom"
+import Spinner from "../shared/Spinner"
+import { getCurrentSetting } from "../../global/firebase/setting"
 
 export const Login = ({}) => {
   const [validationErrors, setValidationErrors] = useState({})
@@ -10,6 +12,7 @@ export const Login = ({}) => {
   const isLogedIn = !!user
 
   const [errorMessages, setErrorMessages] = useState([])
+  const [logingIn, setLogingIn] = useState(false)
 
   // const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
@@ -52,15 +55,25 @@ export const Login = ({}) => {
         }
       }, 512)
     } else {
+      setLogingIn(true)
       try {
         await signIn(email, password)
         // setCookie("uid", result.id)
-
-        navigate("/")
+        const { repoUrl, token, corsProxyUrl } = await getCurrentSetting()
+        localStorage.repoUrl = repoUrl
+        localStorage.token = token
+        localStorage.corsProxyUrl = corsProxyUrl
+        // navigate("/")
+        document.location.href = "/purple"
       } catch (e) {
         const message = e.message.replace("FirebaseError:", "").replace("Firebase:", "")
+        setEmail(email)
         setErrorMessages([message])
+        try {
+          document.querySelector(`input.email`).focus()
+        } catch (e) {}
       }
+      setLogingIn(false)
     }
     // console.log(email, password)
   }
@@ -79,7 +92,7 @@ export const Login = ({}) => {
       <div className="d-flex align-items-center auth px-0">
         <div className="row w-100 mx-0">
           <div className="col-lg-4 mx-auto">
-            <div className="auth-form-light text-left py-5 px-4 px-sm-5">
+            <div className="auth-form-light text-left py-5 px-4 px-sm-5 twx-relative">
               <div className="brand-logo">
                 <img className="twx-mx-auto" src="/assets/images/logo/logo-dark.png" alt="logo" />
               </div>
@@ -87,52 +100,56 @@ export const Login = ({}) => {
                 {/* <h4 className="twx-mx-auto">Hello! let's get started</h4> */}
                 <h6 className="font-weight-light">Login untuk melanjutkan</h6>
               </div>
-
-              <Form
-                className="pt-3"
-                onSubmit={(e) => {
-                  try {
-                    console.log("hello")
-                    onLogin()
-                  } catch (e) {}
-                  return e.preventDefault()
-                }}>
-                <Form.Group className="d-flex search-field">
-                  <Form.Control
-                    type="email"
-                    placeholder="Email"
-                    size="lg"
-                    className="h-auto email"
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </Form.Group>
-                <Form.Group className="d-flex search-field">
-                  <Form.Control
-                    type="password"
-                    placeholder="Kata Sandi"
-                    size="lg"
-                    className="h-auto password"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </Form.Group>
-                <Form.Group className="d-flex search-field">
-                  {errorMessages.map((item, index) => {
-                    return (
-                      <div className="alert alert-danger" key={index}>
-                        {item}
-                      </div>
-                    )
-                  })}
-                </Form.Group>
-                <div className="mt-3">
-                  <Button
-                    type="submit"
-                    size="sm"
-                    className="text-center btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
-                    <span className="twx-mx-auto">LOG IN</span>
-                  </Button>
-                </div>
-                {/* <div className="my-2 d-flex justify-content-between align-items-center">
+              {logingIn ? (
+                <>
+                  <Spinner independent={true} message="Sedang Login" />
+                </>
+              ) : (
+                <Form
+                  className="pt-3"
+                  onSubmit={(e) => {
+                    try {
+                      console.log("hello")
+                      onLogin()
+                    } catch (e) {}
+                    return e.preventDefault()
+                  }}>
+                  <Form.Group className="d-flex search-field">
+                    <Form.Control
+                      type="email"
+                      placeholder="Email"
+                      size="lg"
+                      className="h-auto email"
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </Form.Group>
+                  <Form.Group className="d-flex search-field">
+                    <Form.Control
+                      type="password"
+                      placeholder="Kata Sandi"
+                      size="lg"
+                      className="h-auto password"
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </Form.Group>
+                  <Form.Group className="d-flex search-field">
+                    {errorMessages.map((item, index) => {
+                      return (
+                        <div className="alert alert-danger" key={index}>
+                          {item}
+                        </div>
+                      )
+                    })}
+                  </Form.Group>
+                  <div className="mt-3">
+                    <Button
+                      type="submit"
+                      size="sm"
+                      className="text-center btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
+                      <span className="twx-mx-auto">LOG IN</span>
+                    </Button>
+                  </div>
+                  {/* <div className="my-2 d-flex justify-content-between align-items-center">
                     <div className="form-check">
                       <label className="form-check-label text-muted">
                         <input type="checkbox" className="form-check-input" />
@@ -155,7 +172,8 @@ export const Login = ({}) => {
                       Create
                     </Link>
                   </div> */}
-              </Form>
+                </Form>
+              )}
             </div>
           </div>
         </div>

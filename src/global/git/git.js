@@ -1,19 +1,38 @@
+// const fetch = global.fetch
+// global.fetch = function () {
+//   const [option] = arguments
+//   if (typeof option === "string") {
+//     if (!option.match(/cors/)) {
+//       return Promise.resolve(fetch.apply(global, arguments))
+//     }
+//   } else if (!option.url.match(/cors/)) {
+//     return Promise.resolve(fetch.apply(global, arguments))
+//   }
+//   console.log("fetch called")
+//   return new Promise((resolve, reject) => {
+//     const response = fetch.apply(global, arguments)
+
+//     resolve(response)
+//   })
+// }
 import git from "isomorphic-git"
-import http from "isomorphic-git/http/web"
+import http from "./isomorphic-git/http/web"
 import Fs from "./fs"
 import { createRandomInt } from "@/global/fn/createRandomInt"
 import { arrayBufferToBase64 } from "@/global/fn/arrayBufferToBase64"
 import { getRepoDir } from "./getRepoDir"
 import { parse as parseMimeType } from "file-type-mime"
 import { getMimeTypeByExtension } from "@/global/fn/getMimeTypeByExtension"
-const config = {
-  repoUrl: "https://github.com/kanzululum/kanzululum.github.io.git",
+import { getCurrentSetting } from "@/global/firebase/setting"
+
+let config = {
   author: {
     name: "Purple Admin",
     email: "admin@ponpeskanzululumcirebon.com",
   },
-  token: "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",
-  corsProxyUrl: "https://cors.isomorphic-git.org",
+  repoUrl: localStorage.repoUrl,
+  token: localStorage.token,
+  corsProxyUrl: localStorage.corsProxyUrl,
 }
 
 class Git {
@@ -79,8 +98,17 @@ class Git {
     return `${this.dir}/${path}`
   }
   onCloneCallback = (f) => f
+
   constructor(config) {
     this.fs = new Fs("fs")
+
+    this.initSetting(config)
+  }
+
+  async initSetting(config) {
+    // const { repoUrl, token, corsProxyUrl } = await getCurrentSetting()
+    // console.log(`Git.initSettings()`, repoUrl, token, corsProxyUrl)
+
     this.repoUrl = config.repoUrl
     if (config.corsProxyUrl) {
       this.corsProxyUrl = config.corsProxyUrl
@@ -92,7 +120,6 @@ class Git {
     this.token = config.token
     this.author = config.author
   }
-
   async isCloned() {
     if (!(await this.fs.existsSync(this.dir))) return false
     try {

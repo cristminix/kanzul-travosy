@@ -6,7 +6,10 @@ import { GitDoctor, repairGitDataStore } from "@/global/fn/repairGitDataStore"
 import { crc32id } from "@/global/fn/crc32id"
 import { signOut } from "@/global/firebase/auth"
 import { useState } from "react"
+import { getCurrentUserInfo } from "../../global/firebase/user"
+import { useEffect } from "react"
 const Navbar = ({}) => {
+  const [userInfo, setUserInfo] = useState({ username: "noname" })
   const taskId = crc32id()
 
   const [doctorTask, setDoctorTask] = useState({
@@ -31,7 +34,14 @@ const Navbar = ({}) => {
   const toggleRightSidebar = () => {
     document.querySelector(".right-sidebar").classList.toggle("open")
   }
-
+  const updateUserInfo = async () => {
+    const userInfo = await getCurrentUserInfo()
+    // console.log(userInfo)
+    setUserInfo((oData) => ({ ...oData, ...userInfo }))
+  }
+  useEffect(() => {
+    updateUserInfo()
+  }, [])
   return (
     <nav className="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div className="text-center navbar-brand-wrapper d-flex align-items-center">
@@ -72,7 +82,7 @@ const Navbar = ({}) => {
                 </div>
                 <div className="nav-profile-text">
                   <p className="mb-1 text-black">
-                    <Trans>@kintel</Trans>
+                    <Trans>{userInfo.username}</Trans>
                   </p>
                 </div>
               </Dropdown.Toggle>

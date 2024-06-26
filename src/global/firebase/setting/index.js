@@ -1,0 +1,1 @@
+export { getCurrentSetting } from "./getCurrentSetting"

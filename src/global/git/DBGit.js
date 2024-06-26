@@ -8,7 +8,7 @@ class DBGit {
   defaultValue = null
   data = null
   path = null
-
+  addQueues = []
   commitQueues = []
   commitMessageQueues = []
 
@@ -82,7 +82,6 @@ class DBGit {
       }
     }
     return row
-    
   }
   async transformShadowFieldItemOnload(row, fieldNames) {
     // console.log(`doTransform`,row,fieldNames)
@@ -165,13 +164,14 @@ class DBGit {
       const targetDir = this.getFilePath()
       if (await this.fs.existsSync(targetDir)) {
         const files = await this.fs.readdirSync(targetDir)
-        let id = 1
+
         for (const file of files) {
           if (!file.match(/\.json$/)) continue
           let itemData = null
           const itemPath = `${targetDir}/${file}`
 
           try {
+            let id = crc32id()
             const name = file.replace(/\.json$/, "")
             const itemBufferData = await this.fs.readFileSync(itemPath, "utf-8")
             itemData = JSON.parse(itemBufferData)
@@ -189,18 +189,25 @@ class DBGit {
 
           if (itemData) {
             this.data.push(itemData)
-            id += 1
+            // id += 1
           }
         }
       }
     } else {
       try {
         const bufferData = await this.fs.readFileSync(this.getFilePath(), "utf-8")
+        // console.log(bufferData)
         this.data = JSON.parse(bufferData)
         if (this.dataRootField) {
           // save original tree data
           this.originalData = Array.isArray(this.data) ? [...this.data] : { ...this.data }
           this.data = this.data[this.dataRootField]
+        }
+        //fix id
+        if (this.type === "list") {
+          for (const row of this.data) {
+            row.id = crc32id()
+          }
         }
       } catch (e) {
         const errorReason = `lfs:Could not get json data by reading file ${this.getFilePath()}`
@@ -209,9 +216,9 @@ class DBGit {
         else this.data = []
       }
     }
-    if(this.data)
-      await this.transformShadowFieldOnload()
+    if (this.data) await this.transformShadowFieldOnload()
     // console.log(this.originalData)
+    // console.log(this.data)
     return this.data
   }
   async push() {

@@ -1,5 +1,5 @@
 {
-	"ROUTER_BASE": "/purple",
+	"ROUTER_BASE": "/",
 	"DEFAULT_DATA_URL": "data:image/gif;name=DEFAULT_DATA_URL_FILENAME;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
-	"BASE_URL":"https://ponpeskanzululumcirebon.com"
+	"BASE_URL": "https://ponpeskanzululumcirebon.com"
 }

@@ -12,30 +12,10 @@ import {
 
 import { ROUTER_BASE } from "@/config.json"
 
-//
-
-const Dashboard = lazy(() => import("./dashboard/Dashboard"))
-
-const Buttons = lazy(() => import("./basic-ui/Buttons"))
-const Dropdowns = lazy(() => import("./basic-ui/Dropdowns"))
-const Typography = lazy(() => import("./basic-ui/Typography"))
-
-const BasicElements = lazy(() => import("./form-elements/BasicElements"))
-
-const BasicTable = lazy(() => import("./tables/BasicTable"))
-
-const Mdi = lazy(() => import("./icons/Mdi"))
-
-const ChartJs = lazy(() => import("./charts/ChartJs"))
-
 const Error404 = lazy(() => import("./error-pages/Error404"))
 const Error500 = lazy(() => import("./error-pages/Error500"))
 
 const Login = lazy(() => import("./user-pages/Login"))
-const Register1 = lazy(() => import("./user-pages/Register"))
-const Lockscreen = lazy(() => import("./user-pages/Lockscreen"))
-
-const BlankPage = lazy(() => import("./general-pages/BlankPage"))
 // import AppTemplate from "./AppTemplate"
 
 import ContentPage, { loader as contentPageLoader } from "./content-pages/ContentPage"
@@ -47,21 +27,12 @@ const Router = ({}) => {
   const { isLoading, user } = useAuth()
   const isAuthed = !!user
   const isLogedIn = isAuthed
-  console.log({ isLoading, user })
-  const router = createBrowserRouter(
+  // console.log({ isLoading, user })
+  const router = createHashRouter(
     createRoutesFromElements(
       <Route
         path=""
         element={<PrivateRoutes isLoading={isLoading} isAuthed={isAuthed} isLogedIn={isLogedIn}></PrivateRoutes>}>
-        <Route
-          path="dashboard"
-          element={
-            <Suspense fallback={<Spinner />}>
-              <Dashboard />
-            </Suspense>
-          }
-        />
-
         <Route path="contents" element={<ContentPage />} loader={contentPageLoader} />
         <Route path="contents/:mod" element={<ContentPage />} loader={contentPageLoader} />
         <Route path="contents/:mod/:sub" element={<ContentPage />} loader={contentPageLoader} />
@@ -72,22 +43,6 @@ const Router = ({}) => {
           element={
             <Suspense fallback={<Spinner />}>
               <Login />
-            </Suspense>
-          }
-        />
-        <Route
-          path="user-pages/register-1"
-          element={
-            <Suspense fallback={<Spinner />}>
-              <Register1 />
-            </Suspense>
-          }
-        />
-        <Route
-          path="user-pages/lockscreen"
-          element={
-            <Suspense fallback={<Spinner />}>
-              <Lockscreen />
             </Suspense>
           }
         />

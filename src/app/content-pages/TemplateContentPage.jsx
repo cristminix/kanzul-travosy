@@ -20,7 +20,6 @@ import heroSchema from "@/web/data/forms/hero/schema.json"
 import heroUiSchema from "@/web/data/forms/hero/ui.json"
 import MHero from "@/global/git/models/MHero"
 
-
 // Model Related
 import MFooter from "@/global/git/models/MFooter"
 import JsonForm from "./JsonForm"
@@ -56,7 +55,7 @@ const TemplateContentPage = ({}) => {
     }
   }
   const showAlert = (type, title, message) => {
-    dispatch(displayAlert(["danger", "error", e.toString()]))
+    dispatch(displayAlert(["danger", "error", message]))
   }
   const onSelectTab = (tabKey) => {
     navigate(`${routePath}/${tabKey}`)
@@ -114,7 +113,7 @@ const TemplateContentPage = ({}) => {
 
   const loadHeroListData = async () => {
     const data = await mHero.getData()
-    // console.log(data)
+    console.log(data)
     setHeroListData(data)
   }
   const showEditFormHero = async (row) => {
@@ -125,15 +124,19 @@ const TemplateContentPage = ({}) => {
   const onSaveFormHero = async (e) => {
     const { formData } = e
     showLoading(true)
+    let hasError = false
     try {
       await mHero.updateRow(formData, true)
     } catch (e) {
+      hasError = true
       showAlert("danger", "error", e.toString())
     }
 
     showLoading(false)
-    showFormHero(false)
-    loadHeroListData()
+    if (!hasError) {
+      showFormHero(false)
+      loadHeroListData()
+    }
   }
   useEffect(() => {
     const pathnames = location.pathname.split("/")
@@ -147,7 +150,7 @@ const TemplateContentPage = ({}) => {
     } else if (tabName === "hero") {
       loadHeroListData()
     }
-  }, [location.key, setTabKey, setFooterFormData, setWelcomeMessageFormData,setHeroListData])
+  }, [location.key, setTabKey, setFooterFormData, setWelcomeMessageFormData, setHeroListData])
   return (
     <MainContentLayout
       pageTitle={pageTitle}
@@ -244,7 +247,6 @@ const TemplateContentPage = ({}) => {
                   </>
                 )}
               </Tab>
-  
             </Tabs>
           </div>
         </div>
