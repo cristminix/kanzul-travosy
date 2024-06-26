@@ -121,10 +121,10 @@ const AuthorDetail = ({berita,loading,metaMode})=>{
                   <div className={cls23}>
                     <IconUser className={cls24} />
 
-                    <Link to={`/penulis/${berita.author}`} className={cls25}>
+                    <a href={`/berita/#/penulis/${berita.author}`} className={cls25}>
                       
                       {berita.author}
-                    </Link>
+                    </a>
                     {/*<p className={cls5}> Content Writer </p>*/}
                   </div>
                  <h5 className={`${cls26} twx-flex twx-items-center twx-justify-center`}> <IconShare className={`${cls30} twx-mr-2`}/> Bagikan </h5> 

@@ -27,3 +27,5 @@ instagram-feeds
 /pnpm-lock.yaml
 /src/tests/repo-dir
 /tools/output
+/src/global/firebase/cred.json
+/src/global/firebase/auth.txt

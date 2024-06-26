@@ -1,35 +1,35 @@
 import fs from "node:fs"
 import path from "node:path"
 const CWD = process.cwd()
-const git={
-	fs,
-	dir: path.join(CWD,"src")
+const git = {
+  fs,
+  dir: path.join(CWD, "dist"),
 }
 import MBeritaRw from "../src/global/git/orm/rw/models/MBeritaRw"
 
 const mBeritaRw = new MBeritaRw(git)
 
-const fixBeritaBlocks = async()=>{
-	const list = mBeritaRw.getAll()
-	const updates=[]
-	for(const row of list){
-		let {id,content} = row
-		content = JSON.parse(content)
-		const {blocks} = content
-		content = JSON.stringify(blocks)
-		updates.push({id,content})
-		// console.log(blocks)
-	}
-	await mBeritaRw.updateContentRows(updates)
-	await mBeritaRw.commit()
+const fixBeritaBlocks = async () => {
+  const list = mBeritaRw.getAll()
+  const updates = []
+  for (const row of list) {
+    let { id, content } = row
+    content = JSON.parse(content)
+    const { blocks } = content
+    content = JSON.stringify(blocks)
+    updates.push({ id, content })
+    // console.log(blocks)
+  }
+  await mBeritaRw.updateContentRows(updates)
+  await mBeritaRw.commit()
 }
 
-const main=async()=>{
-	console.log(`-----------${new Date}---------------`)
-	// console.log(git)
-	await mBeritaRw.initOrm()
-	await fixBeritaBlocks()
-/*	const countAll = await mBeritaRw.count()
+const main = async () => {
+  console.log(`-----------${new Date()}---------------`)
+  // console.log(git)
+  await mBeritaRw.initOrm()
+  // await fixBeritaBlocks()
+  /*	const countAll = await mBeritaRw.count()
 	console.log({countAll})
 	const countWithFilter = await mBeritaRw.count({author:"Admin"})
 	console.log({countWithFilter})

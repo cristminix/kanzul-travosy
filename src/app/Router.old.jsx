@@ -4,7 +4,6 @@ import {
   createBrowserRouter,
   createHashRouter,
   Route,
-  Routes,
   RouterProvider,
 } from "react-router-dom"
 
@@ -37,22 +36,18 @@ const Lockscreen = lazy(() => import("./user-pages/Lockscreen"))
 
 const BlankPage = lazy(() => import("./general-pages/BlankPage"))
 // import AppTemplate from "./AppTemplate"
-
+import App from "./App"
 import ContentPage, { loader as contentPageLoader } from "./content-pages/ContentPage"
 import Spinner from "./shared/Spinner"
-import { useAuth } from "@/global/firebase/auth"
-import PrivateRoutes from "./PrivateRoutes"
+import { useAuth } from "./firebase/auth"
+const { isLoading, user } = useAuth()
+const isAuthed = !!user
+const isLogedIn = isAuthed
 
 const Router = ({}) => {
-  const { isLoading, user } = useAuth()
-  const isAuthed = !!user
-  const isLogedIn = isAuthed
-  console.log({ isLoading, user })
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route
-        path=""
-        element={<PrivateRoutes isLoading={isLoading} isAuthed={isAuthed} isLogedIn={isLogedIn}></PrivateRoutes>}>
+      <Route path="" element={<App />}>
         <Route
           path="dashboard"
           element={
@@ -62,13 +57,74 @@ const Router = ({}) => {
           }
         />
 
+        <Route
+          path="basic-ui/buttons"
+          element={
+            <Suspense fallback={<Spinner />}>
+              <Buttons />
+            </Suspense>
+          }
+        />
         <Route path="contents" element={<ContentPage />} loader={contentPageLoader} />
         <Route path="contents/:mod" element={<ContentPage />} loader={contentPageLoader} />
         <Route path="contents/:mod/:sub" element={<ContentPage />} loader={contentPageLoader} />
         <Route path="contents/:mod/:sub/:pk" element={<ContentPage />} loader={contentPageLoader} />
 
         <Route
-          path="login"
+          path="basic-ui/dropdowns"
+          element={
+            <Suspense fallback={<Spinner />}>
+              <Dropdowns />
+            </Suspense>
+          }
+        />
+        <Route
+          path="basic-ui/typography"
+          element={
+            <Suspense fallback={<Spinner />}>
+              <Typography />
+            </Suspense>
+          }
+        />
+
+        <Route
+          path="form-Elements/basic-elements"
+          element={
+            <Suspense fallback={<Spinner />}>
+              <BasicElements />
+            </Suspense>
+          }
+        />
+
+        <Route
+          path="tables/basic-table"
+          element={
+            <Suspense fallback={<Spinner />}>
+              <BasicTable />
+            </Suspense>
+          }
+        />
+
+        <Route
+          path="icons/mdi"
+          element={
+            <Suspense fallback={<Spinner />}>
+              <Mdi />
+            </Suspense>
+          }
+        />
+
+        <Route
+          path="charts/chart-js"
+          element={
+            <Suspense fallback={<Spinner />}>
+              <ChartJs />
+            </Suspense>
+          }
+        />
+
+        <Route
+          path="user-pages/login-1"
           element={
             <Suspense fallback={<Spinner />}>
               <Login />
@@ -105,6 +161,15 @@ const Router = ({}) => {
           element={
             <Suspense fallback={<Spinner />}>
               <Error500 />
+            </Suspense>
+          }
+        />
+
+        <Route
+          path="general-pages/blank-page"
+          element={
+            <Suspense fallback={<Spinner />}>
+              <BlankPage />
             </Suspense>
           }
         />

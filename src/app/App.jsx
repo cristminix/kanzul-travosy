@@ -23,14 +23,14 @@ import Spinner from "@/app/shared/Spinner"
 
 // import "bootstrap/dist/css/bootstrap.min.css"
 // import "bootstrap/dist/js/bootstrap.min.js"
-import "bootstrap-icons/font/bootstrap-icons.css";
+import "bootstrap-icons/font/bootstrap-icons.css"
 
-const App = ({ props }) => {
+const App = ({ isLogedIn }) => {
   const location = useLocation()
   const [isFullPageLayout, setIsFullPageLayout] = useState(false)
-  const [contentIsLoading,setContentIsLoading]=useState(true)
+  const [contentIsLoading, setContentIsLoading] = useState(true)
 
-   // const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const contentState = useSelector((state) => state.content)
   // const {setLoading} = contentSlice.actions
 
@@ -68,12 +68,17 @@ const App = ({ props }) => {
     }
   }
   useEffect(() => {
-    onRouteChanged()
+    try {
+      onRouteChanged()
+    } catch (e) {}
   }, [])
   let navbarComponent = !isFullPageLayout ? <Navbar /> : ""
   let sidebarComponent = !isFullPageLayout ? <Sidebar /> : ""
   let SettingsPanelComponent = !isFullPageLayout ? <SettingsPanel /> : ""
   let footerComponent = !isFullPageLayout ? <Footer /> : ""
+  if (!isLogedIn) {
+    return <Outlet />
+  }
   return (
     <div className="container-scroller">
       {navbarComponent}
@@ -81,13 +86,11 @@ const App = ({ props }) => {
         {sidebarComponent}
         <div className="main-panel">
           <div className="content-wrapper">
-            {
-              contentState.isLoading ? <Spinner message={contentState.loadingMessage}/> : null
-            }
+            {contentState.isLoading ? <Spinner message={contentState.loadingMessage} /> : null}
             {/*<div className={`${contentIsLoading?'spinner-wrapper':''}`}>*/}
-              <Outlet />
+            <Outlet />
             {/*</div>*/}
-            
+
             {SettingsPanelComponent}
           </div>
           {footerComponent}

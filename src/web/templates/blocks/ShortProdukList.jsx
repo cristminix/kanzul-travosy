@@ -2,11 +2,12 @@ import MProdukRo from "@/global/git/orm/ro/models/MProdukRo"
 import { useEffect, useState } from "react"
 import { fixTags } from "@/global/fn/fixTags"
 import { Clock as IconClock, User as IconUser } from "react-feather"
+import { slugify } from "../../../global/fn/slugify"
 const mProdukRo = new MProdukRo()
 
 const ShortProdukList = ({}) => {
   const [produkList, setProdukList] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const loadProdukList = async () => {
     setLoading(true)
     await mProdukRo.initOrm()
@@ -44,6 +45,7 @@ const ShortProdukList = ({}) => {
   const cls19 = "cls-19 hover:text-red-500 inline-flex items-center"
   const cls20 = "cls-20 size-4 ms-1"
   const cls21 = "twx-w-[14.6px] twx-h-[14.6px] twx-inline"
+  const skeleton = "twx-shadow twx-bg-slate-300 twx-opacity-80 twx-shadow twx-rounded-md"
 
   return (
     <>
@@ -52,12 +54,38 @@ const ShortProdukList = ({}) => {
           <h3 className={cls2}> Produk </h3>
 
           <p className={cls3}> Produk Santri Kanzululum. </p>
-        </div>{" "}
+        </div>
         {/*<!--end grid-->*/}
         <div className={cls4}>
+          {loading && (
+            <>
+              {[...Array(3)].fill(1).map((item, index) => {
+                return (
+                  <div className={`${cls5} twx-animate-pulse `}>
+                    <div className={`${cls6} ${skeleton}`}>
+                      <div className={`${cls7} twx-h-[200px] twx-w-full ${skeleton}`}></div>
+                    </div>
+
+                    <div className={cls10}>
+                      <div className={`${cls11} twx-w-3/4 ${skeleton} twx-h-4`}></div>
+
+                      <a className={`${cls16} ${skeleton} twx-h-2`}> </a>
+                      <p className={`${cls17} ${skeleton} twx-h-2`}> </p>
+                      <p className={`${cls17} ${skeleton} twx-h-2`}> </p>
+                      <p className={`${cls17} ${skeleton} twx-h-2`}> </p>
+
+                      <div className={`${cls18}  twx-w-1/2 ${skeleton} twx-h-6`}></div>
+                    </div>
+                  </div>
+                )
+              })}
+            </>
+          )}
           {produkList.map((post, index) => {
-            const postUrlCompiled = `/produk/lihat/${post.id}/${post.slug}`
-            const postUrl = post.compiledHash ? postUrlCompiled : `/produk/#/lihat/${post.id}/${post.slug}`
+            const slug = slugify(post.title)
+
+            const postUrlCompiled = `/produk/lihat/${post.id}/${slug}`
+            const postUrl = post.compiledHash ? postUrlCompiled : `/produk/#/lihat/${post.id}/${slug}`
             return (
               <div className={cls5} key={index}>
                 <div className={cls6}>
@@ -70,41 +98,34 @@ const ShortProdukList = ({}) => {
                 <div className={cls10}>
                   <div className={cls11}>
                     <span className={cls12}>
-                      {" "}
-                      <IconClock className={`${cls21} ${cls13} `} /> {`${post.readingTime ?? 0} min baca`}{" "}
+                      <IconClock className={`${cls21} ${cls13} `} /> {`${post.readingTime ?? 0} min baca`}
                     </span>
                     <span className={cls14}>
-                      {" "}
-                      <IconUser className={`${cls21} ${cls13} `} />{" "}
+                      <IconUser className={`${cls21} ${cls13} `} />
                       <a href={`/produk/#/kategori/${post.kategori}`} className={cls15}>
-                        {" "}
-                        {post.kategori ? `${post.kategori}` : "Produk"}{" "}
-                      </a>{" "}
+                        {post.kategori ? `${post.kategori}` : "Produk"}
+                      </a>
                     </span>
                   </div>
 
                   <a href={postUrl} className={cls16}>
-                    {" "}
-                    {post.title}{" "}
+                    {post.title}
                   </a>
                   <p className={`${cls17} twx-line-clamp-3`}> {post.headline} </p>
 
                   <div className={cls18}>
                     <a href={postUrl} className={cls19}>
-                      {" "}
-                      Selengkapnya{" "}
-                      <i data-feather="chevron-right" className={cls20}>
-                        {" "}
-                      </i>{" "}
+                      Selengkapnya
+                      <i data-feather="chevron-right" className={cls20}></i>
                     </a>
                   </div>
                 </div>
               </div>
             )
           })}
-        </div>{" "}
+        </div>
         {/*<!--end grid-->*/}
-      </div>{" "}
+      </div>
       {/*<!--end container-->*/}
     </>
   )

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "compile:all": "vite-node -c vite-node.config.js tools/drizzle-test-compiler.js",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -47,6 +48,7 @@
     "drizzle-orm": "^0.30.10",
     "editorjs-react-renderer": "^3.5.1",
     "file-type-mime": "^0.3.10",
+    "firebase": "^10.12.2",
     "i18next": "^23.11.5",
     "i18next-browser-languagedetector": "^8.0.0",
     "isomorphic-git": "^1.25.10",

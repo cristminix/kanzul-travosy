@@ -3,7 +3,7 @@ import { validateEmail } from "@/global/fn/validateEmail"
 import settingSlice from "@/global/store/features/settingSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { CheckCircle as IconCheck, Send as IconSend } from "react-feather"
-const apiUrl = `https://kanzululum-rest-api.kanzululum.workers.dev`
+const apiUrl = `https://api.ponpeskanzululumcirebon.com`
 import ReCAPTCHA from "react-google-recaptcha"
 
 const ContactForm = ({}) => {

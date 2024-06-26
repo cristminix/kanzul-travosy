@@ -12,26 +12,26 @@ import {
 export const BeritaSchema = sqliteTable('berita', {
   id: int('id').primaryKey(),
   title: text('title').notNull(),
-  slug: text('slug').notNull(),
   author: text('author'),
   headline: text('headline'),
   tags: text('tags'),
   cover: text('cover'),
   content: text('content'),
   compiledHash: text('compiledHash'),
+  compiledPath: text('compiledPath'),
   dateCreated:text('dateCreated'),
   dateUpdated:text('dateUpdated')
 })
 export const ProdukSchema = sqliteTable('produk', {
   id: int('id').primaryKey(),
   title: text('title').notNull(),
-  slug: text('slug').notNull(),
   kategori: text('kategori'),
   headline: text('headline'),
   tags: text('tags'),
   cover: text('cover'),
   content: text('content'),
   compiledHash: text('compiledHash'),
+  compiledPath: text('compiledPath'),
   dateCreated:text('dateCreated'),
   dateUpdated:text('dateUpdated')
 })

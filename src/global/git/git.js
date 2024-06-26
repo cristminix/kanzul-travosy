@@ -5,15 +5,15 @@ import { createRandomInt } from "@/global/fn/createRandomInt"
 import { arrayBufferToBase64 } from "@/global/fn/arrayBufferToBase64"
 import { getRepoDir } from "./getRepoDir"
 import { parse as parseMimeType } from "file-type-mime"
-import {getMimeTypeByExtension} from "@/global/fn/getMimeTypeByExtension"
+import { getMimeTypeByExtension } from "@/global/fn/getMimeTypeByExtension"
 const config = {
-  repoUrl: "http://localhost:3000/sutoyocutez/kanzululum-web.git",
+  repoUrl: "https://github.com/kanzululum/kanzululum.github.io.git",
   author: {
-    name: "Tatang S.",
-    email: "sutoyocutez@gmail.com",
+    name: "Purple Admin",
+    email: "admin@ponpeskanzululumcirebon.com",
   },
-  token: "e05db2320178761249774568fa1882d3c0e21cfa",
-  corsProxyUrl: "http://127.0.0.1:8787",
+  token: "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",
+  corsProxyUrl: "https://cors.isomorphic-git.org",
 }
 
 class Git {
@@ -30,8 +30,8 @@ class Git {
   }
   async getFile64Data(path, includeInfo = false, direct = false) {
     const fileGitPath = !direct ? `${this.dir}${path}` : path
-        const fileGitPathSplit = fileGitPath.split("/")
-    
+    const fileGitPathSplit = fileGitPath.split("/")
+
     const filename = fileGitPathSplit[fileGitPathSplit.length - 1]
 
     // console.log(fileGitPath)
@@ -45,13 +45,13 @@ class Git {
     if (buffer) {
       try {
         let mimeType = parseMimeType(buffer)
-        if(!mimeType){
+        if (!mimeType) {
           mimeType = getMimeTypeByExtension(filename)
         }
         // console.log(mimeType)
 
-        let mime = 'application/octet-stream'
-        if(mimeType){
+        let mime = "application/octet-stream"
+        if (mimeType) {
           mime = mimeType.mime
         }
         let output = `data:${mime};charset=utf-8;name=${filename};base64,${arrayBufferToBase64(buffer)}`
@@ -159,7 +159,7 @@ class Git {
   //   // }
   //   return option
   // }
-  async commit(filepaths, message=null) {
+  async commit(filepaths, message = null) {
     let messages = []
     for (const fileItem of filepaths) {
       await git.add({ fs: this.fs, dir: this.dir, filepath: fileItem })
