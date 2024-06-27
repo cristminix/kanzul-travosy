@@ -2,25 +2,19 @@
   "type": "object",
   "required": [
     "title",
-    "slug",
     "cover",
     "headline",
     "content"
   ],
   "properties": {
-  
     "title": {
       "title": "Title",
-      "type": "string"
-    },
-    "slug": {
-      "title": "Slug",
       "type": "string"
     },
     "cover": {
       "title": "Cover Image",
       "type": "string",
-        "format": "data-url"
+      "format": "data-url"
     },
     "headline": {
       "title": "Headline",

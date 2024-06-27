@@ -2,25 +2,19 @@
   "type": "object",
   "required": [
     "title",
-    "slug",
     "cover",
     "headline",
     "content"
   ],
   "properties": {
-  
     "title": {
       "title": "Nama Produk",
-      "type": "string"
-    },
-    "slug": {
-      "title": "Slug",
       "type": "string"
     },
     "cover": {
       "title": "Gambar",
       "type": "string",
-        "format": "data-url"
+      "format": "data-url"
     },
     "headline": {
       "title": "Keterangan Singkat",

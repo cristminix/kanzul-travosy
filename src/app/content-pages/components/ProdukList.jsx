@@ -3,6 +3,7 @@ import DataTable from "react-data-table-component"
 import { Button } from "react-bootstrap"
 import { Edit as IconEdit, Archive as IconArchive } from "react-feather"
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import {Trash as IconTrash} from "react-feather"
 
 const AsyncImage=({callback,className})=>{
 	const [source,setSource] = useState(null)
@@ -29,7 +30,7 @@ const AsyncButton =({callback,onClick,children})=>{
 		</Button>
 	return null
 }
-const ProdukList = ({git, className,data, onEditRow = (f) => f , onCompileRow = (f) => f ,validHash=(f)=>true}) => {
+const ProdukList = ({git, className,data, onEditRow = (f) => f , onCompileRow = (f) => f ,validHash=(f)=>true,onDeleteRow=(e)=>f}) => {
 	const columns = [
 		{
 			name: "No",
@@ -71,6 +72,7 @@ const ProdukList = ({git, className,data, onEditRow = (f) => f , onCompileRow = 
 					<AsyncButton size="sm xs" callback={async(e)=> await validHash(row)} onClick={(e) => onCompileRow(row)}>
 						<IconArchive />
 					</AsyncButton>
+					<Button size="sm xs" variant="danger" onClick={e=>onDeleteRow(row)}><IconTrash/></Button>
 				</>
 			),
 		},

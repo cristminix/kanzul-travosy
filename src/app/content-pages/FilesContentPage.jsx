@@ -5,6 +5,7 @@ import MainContentLayout from "./MainContentLayout"
 import { addListener } from "@reduxjs/toolkit/react"
 import { useEffect, useState } from 'react';
 import FilePreview from "./components/FilePreview"
+import {Folder as IconFolder} from "react-feather"
 const FilesContentPage = ({}) => {
 	const dispatch = useDispatch()
 	const contentState = useSelector((state) => state.content)
@@ -13,7 +14,7 @@ const FilesContentPage = ({}) => {
 	const pageTitle = "Files"
 	const breadcrumbs = [
 		{ title: "Konten", path: "contents" },
-		{ title: "Files", path: "content/files" },
+		{ title: "Daftar File", path: "content/files" },
 	]
 	// console.log(explorerState.expanded)
 	const isExpand = (id) => {
@@ -55,6 +56,7 @@ const FilesContentPage = ({}) => {
 		<MainContentLayout
 			pageTitle={pageTitle}
 			breadcrumbs={breadcrumbs}
+			icon={<IconFolder/>}
 			className={`${contentState.isLoading ? "content-is-loading" : ""}`}>
 			<div className="col-12 grid-margin stretch-card">
 				<div className="card">

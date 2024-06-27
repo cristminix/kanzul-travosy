@@ -5,6 +5,8 @@ import { useEffect, useState } from "react"
 import LoadingDot from "@/global/components/LoadingDot"
 import { formatBytes } from "@/global/fn/formatBytes"
 import { useNavigate, useLocation } from "react-router-dom"
+import { getCurrentSetting } from "../../global/firebase/setting"
+
 import {
   Check as IconCheck,
   Cloud as IconCloud,
@@ -33,7 +35,11 @@ export const GitDoctor = ({ logs, task }) => {
   const runTask = async (taskName) => {
     if (taskName === "checkup") {
       // console.log(taskName)
-
+      const { repoUrl, token, corsProxyUrl } = await getCurrentSetting()
+        localStorage.repoUrl = repoUrl
+        localStorage.token = token
+        localStorage.corsProxyUrl = corsProxyUrl
+        
       setTaskStatus(true)
       await setTimeout(() => {
         setTaskStatus(false)
@@ -49,7 +55,7 @@ export const GitDoctor = ({ logs, task }) => {
           // navigate(0);
 
           let currentPath = location.pathname.replace(ROUTER_BASE, "")
-          console.log(currentPath)
+          //   console.log(currentPath)
           navigate("/")
           setTimeout(() => {
             navigate(currentPath)
@@ -79,7 +85,7 @@ export const GitDoctor = ({ logs, task }) => {
   } catch (e) {}
   if (!taskIsRunning) return null
   return (
-    <div className="twx-p-2 twx-opacity-[.5] twx-w-full twx-flex twx-items-center twx-top-0 twx-text-white twx-absolute">
+    <div className="twx-p-2 twx-py-5 twx-opacity-[.8] twx-w-full twx-flex twx-items-center twx-top-0 twx-text-white twx-absolute">
       <div className="twx-w-[250px] twx-flex twx-mx-auto twx-text-green-700 twx-px-2 twx-rounded-md">
         {taskIsRunning ? (
           <div className="twx-flex twx-items-center">

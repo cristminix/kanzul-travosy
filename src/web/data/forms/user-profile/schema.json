@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "required": [
+    "username",
+    "email",
+    "fullName",
+    "avatarUrl",
+    "bio"
+  ],
+  "properties": {
+    "fullName": {
+      "title": "Nama Lengkap",
+      "type": "string"
+    },
+    "username": {
+      "title": "Username",
+      "type": "string"
+    },
+    "email": {
+      "title": "Email",
+      "type": "string"
+    },
+    "avatarUrl": {
+      "title": "Avatar",
+      "type": "string",
+      "format": "data-url"
+    },
+    "bio": {
+      "title": "Bio",
+      "type": "string"
+    }
+  }
+}

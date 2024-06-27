@@ -6,7 +6,9 @@
     "address",
     "whatsapp",
     "phone",
-    "email"
+    "email",
+    "googleMapEmbedUrl",
+    "googleMapUrl"
   ],
   "properties": {
     "name": {
@@ -32,6 +34,10 @@
     "email": {
       "type": "string",
       "title": "Alamat Email"
+    },
+    "googleMapUrl":{
+      "type": "string",
+      "title": "Google Map Url"
     },
     "googleMapEmbedUrl": {
       "type": "string",

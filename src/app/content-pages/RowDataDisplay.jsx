@@ -5,7 +5,6 @@ import BlockData from "@/global/components/BlockData"
 const RowDataDisplay = ({ rowData, title, schema, showImages = [] }) => {
   return (
     <div className="row-data-display">
-      <h4 className="heading">{title}</h4>
       <div className="row-data-display-wrap">
         {Object.keys(schema.properties).map((prop, index) => {
           return (
@@ -15,7 +14,7 @@ const RowDataDisplay = ({ rowData, title, schema, showImages = [] }) => {
                 {showImages.includes(prop) ? (
                   <>
                     {rowData && (
-                      <div className="image-wrap">
+                      <div className="image-wrap twx-max-w-[400px]">
                         <img className={`prop-${prop}  !twx-rounded-lg`} src={rowData[prop]} />
                       </div>
                     )}

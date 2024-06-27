@@ -56,7 +56,7 @@ const mMetaProduk = new MMetaProduk(git, metaSchema)
 const mProdukRw = new MProdukRw(git)
 const compiler = new HTMLCompiler(mProdukRw)
 
-const pageTitle = "Konten Produk"
+const pageTitle = "Produk"
 const breadcrumbs = [
   { title: "Konten", path: "contents" },
   { title: "Produk", path: "content/produk" },
@@ -64,7 +64,7 @@ const breadcrumbs = [
 
 const routePath = "/contents/produk"
 
-
+import {ShoppingBag as IconShoppingBag} from "react-feather"
 const ProdukContentPage = ({ subModule }) => {
   const location = useLocation()
   const dispatch = useDispatch()
@@ -101,7 +101,22 @@ const ProdukContentPage = ({ subModule }) => {
   const [produkListData, setProdukListData] = useState([])
   const [produkFormData, setProdukFormData] = useState(null)
   const [formProdukShown, showFormProduk] = useState(false)
+  const onDeleteProduk = async(row)=>{
+    if(confirm(`Hapus produk "${row.title}"`)){
+       console.log(row) 
+        showLoading(true,"Menghapus Produk")
+       try{
+        const result = await mProdukRw.delete(row.id)
+        console.log(result)
+        showToast('info','hapus produk',`${row.title} berhasil dihapus`)
+        reloadProdukList()
 
+       }catch(e){
+        showAlert('error','hapus produk',`Gagal menghapus ${row.title} ${e.toString()}`)
+       }
+     }
+     showLoading(false)
+  }
   const loadProdukListData = async () => {
     showLoading(true,"Memuat Produk")
     setProdukListData([])
@@ -331,6 +346,7 @@ const ProdukContentPage = ({ subModule }) => {
     <MainContentLayout
       pageTitle={pageTitle}
       breadcrumbs={breadcrumbs}
+      icon={<IconShoppingBag/>}
       className={`${contentState.isLoading ? "content-is-loading" : ""}`}>
       <div className="col-12 grid-margin stretch-card">
         <div className="card">
@@ -368,6 +384,7 @@ const ProdukContentPage = ({ subModule }) => {
                           data={produkListData}
                           onEditRow={(row) => showEditFormProduk(row, "utama")}
                           onCompileRow={(row) => onCompileProduk(row)}
+                          onDeleteRow={row=>onDeleteProduk(row)}
                           validHash={validHash}
                         />
                          <div className="twx-py-4 twx-flex twx-justify-between">

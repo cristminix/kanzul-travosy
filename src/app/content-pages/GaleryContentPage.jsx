@@ -48,15 +48,15 @@ const mGalery = new MGalery(git, galerySchema)
 const mGaleryBanner = new MGaleryBanner(git, bannerSchema)
 const mMetaGalery = new MMetaGalery(git, metaSchema)
 
-const pageTitle = "Konten Galery"
+const pageTitle = "Galeri"
 const breadcrumbs = [
   { title: "Konten", path: "contents" },
-  { title: "Galery", path: "content/galery" },
+  { title: "Galeri", path: "content/galery" },
 ] 
 
 const routePath = "/contents/galery"
 
-
+import {Image as IconImage} from "react-feather"
 const GaleryContentPage = ({ subModule }) => {
   const location = useLocation()
   const dispatch = useDispatch()
@@ -159,6 +159,7 @@ const GaleryContentPage = ({ subModule }) => {
     <MainContentLayout
       pageTitle={pageTitle}
       breadcrumbs={breadcrumbs}
+      icon={<IconImage/>}
       className={`${contentState.isLoading ? "content-is-loading" : ""}`}>
       <div className="col-12 grid-margin stretch-card">
         <div className="card">
@@ -177,7 +178,7 @@ const GaleryContentPage = ({ subModule }) => {
                   />
                 )}
               </Tab>
-              <Tab eventKey="galery" title="Galery">
+              <Tab eventKey="galery" title="Galeri">
                 {tabKey === "galery" && (
                   <>
                     {!formGaleryShown ? (

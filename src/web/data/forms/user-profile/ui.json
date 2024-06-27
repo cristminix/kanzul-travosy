@@ -1,17 +1,15 @@
 {
-  "title": {
+  "fullName": {
     "ui:autofocus": true
   },
-  "cover": {
+  "username": {},
+  "email": {},
+  "avatarUrl": {
     "ui:options": {
       "filePreview": true
     }
   },
-  "headline": {
+  "bio": {
     "ui:widget": "textarea"
-  },
-  "content": {
-    "ui:widget": "block"
-  },
-  "tags": {}
+  }
 }

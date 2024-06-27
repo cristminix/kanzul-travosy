@@ -44,15 +44,15 @@ const mKontakBanner = new MKontakBanner(git, bannerSchema)
 const mMetaKontak = new MMetaKontak(git, metaSchema)
 const mSocialNetworkLink = new MSocialNetworkLink(git, socialNetworkLinkSchema)
 
-const pageTitle = "Konten Company"
+const pageTitle = "Kontak"
 const breadcrumbs = [
   { title: "Konten", path: "contents" },
-  { title: "Kontak", path: "content/contact" },
+  { title: "Kontak", path: "content/kontak" },
 ] 
 
 const routePath = "/contents/kontak"
 
-
+import {PhoneCall as IconPhoneCall} from "react-feather"
 const KontakContentPage = ({ subModule }) => {
   const location = useLocation()
   const dispatch = useDispatch()
@@ -204,6 +204,7 @@ const KontakContentPage = ({ subModule }) => {
     <MainContentLayout
       pageTitle={pageTitle}
       breadcrumbs={breadcrumbs}
+      icon={<IconPhoneCall/>}
       className={`${contentState.isLoading ? "content-is-loading" : ""}`}>
       <div className="col-12 grid-margin stretch-card">
         <div className="card">
@@ -222,7 +223,7 @@ const KontakContentPage = ({ subModule }) => {
                   />
                 )}
               </Tab>
-              <Tab eventKey="company" title="Company">
+              <Tab eventKey="company" title="Pondok Pesantren">
                 {tabKey === "company" && (
                   <>
                     {!companyFormShown ? (
@@ -249,7 +250,7 @@ const KontakContentPage = ({ subModule }) => {
                   </>
                 )}
               </Tab>
-              <Tab eventKey="contact-person" title="Contact Person">
+              <Tab eventKey="contact-person" title="Kontak Person">
                 {tabKey === "contact-person" && (
                   <>
                     {!contactPersonFormShown ? (
@@ -278,7 +279,7 @@ const KontakContentPage = ({ subModule }) => {
                 )}
               </Tab>
               
-              <Tab eventKey="social-network-link" title="Social Network Link">
+              <Tab eventKey="social-network-link" title="Sosial Network Link">
 {tabKey === "social-network-link" && (
     <>
     {socialNetworkLinkFormShown ? (

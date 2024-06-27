@@ -26,7 +26,7 @@ import JsonForm from "./JsonForm"
 import RowDataDisplay from "./RowDataDisplay"
 import HeroList from "./components/HeroList"
 //SETUP
-const pageTitle = "Edit Template Data"
+const pageTitle = "Template"
 const breadcrumbs = [
   { title: "Konten", path: "contents" },
   { title: "Template", path: "content/template" },
@@ -37,7 +37,7 @@ const git = createGit()
 const mFooter = new MFooter(git, footerSchema)
 const mWelcomeMessage = new MWelcomeMessage(git, welcomeMessageSchema)
 const mHero = new MHero(git, heroSchema)
-
+import {Table as IconTable} from "react-feather"
 const TemplateContentPage = ({}) => {
   const location = useLocation()
   const dispatch = useDispatch()
@@ -155,12 +155,13 @@ const TemplateContentPage = ({}) => {
     <MainContentLayout
       pageTitle={pageTitle}
       breadcrumbs={breadcrumbs}
+      icon={<IconTable/>}
       className={`${contentState.isLoading ? "content-is-loading" : ""}`}>
       <div className="col-12 grid-margin stretch-card">
         <div className="card">
           <div className="card-body">
             <Tabs id="content-template-tab" activeKey={tabKey} onSelect={(k) => onSelectTab(k)}>
-              <Tab eventKey="welcome-message" title="Welcome Message">
+              <Tab eventKey="welcome-message" title="Pesan Selamat Datang">
                 {tabKey === "welcome-message" && (
                   <>
                     {welcomeMessageFormShown ? (
@@ -192,7 +193,7 @@ const TemplateContentPage = ({}) => {
                 )}
               </Tab>
 
-              <Tab eventKey="footer" title="Footer">
+              <Tab eventKey="footer" title="Catatan Kaki">
                 {tabKey === "footer" && (
                   <>
                     {footerFormShown ? (
@@ -219,7 +220,7 @@ const TemplateContentPage = ({}) => {
                   </>
                 )}
               </Tab>
-              <Tab eventKey="hero" title="Hero">
+              <Tab eventKey="hero" title="Hero Slide Depan">
                 {tabKey === "hero" && (
                   <>
                     {!formHeroShown ? (

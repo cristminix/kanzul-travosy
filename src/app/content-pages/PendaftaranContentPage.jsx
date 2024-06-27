@@ -41,7 +41,7 @@ const mSyaratUtama = new MSyaratUtama(git, syaratSchema)
 const mSyaratAdministrasi = new MSyaratAdministrasi(git, syaratSchema)
 const mBiaya = new MBiaya(git, biayaSchema)
 const mMetaPendaftaran = new MMetaPendaftaran(git, metaSchema)
-
+import {Wind as IconWind} from "react-feather"
 const PendaftaranContentPage = ({ subModule }) => {
   const location = useLocation()
   const dispatch = useDispatch()
@@ -55,7 +55,7 @@ const PendaftaranContentPage = ({ subModule }) => {
   const [formShown, showForm] = useState(false)
   const [trigger, setTrigger] = useState(false)
 
-  const pageTitle = "Edit Pendaftaran"
+  const pageTitle = "Pendaftaran"
   const breadcrumbs = [
     { title: "Konten", path: "contents" },
     { title: "Pendaftaran", path: "content/pendaftaran" },
@@ -197,6 +197,7 @@ const PendaftaranContentPage = ({ subModule }) => {
     <MainContentLayout
       pageTitle={pageTitle}
       breadcrumbs={breadcrumbs}
+      icon={<IconWind/>}
       className={`${contentState.isLoading ? "content-is-loading" : ""}`}>
       <div className="col-12 grid-margin stretch-card">
         <div className="card">

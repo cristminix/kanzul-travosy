@@ -252,15 +252,15 @@ class Git {
       http,
       dir: this.dir,
       singleBranch: true,
-      onProgress: (event) => {
-        onProgress(event)
-        console.log(event.phase)
-        if (event.total) {
-          console.log(event.loaded / event.total)
-        } else {
-          console.log(event.loaded)
-        }
-      },
+      // onProgress: (event) => {
+      //   onProgress(event)
+      //   console.log(event.phase)
+      //   if (event.total) {
+      //     console.log(event.loaded / event.total)
+      //   } else {
+      //     console.log(event.loaded)
+      //   }
+      // },
     }
     if (this.corsProxyUrl) {
       option.corsProxy = this.corsProxyUrl

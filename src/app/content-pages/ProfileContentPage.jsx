@@ -46,6 +46,10 @@ const mShortProfile = new MShortProfile(git, shortProfileSchema)
 const mFullProfile = new MFullProfile(git, fullProfileSchema)
 const mProfileBanner = new MProfileBanner(git, bannerSchema)
 const mMetaProfile = new MMetaProfile(git, metaSchema)
+
+import { 
+Trello as IconTrello} from "react-feather"
+
 const pageTitle = "Konten Profile"
 const breadcrumbs = [
   { title: "Konten", path: "contents" },
@@ -186,6 +190,7 @@ const ProfileContentPage = ({ subModule }) => {
     <MainContentLayout
       pageTitle={pageTitle}
       breadcrumbs={breadcrumbs}
+      icon={<IconTrello/>}
       className={`${contentState.isLoading ? "content-is-loading" : ""}`}>
       <div className="col-12 grid-margin stretch-card">
         <div className="card">

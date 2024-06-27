@@ -48,14 +48,15 @@ const mLembaga = new MLembaga(git, lembagaSchema)
 const mLembagaBanner = new MLembagaBanner(git, bannerSchema)
 const mMetaLembaga = new MMetaLembaga(git, metaSchema)
 
-const pageTitle = "Konten Lembaga"
+const pageTitle = "Lembaga"
 const breadcrumbs = [
   { title: "Konten", path: "contents" },
   { title: "Lembaga", path: "content/lembaga" },
 ] 
 
 const routePath = "/contents/lembaga"
-
+import { 
+Octagon as IconOctagon} from "react-feather"
 
 const LembagaContentPage = ({ subModule }) => {
   const location = useLocation()
@@ -162,6 +163,7 @@ const LembagaContentPage = ({ subModule }) => {
     <MainContentLayout
       pageTitle={pageTitle}
       breadcrumbs={breadcrumbs}
+      icon={<IconOctagon/>}
       className={`${contentState.isLoading ? "content-is-loading" : ""}`}>
       <div className="col-12 grid-margin stretch-card">
         <div className="card">

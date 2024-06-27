@@ -56,14 +56,14 @@ const mBeritaBanner = new MBeritaBanner(git, bannerSchema)
 const mMetaBerita = new MMetaBerita(git, metaSchema)
 const mBeritaRw = new MBeritaRw(git)
 const compiler = new HTMLCompiler(mBeritaRw)
-const pageTitle = "Konten Berita"
+const pageTitle = "Berita"
 const breadcrumbs = [
   { title: "Konten", path: "contents" },
   { title: "Berita", path: "content/berita" },
 ] 
 
 const routePath = "/contents/berita"
-
+import {Send as IconSend} from "react-feather"
 const BeritaContentPage = ({ subModule }) => {
   const location = useLocation()
   const dispatch = useDispatch()
@@ -328,6 +328,7 @@ const BeritaContentPage = ({ subModule }) => {
     <MainContentLayout
       pageTitle={pageTitle}
       breadcrumbs={breadcrumbs}
+      icon={<IconSend/>}
       className={`${contentState.isLoading ? "content-is-loading" : ""}`}>
       <div className="col-12 grid-margin stretch-card">
         <div className="card">

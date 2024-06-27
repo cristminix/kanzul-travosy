@@ -9,7 +9,7 @@ import PageHeader from "./partials/PageHeader"
 import { useState, useEffect, useRef } from "react"
 import { useLocation } from "react-router-dom"
 import DisplayToast from "./components/DisplayToast"
-const MainContentLayout = ({ pageTitle, breadcrumbs, children, className }) => {
+const MainContentLayout = ({ pageTitle, breadcrumbs, children, className,icon }) => {
   const location = useLocation()
 
   const dispatch = useDispatch()
@@ -75,13 +75,14 @@ const MainContentLayout = ({ pageTitle, breadcrumbs, children, className }) => {
   }, [])
 
   return (
-    <div className={`main-content-component ${className} twx-relative`}>
+  <> 
+    <div className={`main-content-component ${className}`}>
       <DisplayToast ref={toastRef} />
       {alert}
-      <PageHeader pageTitle={pageTitle} breadcrumbs={breadcrumbs} />
+     <PageHeader pageTitle={pageTitle} breadcrumbs={breadcrumbs} icon={icon}/>
       <div className="row">{children}</div>
     </div>
-  )
+  </>)
 }
 
 export default MainContentLayout

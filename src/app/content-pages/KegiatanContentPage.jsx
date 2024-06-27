@@ -41,7 +41,7 @@ const mKegiatan = new MKegiatan(git, kegiatanSchema)
 const mKegiatanBanner = new MKegiatanBanner(git, bannerSchema)
 const mMetaKegiatan = new MMetaKegiatan(git, metaSchema)
 
-const pageTitle = "Konten Kegiatan"
+const pageTitle = "Kegiatan"
 const breadcrumbs = [
   { title: "Konten", path: "contents" },
   { title: "Kegiatan", path: "content/kegiatan" },
@@ -49,7 +49,7 @@ const breadcrumbs = [
 
 const routePath = "/contents/kegiatan"
 
-
+import {Slack as IconSlack} from "react-feather"
 const KegiatanContentPage = ({ subModule }) => {
   const location = useLocation()
   const dispatch = useDispatch()
@@ -152,6 +152,7 @@ const KegiatanContentPage = ({ subModule }) => {
     <MainContentLayout
       pageTitle={pageTitle}
       breadcrumbs={breadcrumbs}
+      icon={<IconSlack/>}
       className={`${contentState.isLoading ? "content-is-loading" : ""}`}>
       <div className="col-12 grid-margin stretch-card">
         <div className="card">

@@ -1,26 +1,18 @@
 {
-
   "title": {
     "ui:autofocus": true
-
   },
-  "slug": {
-  },
+  "slug": {},
   "cover": {
     "ui:options": {
-        "filePreview": true
-      }
-  },
-  "date": {
+      "filePreview": true
+    }
   },
   "headline": {
     "ui:widget": "textarea"
-
   },
-  "content":{
+  "content": {
     "ui:widget": "block"
-
   },
-  "kategori": {
-  }
+  "kategori": {}
 }

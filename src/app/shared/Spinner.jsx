@@ -3,7 +3,7 @@
 const Spinner = ({ message, independent = false }) => {
   if (independent)
     return (
-      <div className="spinner-wrapper twx-w-[100px] twx-mx-auto twx-relative">
+      <div className="spinner-wrapper independent">
         <div className="donut"></div>
         {message ? <p>{message}</p> : null}
       </div>

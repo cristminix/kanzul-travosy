@@ -8,6 +8,9 @@ import { signOut } from "@/global/firebase/auth"
 import { useState } from "react"
 import { getCurrentUserInfo } from "../../global/firebase/user"
 import { useEffect } from "react"
+import { User as IconUser ,
+RefreshCw as IconRefreshCw,
+LogOut as IconLogout} from "react-feather"
 const Navbar = ({}) => {
   const [userInfo, setUserInfo] = useState({ username: "noname" })
   const taskId = crc32id()
@@ -77,7 +80,7 @@ const Navbar = ({}) => {
             <Dropdown alignRight>
               <Dropdown.Toggle className="nav-link">
                 <div className="nav-profile-img">
-                  <img src={"/assets/images/faces/kintel.jpg"} alt="user" />
+                  <img src={userInfo.avatarUrl} alt="user" />
                   <span className="availability-status online"></span>
                 </div>
                 <div className="nav-profile-text">
@@ -88,18 +91,18 @@ const Navbar = ({}) => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu className="navbar-dropdown">
-                {/*<Dropdown.Item href="!#" onClick={evt =>evt.preventDefault()}>
-                    <i className="mdi mdi-cached mr-2 text-success"></i>
-                    <Trans>Activity Log</Trans>
-                  </Dropdown.Item>*/}
+                <Dropdown.Item href="!#" onClick={(evt) => evt.preventDefault()}>
+                  <IconUser className="mdi mdi-user mr-2 text-success" />
+                  <Trans>Ubah Profile</Trans>
+                </Dropdown.Item>
                 <Dropdown.Item
                   href="!#"
                   onClick={(evt) => {
                     repairGitDataStore()
                     return evt.preventDefault()
                   }}>
-                  <i className="mdi mdi-logout mr-2 text-primary"></i>
-                  <Trans>Perbarui Database Website</Trans>
+                  <IconRefreshCw className="mdi mdi-cached mr-2 text-primary"/>
+                  <Trans>Sync Database</Trans>
                 </Dropdown.Item>
                 <Dropdown.Item
                   href="!#"
@@ -107,7 +110,7 @@ const Navbar = ({}) => {
                     await signOut()
                     return evt.preventDefault()
                   }}>
-                  <i className="mdi mdi-logout mr-2 text-primary"></i>
+                  <IconLogout className="mdi mdi-logout mr-2 text-primary"/>
                   <Trans>Keluar</Trans>
                 </Dropdown.Item>
               </Dropdown.Menu>

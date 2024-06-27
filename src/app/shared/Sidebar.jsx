@@ -3,6 +3,23 @@ import { Link } from "react-router-dom"
 import { Collapse } from "react-bootstrap"
 import { Trans } from "react-i18next"
 import { withRouter } from "@/global/fn/withRouter"
+import { useEffect } from "react"
+import { User as IconUser ,
+RefreshCw as IconRefreshCw,
+LogOut as IconLogout,
+Trello as IconTrello,
+Slack as IconSlack,
+Octagon as IconOctagon,
+Wind as IconWind,
+Image as IconImage,
+Send as IconSend,
+ShoppingBag as IconShoppingBag,
+PhoneCall as IconPhoneCall,
+Table as IconTable,
+Folder as IconFolder,
+Grid as IconGrid} from "react-feather"
+
+import {Building as IconBuilding} from "react-bootstrap-icons"
 class Sidebar extends Component {
   // const location = useLocation()
   state = {}
@@ -59,22 +76,23 @@ class Sidebar extends Component {
     // { title: "Company", path: "contents/company/company" },
     // { title: "Halaman Depan", path: "contents/homepage" },
     // { title: "Edit Meta Halaman", path: "contents/pages" },
-    { title: "Profile", path: "contents/profile/banner" },
-    { title: "Lembaga", path: "contents/lembaga/banner" },
-    { title: "Kegiatan", path: "contents/kegiatan/banner" },
-    { title: "Pendaftaran", path: "contents/pendaftaran/banner" },
-    { title: "Galeri", path: "contents/galery/banner" },
-    { title: "Berita", path: "contents/berita/banner" },
-    { title: "Produk", path: "contents/produk/banner" },
-    { title: "Kontak", path: "contents/kontak/banner" },  
-    { title: "Template", path: "contents/template/footer" },
-    { title: "Daftar File", path: "contents/files" },
+    { title: "Profile", path: "contents/profile/banner", icon:<IconTrello/> },
+    { title: "Lembaga", path: "contents/lembaga/banner" ,icon:<IconOctagon/>},
+    { title: "Kegiatan", path: "contents/kegiatan/banner" ,icon:<IconSlack/>},
+    { title: "Pendaftaran", path: "contents/pendaftaran/banner" ,icon:<IconWind/>},
+    { title: "Galeri", path: "contents/galery/banner" ,icon:<IconImage/>},
+    { title: "Berita", path: "contents/berita/banner",icon:<IconSend/> },
+    { title: "Produk", path: "contents/produk/banner" ,icon:<IconShoppingBag/>},
+    { title: "Kontak", path: "contents/kontak/banner" ,icon:<IconPhoneCall/>},  
+    { title: "Template", path: "contents/template/footer" ,icon:<IconTable/>},
+    { title: "Daftar File", path: "contents/files",icon:<IconFolder/> },
     // { title: "Block Editor", path: "contents/block-editor" },
     // { title: "Drizzle Admin", path: "contents/drizzle" },
   ]
   render() {
     return (
       <nav className="sidebar sidebar-offcanvas" id="sidebar">
+        <div className="sidebar-wrapper nice-scrollbar ">
         <ul className="nav">
           <li className="nav-item nav-profile !twx-hidden">
             <a href="!#" className="nav-link" onClick={(evt) => evt.preventDefault()}>
@@ -104,11 +122,13 @@ class Sidebar extends Component {
               className={this.state.contentMenuOpen ? "nav-link menu-expanded" : "nav-link"}
               onClick={() => this.toggleMenuState("contentMenuOpen")}
               data-toggle="collapse">
+              
+              <IconGrid className="menu-icon twx-mr-2"/>
               <span className="menu-title">
                 <Trans>Konten</Trans>
               </span>
               <i className="menu-arrow"></i>
-              <i className="mdi mdi-table-of-contents menu-icon"></i>
+
             </div>
             <Collapse in={this.state.contentMenuOpen}>
               <ul className="nav flex-column sub-menu">
@@ -118,7 +138,7 @@ class Sidebar extends Component {
                       <Link
                         className={this.isPathActive(`/${item.path}`) ? "nav-link active" : "nav-link"}
                         to={item.path}>
-                        <Trans>{item.title}</Trans>
+                        <span className="icon">{item.icon}</span><span className="title"> {item.title}</span>
                       </Link>
                     </li>
                   )
@@ -358,6 +378,7 @@ class Sidebar extends Component {
           </li>
           */}
         </ul>
+        </div>
       </nav>
     )
   }

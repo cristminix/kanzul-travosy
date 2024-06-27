@@ -147,3 +147,67 @@ textarea.form-control{
 .form-check-input{
     @apply twx-m-0 twx-block
 }
+.nice-scrollbar {
+    @apply dark:twx-bg-gray-800 dark:twx-border-gray-700 twx-text-gray-800 dark:twx-text-gray-200 [&::-webkit-scrollbar]:twx-w-2 [&::-webkit-scrollbar-thumb]:twx-rounded-full [&::-webkit-scrollbar-track]:twx-bg-gray-100 [&::-webkit-scrollbar-thumb]:twx-bg-gray-300 dark:[&::-webkit-scrollbar-track]:twx-bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:twx-bg-slate-500
+}
+#sidebar .sidebar-wrapper {
+    @apply !twx-fixed !twx-h-screen twx-overflow-y-auto;
+    width:inherit;
+}
+#sidebar  .sidebar-wrapper ul.nav{
+    @apply twx-w-full
+}
+.spinner-wrapper.independent{
+    @apply !twx-w-[100px] !twx-mx-auto !twx-relative
+}
+
+#sidebar .nav-link{
+    @apply twx-uppercase twx-py-2 twx-px-4
+}
+.sidebar > .sidebar-wrapper> .nav > .nav-item{
+    @apply twx-uppercase !twx-py-2 !twx-px-2
+}
+
+.sidebar > .sidebar-wrapper> .nav > .nav-item > .nav-link{
+    @apply !twx-py-4 twx-border
+}
+.sidebar > .sidebar-wrapper> .nav > .nav-item   .sub-menu{
+    @apply !twx-py-4 twx-border twx-border-t-0
+
+}
+
+
+.sidebar .nav .nav-item .icon{
+    @apply twx-mr-2
+}
+.sidebar .nav .nav-item .menu-icon{
+    @apply twx-w-[20px]
+}
+.sidebar .nav .nav-item.active .menu-icon{
+    @apply twx-text-purple-500
+}
+
+.sidebar .nav .nav-item .icon svg{
+    @apply twx-w-[18px]
+}
+
+.content-wrapper{
+    @apply twx-relative twx-bg-white twx-border twx-p-0
+    
+}
+.content-wrapper .main-content-component {
+    @apply twx-relative twx-h-screen twx-overflow-auto   twx-pt-6;
+    width: inherit;
+}
+.page-header{
+    @apply twx-border twx-fixed twx-top-0 twx-mt-20 twx-z-[1000] twx-bg-white  twx-mx-2 twx-px-4 ;
+ 
+}
+
+html {
+    overflow: hidden;
+}
+
+.content-wrapper .main-content-component .card .card-body{
+    @apply twx-px-2
+}
