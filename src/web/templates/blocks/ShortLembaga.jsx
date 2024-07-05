@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { tns } from "tiny-slider"
 
-const ShortLembaga = ({})=>{
+const ShortLembaga = ({className, lembaga})=>{
     const styles = {  }
     const cls0 = "cls-0 container relative md:mt-24 mt-16"
 		const cls1 = "cls-1 grid grid-cols-1 pb-6 text-center"
@@ -52,7 +52,7 @@ const ShortLembaga = ({})=>{
             
             return ()=>{slider.destroy()}
         };
-    },[])
+    },[lembaga.contents])
     return <>
       <div className={cls0}> 
                  <div className={cls1}> 
@@ -63,141 +63,26 @@ const ShortLembaga = ({})=>{
 
                  <div className={cls4}> 
                      <div className={cls5}> 
-                         <div className={cls6}> 
+                     {lembaga&&Array.isArray(lembaga.contents)&&lembaga.contents.map((item,index)=>{
+
+                        return <div className={cls6} key={index}> 
                              <div className={cls7}> 
                                  <div className={cls8}> 
-                                 <img src="/assets/images/lembaga/lb-tpq.png" alt="Icon TPQ" className={cls15}/> 
-                                 <h6 className={cls16}> Taman Pendidikan Qur’an Kanzul Ulum  </h6> 
+                                 <img src={item.image} alt={item.name} className={cls15}/> 
+                                 <h4 className={cls16}>{item.name}</h4> 
 
-
-                                     {/* <i className={cls9}> </i>  */}
-                                     {/* <p className={cls10}> &quot; It seems that only fragments of the original text remain in the Lorem Ipsum texts used today. &quot; </p>  */}
-                                     {/* <ul className={cls11}> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                     </ul>  */}
                                  </div> 
                                 
                                  <div className={cls14}> 
                                      {/* <span className={cls17}> Manager </span>  */}
                                  </div> 
                              </div> 
-                         </div> 
+                         </div>
+                     })}
+                          
 
-                         <div className={cls6}> 
-                             <div className={cls7}> 
-                                 <div className={cls8}> 
-                                 <img src="/assets/images/lembaga/lb-dta.png" alt="Icon DTA" className={cls15}/> 
-                                     <h6 className={cls16}> Madrasah Diniyah Ta’miliyah Awaliyah Kanzul Ulum </h6> 
-                                     
-                                     {/* <i className={cls9}> </i>  */}
-                                     {/* <p className={cls10}> &quot; The most well-known dummy text is the &apos;Lorem Ipsum&apos;, which is said to have originated in the 16th century. &quot; </p>  */}
-                                     {/* <ul className={cls11}> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                     </ul>  */}
-                                 </div> 
-                                
-                                 <div className={cls14}> 
-                                     {/* <span className={cls17}> Manager </span>  */}
-                                 </div> 
-                             </div> 
-                         </div> 
+                         
 
-                         <div className={cls6}> 
-                             <div className={cls7}> 
-                                 <div className={cls8}> 
-                                 <img src="/assets/images/lembaga/lb-mta.png" alt="Icon MTA" className={cls15}/> 
-                                     <h6 className={cls16}> Majllis Ta’lim Kanzul Ulum </h6> 
-                                     
-                                     {/* <i className={cls9}> </i>  */}
-                                     {/* <p className={cls10}> &quot; One disadvantage of Lorum Ipsum is that in Latin certain letters appear more frequently than others. &quot; </p>  */}
-                                     {/* <ul className={cls11}> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                     </ul>  */}
-                                 </div> 
-                                
-                                 <div className={cls14}> 
-                                     {/* <span className={cls17}> Manager </span>  */}
-                                 </div> 
-                             </div> 
-                         </div> 
-
-                         {/* <div className={cls6}> 
-                             <div className={cls7}> 
-                                 <div className={cls8}> 
-                                     <i className={cls9}> </i> 
-                                     <p className={cls10}> &quot; Thus, Lorem Ipsum has only limited suitability as a visual filler for German texts. &quot; </p> 
-                                     <ul className={cls11}> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                     </ul> 
-                                 </div> 
-                                
-                                 <div className={cls14}> 
-                                     <img src="assets/images/client/04.jpg" alt="" className={cls15}/> 
-                                     <h6 className={cls16}> Smith Vodka </h6> 
-                                     <span className={cls17}> Manager </span> 
-                                 </div> 
-                             </div> 
-                         </div> 
-
-                         <div className={cls6}> 
-                             <div className={cls7}> 
-                                 <div className={cls8}> 
-                                     <i className={cls9}> </i> 
-                                     <p className={cls10}> &quot; There is now an abundance of readable dummy texts. These are usually used when a text is required. &quot; </p> 
-                                     <ul className={cls11}> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                     </ul> 
-                                 </div> 
-                                
-                                 <div className={cls14}> 
-                                     <img src="assets/images/client/05.jpg" alt="" className={cls15}/> 
-                                     <h6 className={cls16}> Cristino Murfi </h6> 
-                                     <span className={cls17}> Manager </span> 
-                                 </div> 
-                             </div> 
-                         </div> 
-
-                         <div className={cls6}> 
-                             <div className={cls7}> 
-                                 <div className={cls8}> 
-                                     <i className={cls9}> </i> 
-                                     <p className={cls10}> &quot; According to most sources, Lorum Ipsum can be traced back to a text composed by Cicero. &quot; </p> 
-                                     <ul className={cls11}> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                         <li className={cls12}> <i className={cls13}> </i> </li> 
-                                     </ul> 
-                                 </div> 
-                                
-                                 <div className={cls14}> 
-                                     <img src="assets/images/client/06.jpg" alt="" className={cls15}/> 
-                                     <h6 className={cls16}> Cristino Murfi </h6> 
-                                     <span className={cls17}> Manager </span> 
-                                 </div> 
-                             </div> 
-                         </div>  */}
                      </div> 
                  </div> {/*<!--end grid-->*/} 
              </div> {/*<!--end container-->*/}

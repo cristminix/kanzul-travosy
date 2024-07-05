@@ -6,15 +6,7 @@ export const fetchGalery= createAsyncThunk("fetch-galery", async () => {
     const response = await fetch(`/web/data/galery.json?_=${randStamp()}`)
     return response.json()
 })
-export const pushGalery = createAsyncThunk("push-galery", async (company) => {
-    // create file /web/data/galery-list.json
-    // git add
-    // git commit  with message update file above
-    // git push
 
-    const pushStatusOk = true
-    return pushStatusOk
-})
     
 const initialState={
     data:galeryData,

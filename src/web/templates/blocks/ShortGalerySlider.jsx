@@ -81,6 +81,8 @@ const ShortGalerySlider = ({ galeryList, className }) => {
                       src="data:image/gif;base64,R0lGODlhAQABAPAAAMzMzAAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
                       data-src={item.image}
                       alt={item.title}
+                      title={item.title}
+                      loading="true"
                       className={`tns-lazy-img ${cls5}`}
                     />
                   </a>

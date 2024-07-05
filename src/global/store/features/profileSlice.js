@@ -6,16 +6,7 @@ export const fetchProfile= createAsyncThunk("fetch-profile", async () => {
     const response = await fetch(`/web/data/profile.json?_=${randStamp()}`)
     return response.json()
 })
-export const pushProfile = createAsyncThunk("push-profile", async (company) => {
-    // create file /web/data/profile.json
-    // git add
-    // git commit  with message update file above
-    // git push
 
-    const pushStatusOk = true
-    return pushStatusOk
-})
-    
 const initialState={
     data:profileData,
     fetchStatus: ""

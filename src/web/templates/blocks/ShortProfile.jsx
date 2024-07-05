@@ -28,7 +28,7 @@ const ShortProfile = ({ className, profile }) => {
           </div>
           <div className={cls13}>
             <div className={cls14}>
-              <h4 className="text-green-500 ">{shortProfile.heading}</h4>
+              <h2 className="text-green-500 ">{shortProfile.heading}</h2>
               <h3 className={`${cls15} font-3xl`}>
                 <span>{shortProfile.title}</span>
               </h3>

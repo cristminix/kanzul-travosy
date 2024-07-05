@@ -6,7 +6,7 @@ import contactPersonSlice from "./features/contactPersonSlice"
 import footerSlice from "./features/footerSlice"
 import galerySlice from "./features/galerySlice"
 import heroSlice from "./features/heroSlice"
-import homepageSlice from "./features/homepageSlice"
+import metaSlice from "./features/metaSlice"
 import searchSlice from "./features/searchSlice"
 import socialNetworkLinkSlice from "./features/socialNetworkLinkSlice"
 import webNavigationSlice from "./features/webNavigationSlice"
@@ -54,7 +54,7 @@ const rootReducer = combineReducers( {
     footer: footerSlice.reducer,
     galery: galerySlice.reducer,
     hero: heroSlice.reducer,
-    homepage: homepageSlice.reducer,
+    meta: metaSlice.reducer,
     search: searchSlice.reducer,
     socialNetworkLink: socialNetworkLinkSlice.reducer,
     content: contentSlice.reducer,

@@ -6,15 +6,7 @@ export const fetchPendaftaran= createAsyncThunk("fetch-pendaftaran", async () =>
     const response = await fetch(`/web/data/pendaftaran.json?_=${randStamp()}`)
     return response.json()
 })
-export const pushPendaftaran = createAsyncThunk("push-pendaftaran", async (company) => {
-    // create file /web/data/pendaftaran.json
-    // git add
-    // git commit  with message update file above
-    // git push
 
-    const pushStatusOk = true
-    return pushStatusOk
-})
     
 const initialState={
     data:pendaftaranData,

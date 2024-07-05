@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from "react-redux"
 import beritaSlice, { fetchBerita } from "@/global/store/features/beritaSlice"
 import produkSlice, { fetchProduk } from "@/global/store/features/produkSlice"
 import galerySlice, { fetchGalery } from "@/global/store/features/galerySlice"
+import lembagaSlice, { fetchLembaga } from "@/global/store/features/lembagaSlice"
 import profileSlice, { fetchProfile } from "@/global/store/features/profileSlice"
+import metaSlice, { fetchMetaHomepage } from "@/global/store/features/metaSlice"
 import heroSlice, { fetchHero } from "@/global/store/features/heroSlice"
 import welcomeMessageSlice, { fetchWelcomeMessage } from "@/global/store/features/welcomeMessageSlice"
 
@@ -19,6 +21,8 @@ const HomepageTemplate = ({}) => {
   const galeryState = useSelector((state) => state.galery)
   const profileState = useSelector((state) => state.profile)
   const heroState = useSelector((state) => state.hero)
+  const lembagaState = useSelector((state) => state.lembaga)
+  const metaState = useSelector((state) => state.meta)
   const welcomeMessageState = useSelector((state) => state.welcomeMessage)
   // console.log(welcomeMessageState)
   useEffect(() => {
@@ -27,7 +31,9 @@ const HomepageTemplate = ({}) => {
     dispatch(fetchGalery())
     dispatch(fetchProfile())
     dispatch(fetchHero())
+    dispatch(fetchLembaga())
     dispatch(fetchWelcomeMessage())
+    dispatch(fetchMetaHomepage())
 
     feather.replace()
   }, [dispatch])
@@ -35,6 +41,7 @@ const HomepageTemplate = ({}) => {
   return (
     <ColumnLayout>
       <HomepageMainContent
+        lembagaList={lembagaState.data}
         heroData={heroState.data}
         profileData={profileState.data}
         galeryList={galeryState.data.contents}

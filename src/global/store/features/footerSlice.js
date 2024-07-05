@@ -6,15 +6,7 @@ export const fetchFooter= createAsyncThunk("fetch-footer", async () => {
     const response = await fetch(`/web/data/templates/sections/footer.json?_=${randStamp()}`)
     return response.json()
 })
-export const pushFooter = createAsyncThunk("push-footer", async (company) => {
-    // create file /web/data/footer.json
-    // git add
-    // git commit  with message update file above
-    // git push
 
-    const pushStatusOk = true
-    return pushStatusOk
-})
     
 const initialState={
     data:{

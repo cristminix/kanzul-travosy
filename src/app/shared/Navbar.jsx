@@ -80,7 +80,10 @@ const Navbar = ({}) => {
             <Dropdown alignRight>
               <Dropdown.Toggle className="nav-link">
                 <div className="nav-profile-img">
-                  <img src={userInfo.avatarUrl} alt="user" />
+                {
+                  userInfo&& userInfo.avatarUrl && <img src={`${userInfo.avatarUrl.match(/^http/)?userInfo.avatarUrl:'/'+userInfo.avatarUrl}`} alt="user" />
+                  
+                }
                   <span className="availability-status online"></span>
                 </div>
                 <div className="nav-profile-text">

@@ -5,15 +5,7 @@ export const fetchWelcomeMessage = createAsyncThunk("fetch-welcome-message", asy
   const response = await fetch(`/web/data/templates/blocks/welcome-message.json?_=${randStamp()}`)
   return response.json()
 })
-export const pushWelcomeMessage = createAsyncThunk("push-welcomeMessage", async (company) => {
-  // create file /web/data/welcome-message.json
-  // git add
-  // git commit  with message update file above
-  // git push
 
-  const pushStatusOk = true
-  return pushStatusOk
-})
 
 const initialState = {
   data: {

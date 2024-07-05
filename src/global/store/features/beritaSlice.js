@@ -6,15 +6,7 @@ export const fetchBerita= createAsyncThunk("fetch-berita", async () => {
     const response = await fetch(`/web/data/berita/berita.json?_=${randStamp()}`)
     return response.json()
 })
-export const pushBerita = createAsyncThunk("push-berita", async (company) => {
-    // create file /web/data/berita.json
-    // git add
-    // git commit  with message update file above
-    // git push
 
-    const pushStatusOk = true
-    return pushStatusOk
-})
     
 const initialState={
     data:beritaData,

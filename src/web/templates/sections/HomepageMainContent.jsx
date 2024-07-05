@@ -9,7 +9,7 @@ import ShortProdukList from "../blocks/ShortProdukList"
 
 // import Counter from "@/global/store/features/counter/Counter"
 
-const HomepageMainContent = ({heroData, profileData, galeryList, produkList,beritaList, welcomeMessageData }) => {
+const HomepageMainContent = ({heroData, lembagaList,profileData, galeryList, produkList,beritaList, welcomeMessageData }) => {
   return (
     <>
       <Hero heroData={heroData}/>
@@ -18,7 +18,7 @@ const HomepageMainContent = ({heroData, profileData, galeryList, produkList,beri
         <WelcomeMessage welcomeMessageData={welcomeMessageData} />
 
         <ShortProfile profile={profileData} className="twx-mt-12" />
-        <ShortLembaga />
+        <ShortLembaga lembaga={lembagaList}/>
         <ShortGalerySlider galeryList={galeryList} className="twx-mt-12" />
         <ShortBeritaList beritaList={beritaList} />
         <ShortProdukList produkList={produkList} />

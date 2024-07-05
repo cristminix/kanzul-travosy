@@ -6,16 +6,7 @@ export const fetchLembaga= createAsyncThunk("fetch-lembaga", async () => {
     const response = await fetch(`/web/data/lembaga.json?_=${randStamp()}`)
     return response.json()
 })
-export const pushLembaga = createAsyncThunk("push-lembaga", async (company) => {
-    // create file /web/data/lembaga.json
-    // git add
-    // git commit  with message update file above
-    // git push
 
-    const pushStatusOk = true
-    return pushStatusOk
-})
-    
 const initialState={
     data:lembagaData,
     fetchStatus: ""

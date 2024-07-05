@@ -119,9 +119,9 @@ const Hero = ({ heroData }) => {
                         <div className={cls7}>
                           <div className={cls8}>
                             <img src="/assets/images/map-plane.png" alt="" className={cls9} />
-                            <h1 className={cls10}>
+                            <span className={cls10}>
                               <BlockData data={item.title} />
-                            </h1>
+                            </span>
                             <BlockData className={cls11} data={item.description} />
 
                             <div className={cls12}>

@@ -60,13 +60,13 @@ const FooterSection = ({footerData,companyData, contactPersonList, socialNetwork
 
                          <div className={cls13}> 
                              <div className={cls14}> 
-                                 <h5 className={cls15}> Alamat </h5> 
-                                 <h5 className={cls16}> Yayasan Kanzululum</h5> 
+                                 <h4 className={cls15}> Alamat </h4> 
+                                 <h4 className={cls16}> Yayasan Kanzululum</h4> 
 
                                  <div className={cls17}> 
                                      <i data-feather="map-pin" className={cls18}> </i> 
                                      <div className={cls19}> 
-                                         <h6 className={cls20}> {companyData.address}</h6> 
+                                         <h5 className={cls20}> {companyData.address}</h5> 
                                      </div> 
                                  </div> 
 
@@ -76,7 +76,7 @@ const FooterSection = ({footerData,companyData, contactPersonList, socialNetwork
 
                          {/* <div className={cls13}> 
                              <div className={cls14}> 
-                                 <h5 className={cls15}> Company </h5> 
+                                 <h4 className={cls15}> Company </h4> 
                                  <ul className={cls22}> 
                                      <li> <a href="aboutus.html" className={cls23}> <i className={cls24}> </i>  About us </a> </li> 
                                      <li className={cls25}> <a href="services.html" className={cls23}> <i className={cls24}> </i>  Services </a> </li> 
@@ -90,7 +90,7 @@ const FooterSection = ({footerData,companyData, contactPersonList, socialNetwork
                          {/*<!--end col-->*/} 
 
                          <div className={cls13}> 
-                             <h5 className={cls15}> Kontak Person </h5> 
+                             <h4 className={cls15}> Kontak Person </h4> 
                              <p className={cls26}> Anda bisa menghubungi kami kapan saja. </p> 
                              {contactPersonList.map((item,index)=>{
                                  return <div className={cls17} key={index}> 

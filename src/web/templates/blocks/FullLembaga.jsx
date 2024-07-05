@@ -25,7 +25,7 @@ const FullLembaga = ({ className, lembaga }) => {
             {genap?<>
                 <div className={cls2}>
                 <div className={cls3}>
-                  <LazyLoadImage src={item.image} alt={item.title} className={cls4} />
+                  <LazyLoadImage src={item.image} alt={item.name} className={cls4} />
                 </div>
               </div>
               <div className={cls13}>

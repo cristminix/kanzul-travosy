@@ -6,15 +6,7 @@ export const fetchWebNavigation= createAsyncThunk("fetch-webNavigation", async (
     const response = await fetch(`/web/data/web-navigation-list.json?_=${randStamp()}`)
     return response.json()
 })
-export const pushWebNavigation = createAsyncThunk("push-webNavigation", async (company) => {
-    // create file /web/data/web-navigation-list.json
-    // git add
-    // git commit  with message update file above
-    // git push
 
-    const pushStatusOk = true
-    return pushStatusOk
-})
     
 const initialState={
     data:[],

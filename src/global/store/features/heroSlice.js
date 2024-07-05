@@ -5,15 +5,7 @@ export const fetchHero = createAsyncThunk("fetch-hero", async () => {
   const response = await fetch(`/web/data/hero.json?_=${randStamp()}`)
   return response.json()
 })
-export const pushHero = createAsyncThunk("push-hero", async (company) => {
-  // create file /web/data/hero-list.json
-  // git add
-  // git commit  with message update file above
-  // git push
 
-  const pushStatusOk = true
-  return pushStatusOk
-})
 
 const initialState = {
   data: null,

@@ -50,7 +50,7 @@ const mMetaProfile = new MMetaProfile(git, metaSchema)
 import { 
 Trello as IconTrello} from "react-feather"
 
-const pageTitle = "Konten Profile"
+const pageTitle = "Profile"
 const breadcrumbs = [
   { title: "Konten", path: "contents" },
   { title: "Profile", path: "content/profile" },
