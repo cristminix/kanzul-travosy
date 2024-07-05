@@ -1,28 +1,38 @@
 import { useEffect, useState } from "react"
 
 import { useDispatch, useSelector } from "react-redux"
-import galerySlice, { fetchGalery } from "@/global/store/features/galerySlice"
+import { fetchGalery } from "@/global/store/features/galerySlice"
+import { fetchMetaGalery } from "@/global/store/features/metaSlice"
 
-import ColumnLayout from "./layouts/ColumnLayout" 
+import ColumnLayout from "./layouts/ColumnLayout"
 import GaleryMainContent from "./sections/GaleryMainContent"
+import { Helmet } from "react-helmet-async"
 
 const GaleryTemplate = ({}) => {
-  
-  
   const dispatch = useDispatch()
 
   const galeryState = useSelector((state) => state.galery)
-  // console.log(galeryState)
-  useEffect(() => {
-  
-    dispatch(fetchGalery())
-    feather.replace()
+  const meta = useSelector((state) => state.meta.galery)
+  const BASE_URL = import.meta.env !== "PROD" ? "http://localhost:5173" : "https://ponpeskanzululumcirebon.com"
 
+  useEffect(() => {
+    dispatch(fetchGalery())
+    dispatch(fetchMetaGalery())
+    feather.replace()
   }, [dispatch])
   return (
-    <ColumnLayout>
-      <GaleryMainContent galeryData={galeryState.data} />
-    </ColumnLayout>
+    <>
+      {meta && (
+        <Helmet>
+          <title>{meta.title}</title>
+          <meta name="description" content={meta["meta-description"]} />
+          <link rel="canonical" href={`${BASE_URL}/galeri/`} />
+        </Helmet>
+      )}
+      <ColumnLayout>
+        <GaleryMainContent galeryData={galeryState.data} />
+      </ColumnLayout>
+    </>
   )
 }
 

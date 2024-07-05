@@ -4,11 +4,9 @@ import FullKegiatan from "../blocks/FullKegiatan"
 import BannerCrumb from "../blocks/BannerCrumb"
 import SectionHeading from "../blocks/SectionHeading"
 
-
 // import Counter from "@/global/store/features/counter/Counter"
 
 const KegiatanMainContent = ({ kegiatanData }) => {
-  console.log(kegiatanData)
   const breadcrumbs = [
     { title: "Home", path: "/" },
     { title: "Kegiatan", path: "/kegiatan" },

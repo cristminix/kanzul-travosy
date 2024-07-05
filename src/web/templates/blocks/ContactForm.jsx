@@ -164,7 +164,7 @@ const ContactForm = ({}) => {
       displayError("Terjadi kesalahan")
       console.error(e)
     }
-  } 
+  }
   return (
     <div className={cls5}>
       <div className={cls6}>
@@ -175,7 +175,7 @@ const ContactForm = ({}) => {
         <div className={cls9}>
           <div className={cls10}>
             <div className={cls11}>
-              <h3 className={cls12}> {sendStatus === 1 ? "Terima Kasih" : "Hubungi Kami"} </h3>
+              <h1 className={cls12}> {sendStatus === 1 ? "Terima Kasih" : "Hubungi Kami"} </h1>
               {ticket ? (
                 <>
                   {sendStatus === 1 ? (

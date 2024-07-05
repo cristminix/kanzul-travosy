@@ -1,6 +1,7 @@
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import BlockData from "@/global/components/BlockData"
-
+import { Helmet } from "react-helmet-async"
+import { blockDataToText } from "@/global/fn/blockDataToText"
 const FullProfile = ({ className, profile }) => {
   const cls0 = "cls-0 cls-1 container relative"
   const cls1 = "cls-1 cls-2 grid md:grid-cols-12 grid-cols-1 items-center gap-6 relative"
@@ -19,6 +20,9 @@ const FullProfile = ({ className, profile }) => {
   const fullProfile = profile.full
   return (
     <>
+      <Helmet>
+        <meta name="description" content={blockDataToText(fullProfile.contents, 1).substr(0, 170)} />
+      </Helmet>
       <div className={`${cls0} ${className}`}>
         <div className={cls1}>
           <div className={cls2}>
@@ -28,7 +32,7 @@ const FullProfile = ({ className, profile }) => {
           </div>
           <div className={cls13}>
             <div className={cls14}>
-              <h4 className="text-green-500 ">{fullProfile.heading}</h4>
+              <h3 className="text-green-500 ">{fullProfile.heading}</h3>
               <h3 className={`${cls15} font-3xl`}>
                 <span>{fullProfile.title}</span>
               </h3>

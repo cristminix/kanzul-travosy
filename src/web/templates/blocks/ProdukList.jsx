@@ -1,11 +1,9 @@
 import { Link } from "react-router-dom"
-import BeritaItemSkeleton from "../../apps/berita/components/BeritaItemSkeleton"
 import { fixTags } from "@/global/fn/fixTags"
 import { User as IconUser } from "react-feather"
 import { slugify } from "../../../global/fn/slugify"
 
-const BeritaList = ({ list, loading }) => {
-  const styles = {}
+const ProdukList = ({ list, loading }) => {
   const cls0 = "cls-0 relative md:twx-mt-12 twx-mt-8"
   const cls1 = "cls-1 grid grid-cols-1 pb-6 text-center"
   const cls2 = "cls-2 mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold"
@@ -33,9 +31,9 @@ const BeritaList = ({ list, loading }) => {
     <>
       <div className={cls0}>
         <div className={cls1}>
-          <h3 className={cls2}> Produk </h3>
+          <h2 className={cls2}> Produk </h2>
 
-          <p className={cls3}> Produk Santri Pondok Pesantren Kanzululum. </p>
+          <h3 className={cls3}> Produk Santri Pondok Pesantren Kanzululum. </h3>
         </div>
         {/*<!--end grid-->*/}
         <div className={cls4}>
@@ -43,7 +41,7 @@ const BeritaList = ({ list, loading }) => {
             <>
               {[...Array(6)].fill(1).map((item, index) => {
                 return (
-                  <div className={`${cls5} twx-animate-pulse `}>
+                  <div className={`${cls5} twx-animate-pulse `} key={index}>
                     <div className={`${cls6} ${skeleton}`}>
                       <div className={`${cls7} twx-h-[200px] twx-w-full ${skeleton}`}></div>
                     </div>
@@ -169,4 +167,4 @@ const BeritaList = ({ list, loading }) => {
   )
 }
 
-export default BeritaList
+export default ProdukList

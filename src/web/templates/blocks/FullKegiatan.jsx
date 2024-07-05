@@ -1,7 +1,6 @@
 import { LazyLoadImage } from "react-lazy-load-image-component"
 
 const Fullkegiatan = ({ className, kegiatan }) => {
-  console.log(kegiatan)
   const cls0 = "cls-0 cls-1 container relative twx-mb-8"
   const cls1 = "cls-1 cls-2 grid grid-cols-1 items-center relative"
   const cls2 = "cls-2 cls-3 md:col-span-5"
@@ -27,16 +26,19 @@ const Fullkegiatan = ({ className, kegiatan }) => {
               <tr className="twx-bg-slate-50 ">
                 <th className={`twx-text-center ${clsBordered}`}>NO.</th>
                 <th className={`twx-text-center ${clsBordered} twx-w-[200px]`}>WAKTU</th>
-                <th className={clsBordered} width="962">KEGIATAN</th>
+                <th className={clsBordered} width="962">
+                  KEGIATAN
+                </th>
               </tr>
-              {kegiatan.contents.map((item,index)=>{
-                return <tr key={index}>
-                  <td className={`twx-text-center ${clsBordered}`}>{index+1}.</td>
-                  <td className={`twx-text-center ${clsBordered}`}>{item.waktu}</td>
-                  <td className={clsBordered}>{item.kegiatan}</td>
-                </tr>  
+              {kegiatan.contents.map((item, index) => {
+                return (
+                  <tr key={index}>
+                    <td className={`twx-text-center ${clsBordered}`}>{index + 1}.</td>
+                    <td className={`twx-text-center ${clsBordered}`}>{item.waktu}</td>
+                    <td className={clsBordered}>{item.kegiatan}</td>
+                  </tr>
+                )
               })}
-              
             </tbody>
           </table>
         </div>

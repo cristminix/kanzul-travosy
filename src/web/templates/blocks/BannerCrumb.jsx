@@ -29,7 +29,7 @@ const BannerCrumb = ({ breadcrumbs, banner }) => {
       <div className={cls1}> </div>
       <div className={cls2}>
         <div className={cls3}>
-          <h3 className={cls4}> {banner.title} </h3>
+          <h1 className={cls4}> {banner.title} </h1>
         </div>{" "}
         {/*<!--end grid-->*/}
       </div>{" "}

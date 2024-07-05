@@ -1,0 +1,3 @@
+# https://www.robotstxt.org/robottxt.html
+User-Agent: *
+Disallow: /purple

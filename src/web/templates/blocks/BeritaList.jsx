@@ -32,9 +32,9 @@ const BeritaList = ({ list, loading }) => {
     <>
       <div className={cls0}>
         <div className={cls1}>
-          <h3 className={cls2}> Berita </h3>
+          <h2 className={cls2}> Berita </h2>
 
-          <p className={cls3}> Berita Pondok Pesantren Kanzululum. </p>
+          <h3 className={cls3}> Berita Pondok Pesantren Kanzululum. </h3>
         </div>
         {/*<!--end grid-->*/}
         <div className={cls4}>
