@@ -9,6 +9,7 @@ const git = {
 import MBeritaRw from "../src/global/git/orm/rw/models/MBeritaRw"
 import MProdukRw from "../src/global/git/orm/rw/models/MProdukRw"
 import CONFIG from "../src/config.json" assert { type: "json" }
+import { slugify } from "../src/global/fn/slugify.js"
 
 const mBeritaRw = new MBeritaRw(git)
 const mProdukRw = new MProdukRw(git)
@@ -44,7 +45,7 @@ const htmlPlugin = () => {
             /<meta-description(\s+)?\/>/,
             `<meta name="description" content="${pageProps["meta-description"]}" data-rh="true"/>`,
           )
-          .replace(/<meta-keywords(\s+)?\/>/, `<link rel="canonical" content="${url}"/>`)
+          .replace(/<meta-keywords(\s+)?\/>/, `<link rel="canonical" href="${url}"/>`)
           .replace(
             /<meta-og(\s+)?\/>/,
             `<meta property="og:title" content="${pageProps.title}"/>
@@ -65,7 +66,7 @@ const htmlPlugin = () => {
           try {
             await mBeritaRw.initOrm()
             berita = await mBeritaRw.getRow(id)
-
+            berita.slug = slugify(berita.title)
             htmlContent = htmlContent
               .replace(/<title>(.*?)<\/title>/, `<title>${berita.title}</title>`)
               .replace(
@@ -74,7 +75,7 @@ const htmlPlugin = () => {
               )
               .replace(
                 /<meta-keywords(\s+)?\/>/,
-                `<link rel="canonical" content="${baseUrl}/berita/baca/${berita.id}/${berita.slug}/"/>`,
+                `<link rel="canonical" href="${baseUrl}/berita/baca/${berita.id}/${berita.slug}/"/>`,
               )
               .replace(
                 /<meta-og(\s+)?\/>/,
@@ -100,7 +101,7 @@ const htmlPlugin = () => {
           try {
             await mProdukRw.initOrm()
             produk = await mProdukRw.getRow(id)
-
+            produk.slug = slugify(produk.title)
             htmlContent = htmlContent
               .replace(/<title>(.*?)<\/title>/, `<title>${produk.title}</title>`)
               .replace(
@@ -109,7 +110,7 @@ const htmlPlugin = () => {
               )
               .replace(
                 /<meta-keywords(\s+)?\/>/,
-                `<link rel="canonical" content="${baseUrl}/produk/lihat/${produk.id}/${produk.slug}/">`,
+                `<link rel="canonical" href="${baseUrl}/produk/lihat/${produk.id}/${produk.slug}/">`,
               )
               .replace(
                 /<meta-og(\s+)?\/>/,
