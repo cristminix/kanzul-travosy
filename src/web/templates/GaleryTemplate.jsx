@@ -13,7 +13,7 @@ const GaleryTemplate = ({}) => {
 
   const galeryState = useSelector((state) => state.galery)
   const meta = useSelector((state) => state.meta.galery)
-  const BASE_URL = import.meta.env !== "PROD" ? "http://localhost:5173" : "https://ponpeskanzululumcirebon.com"
+  const BASE_URL = "https://www.ponpeskanzululumcirebon.com"
 
   useEffect(() => {
     dispatch(fetchGalery())

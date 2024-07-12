@@ -3,7 +3,9 @@
     "ui:autofocus": true
   },
   "username": {},
-  "email": {},
+  "email": {
+    "ui:readonly": true
+  },
   "avatarUrl": {
     "ui:options": {
       "filePreview": true

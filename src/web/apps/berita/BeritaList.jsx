@@ -14,7 +14,7 @@ const BeritaList = ({ model, reload, loadingModel, byAuthor }) => {
   const beritaState = useSelector((state) => state.berita)
   const dispatch = useDispatch()
   const meta = useSelector((state) => state.meta.berita)
-  const BASE_URL = import.meta.env !== "PROD" ? "http://localhost:5173" : "https://ponpeskanzululumcirebon.com"
+  const BASE_URL = "https://www.ponpeskanzululumcirebon.com"
   const [canonical, setCanonical] = useState(`${BASE_URL}/berita/`)
   const [description, setDescription] = useState(meta["meta-description"])
 

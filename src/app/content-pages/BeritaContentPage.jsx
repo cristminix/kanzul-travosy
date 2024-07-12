@@ -1,11 +1,10 @@
 import contentSlice from "@/global/store/features/contentSlice"
 import settingSlice from "@/global/store/features/settingSlice"
 
-
 import { useSelector, useDispatch } from "react-redux"
-import { useEffect, useState ,useRef} from "react"
+import { useEffect, useState, useRef } from "react"
 import MainContentLayout from "./MainContentLayout"
-import { Button, Tabs, Tab,Form } from "react-bootstrap"
+import { Button, Tabs, Tab, Form } from "react-bootstrap"
 
 import { createGit } from "@/global/git"
 import { useLocation, Link, useNavigate } from "react-router-dom"
@@ -38,18 +37,17 @@ import HTMLCompiler from "@/global/class/HTMLCompiler"
 import MMetaBerita from "@/global/git/models/m-meta/MMetaBerita"
 import MBeritaBanner from "@/global/git/models/m-banner/MBeritaBanner"
 
-
 import JsonForm from "./JsonForm"
 import RowDataDisplay from "./RowDataDisplay"
 import { crc32id } from "@/global/fn/crc32id"
 
 import BannerEditor from "./components/BannerEditor"
-import {getBlocksReadingTime} from "@/global/fn/getBlocksReadingTime"
-import {dateToSqlDateTime} from "@/global/fn/dateToSqlDateTime"
-import {createDateFromSqlDateTime} from "@/global/fn/createDateFromSqlDateTime"
+import { getBlocksReadingTime } from "@/global/fn/getBlocksReadingTime"
+import { dateToSqlDateTime } from "@/global/fn/dateToSqlDateTime"
+import { createDateFromSqlDateTime } from "@/global/fn/createDateFromSqlDateTime"
 
-import {Plus as IconPlus,RefreshCcw as IconReload,Save as IconSave} from "react-feather"
-import {getFileInfo} from "@/global/fn/getFileInfo"
+import { Plus as IconPlus, RefreshCcw as IconReload, Save as IconSave } from "react-feather"
+import { getFileInfo } from "@/global/fn/getFileInfo"
 const git = createGit()
 // const mBerita = new MBerita(git, beritaSchema)
 const mBeritaBanner = new MBeritaBanner(git, bannerSchema)
@@ -60,22 +58,23 @@ const pageTitle = "Berita"
 const breadcrumbs = [
   { title: "Konten", path: "contents" },
   { title: "Berita", path: "content/berita" },
-] 
+]
 
 const routePath = "/contents/berita"
-import {Send as IconSend} from "react-feather"
+import { Send as IconSend } from "react-feather"
 const BeritaContentPage = ({ subModule }) => {
   const location = useLocation()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const contentState = useSelector((state) => state.content)
   const settingState = useSelector((state) => state.setting)
-  const { setLoading, setLoadingMessage,displayAlert,displayToast  } = contentSlice.actions
+  const { setLoading, setLoadingMessage, displayAlert, displayToast } = contentSlice.actions
 
   const [tabKey, setTabKey] = useState("banner")
   const [trigger, setTrigger] = useState(false)
-  const ckAutoCommitRef=useRef(null)
-  const autoCommitRef= useRef(false)
+  // const ckAutoCommitRef=useRef(null)
+  // const autoCommitRef= useRef(false)
+  const [autoCommit, setAutoCommit] = useState(false)
   const showLoading = (status, message = "Menyimpan Data") => {
     if (status) {
       dispatch(setLoading(true))
@@ -84,43 +83,39 @@ const BeritaContentPage = ({ subModule }) => {
       dispatch(setLoading(false))
     }
   }
-  const showAlert = (type,title,message)=>{
-      dispatch(displayAlert([type,title,message]))
+  const showAlert = (type, title, message) => {
+    dispatch(displayAlert([type, title, message]))
   }
-    const showToast = (type,title,message)=>{
-      dispatch(displayToast([type,title,message]))
-
+  const showToast = (type, title, message) => {
+    dispatch(displayToast([type, title, message]))
   }
   const onSelectTab = (tabKey) => {
     navigate(`${routePath}/${tabKey}`)
   }
 
-  
   const [beritaListData, setBeritaListData] = useState([])
   const [beritaFormData, setBeritaFormData] = useState(null)
   const [formBeritaShown, showFormBerita] = useState(false)
 
   const loadBeritaListData = async () => {
-    showLoading(true,"Memuat Berita")
+    showLoading(true, "Memuat Berita")
     setBeritaListData([])
     await mBeritaRw.initOrm()
-    setTimeout(()=>{
-      const data =  mBeritaRw.getAll()
-      setBeritaListData(oData=>[...data])
+    setTimeout(() => {
+      const data = mBeritaRw.getAll()
+      setBeritaListData((oData) => [...data])
       showLoading(false)
-
-    },256)
-   
+    }, 256)
   }
   const showEditFormBerita = async (row) => {
-    const formData = {...row}
+    const formData = { ...row }
     formData.cover = await git.getFile64Data(`/assets/images/berita/covers/${formData.cover}`)
     // console.log(formData.cover)
     formData.content = JSON.parse(formData.content)
     formData.readTime = getBlocksReadingTime(formData.content)
 
-    // console.log(formData)  
-    setBeritaFormData(oFormData=>({...oFormData,...formData}))
+    // console.log(formData)
+    setBeritaFormData((oFormData) => ({ ...oFormData, ...formData }))
     showFormBerita(true)
   }
   const showAddFormBerita = async (row) => {
@@ -130,35 +125,33 @@ const BeritaContentPage = ({ subModule }) => {
     formData.content = []
     formData.readTime = 0
 
-    // console.log(formData)  
-    setBeritaFormData(oFormData=>({...formData}))
+    // console.log(formData)
+    setBeritaFormData((oFormData) => ({ ...formData }))
     showFormBerita(true)
   }
-  const saveCoverImage = async(dataUrl)=>{
+  const saveCoverImage = async (dataUrl) => {
     let fileInfo
     try {
       fileInfo = getFileInfo(dataUrl, true)
-      
     } catch (e) {
       console.log(`fileTransform error: getFileInfo failed`)
     }
-    if(fileInfo){
+    if (fileInfo) {
       const coverImageGitPath = `assets/images/berita/covers/${fileInfo.name}`
       const coverImageFsPath = git.basePath(coverImageGitPath)
-      
+
       try {
         await git.fs.writeFileSync(coverImageFsPath, fileInfo.buffer)
-        
+
         await git.add(coverImageGitPath)
         await git.commit([coverImageGitPath])
-
       } catch (e) {
         console.log(`lfs: cant writeFile ${coverImageGitPath}`, e)
-      }  
+      }
     }
     return fileInfo
   }
-  const validHash= async(row)=>{
+  const validHash = async (row) => {
     const checksum = await compiler.getChecksum(row)
     // console.log({
     //   savedHash:row.compiledHash,
@@ -166,49 +159,44 @@ const BeritaContentPage = ({ subModule }) => {
     // })
     return row.compiledHash === checksum
   }
-  const reloadBeritaList = ()=>{
-    console.log('reloading berita list')
-    setTimeout(()=>{
+  const reloadBeritaList = () => {
+    console.log("reloading berita list")
+    setTimeout(() => {
       const button = document.querySelector("button.reload-berita-btn")
       button.click()
-    },3000)
-    
+    }, 3000)
   }
-  const onCompileBerita = async(row)=>{
-    console.log({autoCommit:autoCommitRef.current})
-    showLoading(true,"Sedang Mengkompail")
+  const onCompileBerita = async (row) => {
+    console.log({ autoCommit })
+    showLoading(true, "Sedang Mengkompail")
     let checksum = await compiler.getChecksum(row)
 
-    if(checksum){
-      if(row.compiledHash !== checksum){
-         const result = await compiler.compile(row)
-         const targetGitPath = result.targetGitPath
-         if(result.checksum && targetGitPath){
+    if (checksum) {
+      if (row.compiledHash !== checksum) {
+        const result = await compiler.compile(row)
+        const targetGitPath = result.targetGitPath
+        if (result.checksum && targetGitPath) {
           checksum = result.checksum
           await git.add(targetGitPath)
           await git.commit([targetGitPath])
-          
+
           const update = await mBeritaRw.getRow(row.id)
           update.compiledHash = checksum
-          try{
-            await mBeritaRw.update(row.id,update)
-            await mBeritaRw.commit(autoCommitRef.current)
-            showToast('info','Success','Compile Success')
-            
-          }catch(e){
-            showToast('danger','Error Compile Failed',e.toString())
-
+          try {
+            await mBeritaRw.update(row.id, update)
+            await mBeritaRw.commit(autoCommit)
+            showToast("info", "Success", "Compile Success")
+          } catch (e) {
+            showToast("danger", "Error Compile Failed", e.toString())
           }
-         }else{
-          showToast('danger','error','Compile Failed')
-         }
-
+        } else {
+          showToast("danger", "error", "Compile Failed")
+        }
       }
     }
     console.log(checksum)
     showLoading(false)
     // reloadBeritaList()
-
   }
   const onSaveFormBerita = async (e) => {
     const { formData } = e
@@ -217,32 +205,28 @@ const BeritaContentPage = ({ subModule }) => {
 
     try {
       const fileInfo = await saveCoverImage(formData.cover)
-      if(fileInfo){
-        const {name} = fileInfo
+      if (fileInfo) {
+        const { name } = fileInfo
         formData.cover = name
       }
       formData.content = JSON.stringify(formData.content)
-      formData.dateUpdated=dateToSqlDateTime()
+      formData.dateUpdated = dateToSqlDateTime()
 
-
-      if(formData.id){
+      if (formData.id) {
         // perform update
         const oldRow = await mBeritaRw.getRow(formData.id)
-        if(!fileInfo){
+        if (!fileInfo) {
           formData.cover = oldRow.cover
         }
         await mBeritaRw.update(formData.id, formData)
-        
-      }else{
+      } else {
         // perform create
-        formData.dateCreated=dateToSqlDateTime()
+        formData.dateCreated = dateToSqlDateTime()
         await mBeritaRw.create(formData)
       }
-      await mBeritaRw.commit(autoCommitRef.current)
-      
+      await mBeritaRw.commit(autoCommit)
     } catch (e) {
-      dispatch(displayAlert(["danger","error",e.toString()]))
-
+      dispatch(displayAlert(["danger", "error", e.toString()]))
     }
 
     showLoading(false)
@@ -263,11 +247,11 @@ const BeritaContentPage = ({ subModule }) => {
     showFormMeta(true)
   }
   const commitRecords = async (e) => {
-    showLoading(true,"Saving Records")
+    showLoading(true, "Saving Records")
     try {
       await git.push()
     } catch (e) {
-      dispatch(displayAlert(["danger","error",e.toString()]))
+      dispatch(displayAlert(["danger", "error", e.toString()]))
     }
 
     showLoading(false)
@@ -277,32 +261,31 @@ const BeritaContentPage = ({ subModule }) => {
     showLoading(true)
     try {
       await mMetaBerita.update(formData)
-      await mMetaBerita.commit(autoCommitRef.current)
+      await mMetaBerita.commit(autoCommit)
     } catch (e) {
-      dispatch(displayAlert(["danger","error",e.toString()]))
+      dispatch(displayAlert(["danger", "error", e.toString()]))
     }
 
     showLoading(false)
     showFormMeta(false)
     loadMetaData()
   }
-  const resetCompiledHash=()=>{
+  const resetCompiledHash = () => {
     const list = [...beritaListData]
     console.log(list)
-    for(const item of list){
-      item.compiledHash=null
+    for (const item of list) {
+      item.compiledHash = null
     }
 
     // showLoading(true,"Memuat Produk")
     setBeritaListData([])
     // await mProdukRw.initOrm()
-    setTimeout(()=>{
+    setTimeout(() => {
       // const data =  mProdukRw.getAll()
-      setBeritaListData(oData=>[...list])
-      showToast('info','info','compile status reseted')
+      setBeritaListData((oData) => [...list])
+      showToast("info", "info", "compile status reseted")
       // showLoading(false)
-
-    },256)
+    }, 256)
   }
   useEffect(() => {
     const pathnames = location.pathname.split("/")
@@ -311,30 +294,27 @@ const BeritaContentPage = ({ subModule }) => {
 
     if (tabName === "berita") {
       loadBeritaListData()
-    } 
-     
-    else if (tabName === "meta") {
+    } else if (tabName === "meta") {
       loadMetaData()
-    } else if(tabName === "banner"){
-    setTrigger(crc32id())
-      
+    } else if (tabName === "banner") {
+      setTrigger(crc32id())
     }
-  }, [location.key, setTabKey,setBeritaFormData,setMetaFormData])
-  useEffect(()=>{
-    if(ckAutoCommitRef.current)
-    ckAutoCommitRef.current.checked = autoCommitRef.current?true:false
-  },[autoCommitRef.current])
+  }, [location.key, setTabKey, setBeritaFormData, setMetaFormData])
+  // useEffect(()=>{
+  //   if(ckAutoCommitRef.current)
+  //   ckAutoCommitRef.current.checked = autoCommit?true:false
+  // },[autoCommit])
   return (
     <MainContentLayout
       pageTitle={pageTitle}
       breadcrumbs={breadcrumbs}
-      icon={<IconSend/>}
+      icon={<IconSend />}
       className={`${contentState.isLoading ? "content-is-loading" : ""}`}>
       <div className="col-12 grid-margin stretch-card">
         <div className="card">
           <div className="card-body">
             <Tabs id="content-profile-tab" activeKey={tabKey} onSelect={(k) => onSelectTab(k)}>
-            <Tab eventKey="banner" title="Banner">
+              <Tab eventKey="banner" title="Banner">
                 {tabKey === "banner" && (
                   <BannerEditor
                     showLoading={showLoading}
@@ -354,11 +334,16 @@ const BeritaContentPage = ({ subModule }) => {
                       <>
                         <h4 className="twx-text-2xl twx-text-center twx-py-4 twx-mb-8">Daftar Berita</h4>
                         <div className="twx-p-4 twx-flex twx-justify-between twx-items-center">
-                            <Form.Check ref={ckAutoCommitRef} type="checkbox" label="Auto Commit" onChange={e=>{
-                              autoCommitRef.current = ckAutoCommitRef.current.checked
+                          <Form.Check
+                            type="checkbox"
+                            label="Auto Commit"
+                            onChange={(e) => {
+                              setAutoCommit((val) => !val)
+                              // autoCommit = ckAutoCommitRef.current.checked
                               // console.log(newAutoCommit)
                               // setAutoCommit(newAutoCommit)
-                            }}/>
+                            }}
+                          />
                         </div>
                         <BeritaList
                           git={git}
@@ -368,7 +353,7 @@ const BeritaContentPage = ({ subModule }) => {
                           onCompileRow={(row) => onCompileBerita(row)}
                           validHash={validHash}
                         />
-                         <div className="twx-py-4 twx-flex twx-justify-between">
+                        <div className="twx-py-4 twx-flex twx-justify-between">
                           <Button size="sm" className="reload-berita-btn" onClick={(e) => loadBeritaListData()}>
                             <IconReload className="feather-icon twx-mr-1" /> Reload
                           </Button>
@@ -386,7 +371,7 @@ const BeritaContentPage = ({ subModule }) => {
                     ) : (
                       <>
                         <JsonForm
-                          title={`${beritaFormData.id?'Edit':'Add'} Item Berita`}
+                          title={`${beritaFormData.id ? "Edit" : "Add"} Item Berita`}
                           formData={beritaFormData}
                           schema={beritaSchema}
                           uiSchema={beritaUiSchema}

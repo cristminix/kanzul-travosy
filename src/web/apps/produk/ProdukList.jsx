@@ -14,7 +14,7 @@ const ProdukList = ({ model, reload, loadingModel, byKategori }) => {
   const produkState = useSelector((state) => state.produk)
   const dispatch = useDispatch()
   const meta = useSelector((state) => state.meta.produk)
-  const BASE_URL = import.meta.env !== "PROD" ? "http://localhost:5173" : "https://ponpeskanzululumcirebon.com"
+  const BASE_URL = "https://www.ponpeskanzululumcirebon.com"
   const [canonical, setCanonical] = useState(`${BASE_URL}/produk/`)
   const [description, setDescription] = useState(meta["meta-description"])
   useEffect(() => {

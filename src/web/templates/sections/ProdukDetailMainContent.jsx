@@ -23,7 +23,7 @@ const ProdukDetailMainContent = ({ model, loadingModel, reload, metaMode }) => {
   const [loading, setLoading] = useState(loadingModel)
   const dispatch = useDispatch()
   const meta = useSelector((state) => state.meta.produk)
-  const BASE_URL = import.meta.env !== "PROD" ? "http://localhost:5173" : "https://ponpeskanzululumcirebon.com"
+  const BASE_URL = "https://www.ponpeskanzululumcirebon.com"
   const [slug, setSlug] = useState("")
   const [canonical, setCanonical] = useState(`${BASE_URL}/lihat/${id}/${slug}`)
   const [description, setDescription] = useState(meta["meta-description"])

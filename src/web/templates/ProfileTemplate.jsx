@@ -13,7 +13,7 @@ const ProfileTemplate = ({}) => {
 
   const profileState = useSelector((state) => state.profile)
   const meta = useSelector((state) => state.meta.profile)
-  const BASE_URL = import.meta.env === "PROD" ? "http://localhost:5173" : "https://ponpeskanzululumcirebon.com"
+  const BASE_URL = "https://www.ponpeskanzululumcirebon.com"
 
   useEffect(() => {
     dispatch(fetchProfile())

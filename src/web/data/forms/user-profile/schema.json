@@ -18,7 +18,8 @@
     },
     "email": {
       "title": "Email",
-      "type": "string"
+      "type": "string",
+      "readOnly": true
     },
     "avatarUrl": {
       "title": "Avatar",

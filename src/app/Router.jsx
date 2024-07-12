@@ -10,8 +10,6 @@ import {
 
 // Change according your index.html location
 
-import { ROUTER_BASE } from "@/config.json"
-
 const Error404 = lazy(() => import("./error-pages/Error404"))
 const Error500 = lazy(() => import("./error-pages/Error500"))
 
@@ -20,8 +18,15 @@ const Login = lazy(() => import("./user-pages/Login"))
 
 import ContentPage, { loader as contentPageLoader } from "./content-pages/ContentPage"
 import Spinner from "./shared/Spinner"
-import { useAuth } from "@/global/firebase/auth"
+import { loadBackend } from "@/global/backend"
+// import { useAuth } from "@/global/firebase/auth"
 import PrivateRoutes from "./PrivateRoutes"
+
+import CONFIG from "@/config.json"
+const ROUTER_BASE = CONFIG.ROUTER_BASE
+const setting = loadBackend(CONFIG)
+const authProvider = setting.getProvider()
+const { useAuth } = authProvider
 
 const Router = ({}) => {
   const { isLoading, user } = useAuth()

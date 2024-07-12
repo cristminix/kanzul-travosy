@@ -26,7 +26,7 @@ const HomepageTemplate = ({}) => {
   const welcomeMessageState = useSelector((state) => state.welcomeMessage)
 
   const meta = useSelector((state) => state.meta.homepage)
-  const BASE_URL = import.meta.env !== "PROD" ? "http://localhost:5173" : "https://ponpeskanzululumcirebon.com"
+  const BASE_URL = "https://www.ponpeskanzululumcirebon.com"
   useEffect(() => {
     dispatch(fetchBerita())
     dispatch(fetchProduk())

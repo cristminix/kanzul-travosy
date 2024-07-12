@@ -15,7 +15,7 @@ const KontakTemplate = ({}) => {
   const kontakState = useSelector((state) => state.kontak)
   const companyState = useSelector((state) => state.company)
   const meta = useSelector((state) => state.meta.kontak)
-  const BASE_URL = import.meta.env === "PROD" ? "http://localhost:5173" : "https://ponpeskanzululumcirebon.com"
+  const BASE_URL = "https://www.ponpeskanzululumcirebon.com"
 
   // console.log(kontakState)
   useEffect(() => {

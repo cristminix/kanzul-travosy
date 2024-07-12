@@ -1,9 +1,10 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react"
 import ReactDOM from "react-dom/client"
 // import { BrowserRouter } from "react-router-dom"
 // import App from "./app/App"
 import Router from "./app/Router"
-import "./i18n"
+// import "./i18n"
 import { store,persistor } from "@/global/store"
 import { Provider } from "react-redux"
 import { PersistGate } from 'redux-persist/integration/react'

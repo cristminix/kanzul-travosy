@@ -4,13 +4,22 @@ import { Link } from "react-router-dom"
 import { Trans } from "react-i18next"
 import { GitDoctor, repairGitDataStore } from "@/global/fn/repairGitDataStore"
 import { crc32id } from "@/global/fn/crc32id"
-import { signOut } from "@/global/firebase/auth"
 import { useState } from "react"
-import { getCurrentUserInfo } from "../../global/firebase/user"
+
 import { useEffect } from "react"
-import { User as IconUser ,
-RefreshCw as IconRefreshCw,
-LogOut as IconLogout} from "react-feather"
+import { User as IconUser, RefreshCw as IconRefreshCw, LogOut as IconLogout } from "react-feather"
+
+import { loadBackend } from "@/global/backend"
+import CONFIG from "@/config.json"
+const ROUTER_BASE = CONFIG.ROUTER_BASE
+const setting = loadBackend(CONFIG)
+const authProvider = setting.getProvider()
+// import {  } from "../../global/firebase/user"
+// import { signOut } from "@/global/firebase/auth"
+
+const { getCurrentUserInfo, signOut } = authProvider
+
+const BASE_URL = "https://www.ponpeskanzululumcirebon.com"
 const Navbar = ({}) => {
   const [userInfo, setUserInfo] = useState({ username: "noname" })
   const taskId = crc32id()
@@ -80,10 +89,7 @@ const Navbar = ({}) => {
             <Dropdown alignRight>
               <Dropdown.Toggle className="nav-link">
                 <div className="nav-profile-img">
-                {
-                  userInfo&& userInfo.avatarUrl && <img src={`${userInfo.avatarUrl.match(/^http/)?userInfo.avatarUrl:'/'+userInfo.avatarUrl}`} alt="user" />
-                  
-                }
+                  {userInfo && userInfo.avatarUrl && <img src={`${BASE_URL}/${userInfo.avatarUrl}`} alt="user" />}
                   <span className="availability-status online"></span>
                 </div>
                 <div className="nav-profile-text">
@@ -96,7 +102,7 @@ const Navbar = ({}) => {
               <Dropdown.Menu className="navbar-dropdown">
                 <Dropdown.Item href="!#" onClick={(evt) => evt.preventDefault()}>
                   <IconUser className="mdi mdi-user mr-2 text-success" />
-                  <Trans>Ubah Profile</Trans>
+                  <Link to="/contents/user-profile">Ubah Profile</Link>
                 </Dropdown.Item>
                 <Dropdown.Item
                   href="!#"
@@ -104,7 +110,7 @@ const Navbar = ({}) => {
                     repairGitDataStore()
                     return evt.preventDefault()
                   }}>
-                  <IconRefreshCw className="mdi mdi-cached mr-2 text-primary"/>
+                  <IconRefreshCw className="mdi mdi-cached mr-2 text-primary" />
                   <Trans>Sync Database</Trans>
                 </Dropdown.Item>
                 <Dropdown.Item
@@ -113,7 +119,7 @@ const Navbar = ({}) => {
                     await signOut()
                     return evt.preventDefault()
                   }}>
-                  <IconLogout className="mdi mdi-logout mr-2 text-primary"/>
+                  <IconLogout className="mdi mdi-logout mr-2 text-primary" />
                   <Trans>Keluar</Trans>
                 </Dropdown.Item>
               </Dropdown.Menu>

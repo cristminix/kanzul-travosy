@@ -1,9 +1,5 @@
 import React, { Component } from "react"
-
-import { withRouter } from "@/global/fn/withRouter"
-
-import "./App.scss"
-// import AppRoutes from "./AppRoutes"
+import "./App.css"
 import Navbar from "./shared/Navbar"
 import Sidebar from "./shared/Sidebar"
 import SettingsPanel from "./shared/SettingsPanel"
@@ -18,11 +14,7 @@ import { useLocation } from "react-router-dom"
 import { useState } from "react"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
-// import contentSlice from "@/global/store/features/contentSlice"
 import Spinner from "@/app/shared/Spinner"
-
-// import "bootstrap/dist/css/bootstrap.min.css"
-// import "bootstrap/dist/js/bootstrap.min.js"
 import "bootstrap-icons/font/bootstrap-icons.css"
 
 const App = ({ isLogedIn }) => {
@@ -30,21 +22,14 @@ const App = ({ isLogedIn }) => {
   const [isFullPageLayout, setIsFullPageLayout] = useState(false)
   const [contentIsLoading, setContentIsLoading] = useState(true)
 
-  // const dispatch = useDispatch()
   const contentState = useSelector((state) => state.content)
-  // const {setLoading} = contentSlice.actions
 
   const onRouteChanged = () => {
-    // console.log("ROUTE CHANGED")
-    // console.log(props)
-    // const { i18n } = props
     const body = document.querySelector("body")
     if (location.pathname === "/layout/RtlLayout") {
       body.classList.add("rtl")
-      // i18n.changeLanguage("ar")
     } else {
       body.classList.remove("rtl")
-      // i18n.changeLanguage("en")
     }
     window.scrollTo(0, 0)
     const fullPageLayoutRoutes = [
@@ -87,10 +72,7 @@ const App = ({ isLogedIn }) => {
         <div className="main-panel">
           <div className="content-wrapper">
             {contentState.isLoading ? <Spinner message={contentState.loadingMessage} /> : null}
-            {/*<div className={`${contentIsLoading?'spinner-wrapper':''}`}>*/}
             <Outlet />
-            {/*</div>*/}
-
             {SettingsPanelComponent}
           </div>
           {footerComponent}
@@ -98,12 +80,6 @@ const App = ({ isLogedIn }) => {
       </div>
     </div>
   )
-
-  // componentDidUpdate(prevProps) {
-  //   if (location !== prevProps.location) {
-  //     this.onRouteChanged()
-  //   }
-  // }
 }
 
 export default App

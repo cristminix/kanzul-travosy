@@ -14,7 +14,7 @@ import fg from "fast-glob"
 import { nodePolyfills } from "vite-plugin-node-polyfills"
 import { chunkSplitPlugin } from "vite-plugin-chunk-split"
 
-let jsonDataFileList = fg.globSync("./src/web/data/**/*.{json,db}")
+let jsonDataFileList = fg.globSync("./src/web/data/**/*.{json,db,wasm}")
 // console.log(jsonDataFileList)
 let pages_jsonFileList = []
 let templates_jsonFileList = []
@@ -22,9 +22,13 @@ let forms_jsonFileList = []
 let default_jsonFileList = []
 let berita_dbFileList = []
 let produk_dbFileList = []
+let sql_dbFileList = []
 
 for (const file of jsonDataFileList) {
   // console.log(file)
+  if (file.match(/\web\/data\/sql/)) {
+    sql_dbFileList.push(file)
+  }
   if (file.match(/\web\/data\/pages/)) {
     pages_jsonFileList.push(file)
   }
@@ -106,6 +110,10 @@ export default defineConfig({
         {
           src: produk_dbFileList,
           dest: "web/data/produk",
+        },
+        {
+          src: sql_dbFileList,
+          dest: "web/data/sql",
         },
       ],
     }),

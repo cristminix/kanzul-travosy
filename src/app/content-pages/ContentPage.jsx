@@ -16,7 +16,7 @@ import BeritaContentPage from "./BeritaContentPage"
 import ProdukContentPage from "./ProdukContentPage"
 // import BlockEditorContentPage from "./BlockEditorContentPage"
 import BlockEditorContentPage from "./BlockEditorContentPage"
-// import DrizzleContentPage from "./DrizzleContentPage"
+import UserProfileContentPage from "./UserProfileContentPage"
 
 export async function loader({ params }) {
   const { mod, sub, pk, fk } = params
@@ -70,9 +70,9 @@ const ContentPage = ({}) => {
   else if (mod === "produk") {
     return <ProdukContentPage subModule={sub}/>
   }
-  // else if (mod === "drizzle") {
-  //   return <DrizzleContentPage subModule={sub}/>
-  // }
+  else if (mod === "user-profile") {
+    return <UserProfileContentPage subModule={sub}/>
+  }
   // else if (mod === "block-editor") {
   //   return <BlockEditorContentPage subModule={sub}/>
   // }

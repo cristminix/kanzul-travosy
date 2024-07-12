@@ -35,11 +35,13 @@ export const GitDoctor = ({ logs, task }) => {
   const runTask = async (taskName) => {
     if (taskName === "checkup") {
       // console.log(taskName)
-      const { repoUrl, token, corsProxyUrl } = await getCurrentSetting()
-        localStorage.repoUrl = repoUrl
-        localStorage.token = token
-        localStorage.corsProxyUrl = corsProxyUrl
-        
+      const currentSetting = await getCurrentSetting()
+      if (!currentSetting) return
+      const { repoUrl, token, corsProxyUrl } = currentSetting
+      localStorage.repoUrl = repoUrl
+      localStorage.token = token
+      localStorage.corsProxyUrl = corsProxyUrl
+
       setTaskStatus(true)
       await setTimeout(() => {
         setTaskStatus(false)

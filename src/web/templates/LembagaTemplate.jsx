@@ -13,7 +13,7 @@ const LembagaTemplate = ({}) => {
 
   const lembagaState = useSelector((state) => state.lembaga)
   const meta = useSelector((state) => state.meta.lembaga)
-  const BASE_URL = import.meta.env === "PROD" ? "http://localhost:5173" : "https://ponpeskanzululumcirebon.com"
+  const BASE_URL = "https://www.ponpeskanzululumcirebon.com"
 
   useEffect(() => {
     dispatch(fetchLembaga())

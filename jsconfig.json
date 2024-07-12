@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@": ["./src/"],
+
+      "buffer": ["rollup-plugin-node-polyfills/polyfills/buffer-es6"]
+
+      }
+    }
+  }
+  

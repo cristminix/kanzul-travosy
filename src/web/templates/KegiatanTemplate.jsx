@@ -13,7 +13,7 @@ const KegiatanTemplate = ({}) => {
 
   const kegiatanState = useSelector((state) => state.kegiatan)
   const meta = useSelector((state) => state.meta.kegiatan)
-  const BASE_URL = import.meta.env !== "PROD" ? "http://localhost:5173" : "https://ponpeskanzululumcirebon.com"
+  const BASE_URL = "https://www.ponpeskanzululumcirebon.com"
 
   useEffect(() => {
     dispatch(fetchKegiatan())

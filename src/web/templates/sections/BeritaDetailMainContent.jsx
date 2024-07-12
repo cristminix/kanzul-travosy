@@ -24,7 +24,7 @@ const BeritaDetailMainContent = ({ model, loadingModel, reload, metaMode }) => {
   const dispatch = useDispatch()
 
   const meta = useSelector((state) => state.meta.berita)
-  const BASE_URL = import.meta.env !== "PROD" ? "http://localhost:5173" : "https://ponpeskanzululumcirebon.com"
+  const BASE_URL = "https://www.ponpeskanzululumcirebon.com"
   const [slug, setSlug] = useState("")
   const [title, setTitle] = useState(meta.title)
   const [canonical, setCanonical] = useState(`${BASE_URL}/baca/${id}/${slug}`)
