@@ -2,7 +2,8 @@ import { useEffect, useState } from "react"
 const BannerCrumb = ({ breadcrumbs, banner }) => {
   const [bgStyle, setBgStyle] = useState({})
   useEffect(() => {
-    // console.log(banner)
+    // console.log({ banner })
+    if (!banner) return
     if (banner.image) {
       setBgStyle((oStyle) => {
         return { backgroundImage: `url('${banner.image}')` }
@@ -24,6 +25,7 @@ const BannerCrumb = ({ breadcrumbs, banner }) => {
   const cls10 = "cls-10 inline-block uppercase text-[13px] font-bold duration-500 ease-in-out text-white"
 
   const breadcrumbLength = breadcrumbs.length - 1
+  if (!banner) return null
   return (
     <section className={cls0} style={bgStyle}>
       <div className={cls1}> </div>

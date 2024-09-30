@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { fixTags } from "@/global/fn/fixTags"
 import { Clock as IconClock, User as IconUser } from "react-feather"
 import { slugify } from "../../../global/fn/slugify"
+import { getBlocksReadingTime } from "../../../global/fn/getBlocksReadingTime.js"
 const mProdukRo = new MProdukRo()
 
 const ShortProdukList = ({}) => {
@@ -10,6 +11,10 @@ const ShortProdukList = ({}) => {
   const [loading, setLoading] = useState(true)
   const loadProdukList = async () => {
     setLoading(true)
+
+    // const records = await fetchProdukList()
+    // console.log(records)
+    // setProdukList(records)
     await mProdukRo.initOrm()
     const list = await mProdukRo.getList(3, 1)
     for (const row of list.records) {
@@ -85,7 +90,8 @@ const ShortProdukList = ({}) => {
             const slug = slugify(post.title)
 
             const postUrlCompiled = `/produk/lihat/${post.id}/${slug}`
-            const postUrl = post.compiledHash ? postUrlCompiled : `/produk/#/lihat/${post.id}/${slug}`
+            // const postUrl = post.compiledHash ? postUrlCompiled : `/produk/#/lihat/${post.id}/${slug}`
+            const postUrl = `/produk/#/lihat/${post.id}/${slug}`
             return (
               <div className={cls5} key={index}>
                 <div className={cls6}>

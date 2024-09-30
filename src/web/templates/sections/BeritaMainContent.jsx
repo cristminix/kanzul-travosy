@@ -13,7 +13,7 @@ const BeritaMainContent = ({ beritaData, model, reload, loadingModel, byAuthor }
   const { pageNumber, author } = useLoaderData()
   // console.log({byAuthor,author,pageNumber})
 
-  // console.log(beritaData)
+  // console.log({ beritaData })
   const [breadcrumbs, setBreadcrumbs] = useState([
     { title: "Home", path: "/" },
     { title: "Berita", path: "/berita" },
@@ -39,10 +39,11 @@ const BeritaMainContent = ({ beritaData, model, reload, loadingModel, byAuthor }
       newList = await model.getList({
         limit,
         page,
-        search: {
-          type: "single",
-          field: "author",
-          query: author,
+        filter: {
+          author: `"${author}"`,
+          // type: "single",
+          // field: "author",
+          // query: author,
         },
       })
 

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { fixTags } from "@/global/fn/fixTags"
 import { Clock as IconClock, User as IconUser } from "react-feather"
 import { slugify } from "../../../global/fn/slugify"
+import { getBlocksReadingTime } from "../../../global/fn/getBlocksReadingTime.js"
 const mBeritaRo = new MBeritaRo()
 
 const ShortBeritaList = ({}) => {
@@ -10,12 +11,16 @@ const ShortBeritaList = ({}) => {
   const [loading, setLoading] = useState(true)
   const loadBeritaList = async () => {
     setLoading(true)
-    await mBeritaRo.initOrm()
-    const list = await mBeritaRo.getList(3, 1)
-    for (const row of list.records) {
-      row.readingTime = await mBeritaRo.getReadingTime(row.id)
-    }
-    setBeritaList(list.records)
+
+    try {
+      await mBeritaRo.initOrm()
+      const list = await mBeritaRo.getList(3, 1)
+      for (const row of list.records) {
+        row.readingTime = await mBeritaRo.getReadingTime(row.id)
+      }
+      setBeritaList(list.records)
+    } catch (error) {}
+
     setLoading(false)
   }
   useEffect(() => {
@@ -85,7 +90,8 @@ const ShortBeritaList = ({}) => {
             const slug = slugify(post.title)
             const postUrlCompiled = `/berita/baca/${post.id}/${slug}`
 
-            const postUrl = post.compiledHash ? postUrlCompiled : `/berita/#/baca/${post.id}/${slug}`
+            // const postUrl = post.compiledHash ? postUrlCompiled : `/berita/#/baca/${post.id}/${slug}`
+            const postUrl = `/berita/#/baca/${post.id}/${slug}`
             return (
               <div className={cls5} key={index}>
                 <div className={cls6}>

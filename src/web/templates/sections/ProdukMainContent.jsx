@@ -40,10 +40,8 @@ const ProdukMainContent = ({ produkData, model, reload, loadingModel, byKategori
       newList = await model.getList({
         limit,
         page,
-        search: {
-          type: "single",
-          field: "kategori",
-          query: kategori,
+        filter: {
+          kategori: `"${kategori}"`,
         },
       })
 
