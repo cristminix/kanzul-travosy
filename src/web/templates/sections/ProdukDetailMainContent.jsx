@@ -1,4 +1,5 @@
 // import Hero from "../blocks/Hero"
+import fetchProdukDetail from "@/global/api/produk/fetchProdukDetail"
 
 import FullProdukDetail from "../blocks/FullProdukDetail"
 import ProdukBanner from "../blocks/ProdukBanner"
@@ -32,7 +33,7 @@ const ProdukDetailMainContent = ({ model, loadingModel, reload, metaMode }) => {
       return
     }
     setLoading(true)
-    const detail = await model.get(pk)
+    const detail =( await fetchProdukDetail(pk))
     const slug_ = slugify(detail.title)
     setSlug(slug_)
     setCanonical(`${BASE_URL}/lihat/${id}/${slug_}`)
@@ -53,7 +54,7 @@ const ProdukDetailMainContent = ({ model, loadingModel, reload, metaMode }) => {
       { title: detail.title, path: `#/baca/${id}/${slug}` },
     ]
     setBreadcrumbs((oData) => [...breadcrumbs])
-    setBanner((oData) => ({ ...oData, title: detail.title, image: `/assets/images/produk/covers/${detail.cover}` }))
+    setBanner((oData) => ({ ...oData, title: detail.title, image: `${detail.cover}` }))
     setLoading(false)
   }
 
@@ -69,7 +70,8 @@ const ProdukDetailMainContent = ({ model, loadingModel, reload, metaMode }) => {
     dispatch(fetchMetaProduk())
   }, [])
   useEffect(() => {
-    if (model.ready) loadProdukDetail()
+    // if (model.ready) 
+      loadProdukDetail()
   }, [pk, setProduk, reload, setLoading, setCanonical, setDescription])
 
   useEffect(() => {

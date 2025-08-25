@@ -6,19 +6,21 @@ const GIT_REPO_DIR = path.join("C:/Users/Damar/Desktop/ACTIVE-WORKS/kanzululum-w
 const git = {
   fs,
   dir: path.join(CWD, "dist"),
-  commit: () => {},
+  commit: () => { },
 }
 import MBeritaRw from "../src/global/git/orm/rw/models/MBeritaRw"
 import MProdukRw from "../src/global/git/orm/rw/models/MProdukRw"
 import HTMLCompiler from "../src/global/class/HTMLCompiler"
+import fetchProduk from "src/global/api/produk/fetchProduk"
+import fetchBerita from "src/global/api/berita/fetchBerita"
 
 const mBeritaRw = new MBeritaRw(git)
 const mProdukRw = new MProdukRw(git)
 const compilerBerita = new HTMLCompiler(mBeritaRw)
 const compilerProduk = new HTMLCompiler(mProdukRw)
 const compileProduk = async () => {
-  await mProdukRw.initOrm()
-  const lists = await mProdukRw.getAll()
+  // await mProdukRw.initOrm()
+  const lists = (await fetchProduk()).produk
   for (const row of lists) {
     const result = await compilerProduk.compile(row)
     const { checksum, targetGitPath } = result
@@ -36,8 +38,8 @@ const compileProduk = async () => {
   await mProdukRw.commit()
 }
 const compileBerita = async () => {
-  await mBeritaRw.initOrm()
-  const lists = await mBeritaRw.getAll()
+  // await mBeritaRw.initOrm()
+  const lists = (await fetchBerita()).berita
   for (const row of lists) {
     const result = await compilerBerita.compile(row)
     const { checksum, targetGitPath } = result

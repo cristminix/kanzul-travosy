@@ -1,4 +1,5 @@
 import Hero from "../blocks/Hero"
+import fetchBeritaDetail from "@/global/api/berita/fetchBeritaDetail"
 
 import FullBeritaDetail from "../blocks/FullBeritaDetail"
 import BeritaBanner from "../blocks/BeritaBanner"
@@ -34,7 +35,7 @@ const BeritaDetailMainContent = ({ model, loadingModel, reload, metaMode }) => {
       return
     }
     setLoading(true)
-    const detail = await model.get(pk)
+    const detail = (await fetchBeritaDetail(pk)).berita
     const slug_ = slugify(detail.title)
     setSlug(slug_)
     setTitle(detail.title)
@@ -56,7 +57,7 @@ const BeritaDetailMainContent = ({ model, loadingModel, reload, metaMode }) => {
       { title: detail.title, path: `#/baca/${id}/${slug}` },
     ]
     setBreadcrumbs((oData) => [...breadcrumbs])
-    setBanner((oData) => ({ ...oData, title: detail.title, image: `/assets/images/berita/covers/${detail.cover}` }))
+    setBanner((oData) => ({ ...oData, title: detail.title, image: `${detail.cover}` }))
     setLoading(false)
   }
   const getPkByMeta = () => {
@@ -68,7 +69,9 @@ const BeritaDetailMainContent = ({ model, loadingModel, reload, metaMode }) => {
     // console.log(meta.getAttribute("content"))
   }
   useEffect(() => {
-    if (model.ready) loadBeritaDetail()
+    // if (model.ready) 
+    console.log(pk)
+      loadBeritaDetail()
   }, [pk, setBerita, reload, setLoading, setCanonical, setDescription])
   useEffect(() => {
     if (metaMode) {

@@ -1,9 +1,11 @@
 import MBeritaRo from "@/global/git/orm/ro/models/MBeritaRo"
 import { useEffect, useState } from "react"
 import { fixTags } from "@/global/fn/fixTags"
+import fetchBerita from "@/global/api/berita/fetchBerita"
 import { Clock as IconClock, User as IconUser } from "react-feather"
 import { slugify } from "../../../global/fn/slugify"
 import { getBlocksReadingTime } from "../../../global/fn/getBlocksReadingTime.js"
+import { getReadingTime } from "../../../global/fn/getReadingTime.js"
 const mBeritaRo = new MBeritaRo()
 
 const ShortBeritaList = ({}) => {
@@ -13,12 +15,12 @@ const ShortBeritaList = ({}) => {
     setLoading(true)
 
     try {
-      await mBeritaRo.initOrm()
-      const list = await mBeritaRo.getList(3, 1)
-      for (const row of list.records) {
-        row.readingTime = await mBeritaRo.getReadingTime(row.id)
+      // await mBeritaRo.initOrm()
+      const list = await fetchBerita(1, 3)
+      for (const row of list.berita) {
+        row.readingTime = await getReadingTime(row.content)
       }
-      setBeritaList(list.records)
+      setBeritaList(list.berita)
     } catch (error) {}
 
     setLoading(false)
@@ -95,7 +97,7 @@ const ShortBeritaList = ({}) => {
             return (
               <div className={cls5} key={index}>
                 <div className={cls6}>
-                  <img src={`/assets/images/berita/covers/${post.cover}`} alt={post.title} className={cls7} />
+                  <img src={`${post.cover}`} alt={post.title} className={cls7} />
                   <div className={cls8}>
                     <span className={cls9}> {fixTags(post.tags)} </span>
                   </div>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import moment from "moment"
 
 const BeritaBanner = ({ breadcrumbs, banner, berita }) => {
   const [bgStyle, setBgStyle] = useState({})
@@ -45,7 +46,7 @@ const BeritaBanner = ({ breadcrumbs, banner, berita }) => {
               </li>
               <li className={cls6}>
                 {" "}
-                <span className={cls7}> Tanggal : </span> <span className={cls8}> {berita.tanggal} </span>{" "}
+                <span className={cls7}> Tanggal : </span> <span className={cls8}> {moment(berita.dateCreated).format('DD/MM/YYYY')} </span>{" "}
               </li>
               <li className={cls6}>
                 {" "}

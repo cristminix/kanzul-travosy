@@ -9,7 +9,9 @@ class HTMLCompiler {
   git = null
   baseDir = null
   parser = null
-  errorHandler = null
+  errorHandler = (text) => {
+    console.error(text)
+  }
   prefix = "baca"
   slugField = "title"
   constructor(model) {
@@ -22,7 +24,7 @@ class HTMLCompiler {
   setBaseDir(path) {
     this.baseDir = path
   }
-  setTitle(title) {}
+  setTitle(title) { }
   setErrorLogger(handler = (f) => f) {
     this.errorHandler = handler
   }
@@ -87,6 +89,9 @@ class HTMLCompiler {
 
     return checksum
   }
+  // errorHandler(content) {
+  //   console.error(content)
+  // }
   async compile(row) {
     // const row = await this.model.getRow(id)
     let checksum = null

@@ -135,8 +135,8 @@ export default defineConfig({
     // }),
   ],
   build: {
-    sourcemap: true,
+    // sourcemap: true,
 
-    commonjsOptions: { transformMixedEsModules: true }, // Change
+    // commonjsOptions: { transformMixedEsModules: true }, // Change
   },
 })

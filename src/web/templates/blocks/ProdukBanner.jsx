@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import moment from "moment"
 
  const ProdukBanner = ({ breadcrumbs, banner,produk }) => {
   const [bgStyle, setBgStyle] = useState({}) 
@@ -38,7 +39,7 @@ import { useEffect, useState } from "react"
 
                      <ul className={cls5}> 
                          <li className={cls6}>   <span className={cls7}> Kategori : </span>   <span className={cls8}> {produk.kategori} </span> </li> 
-                         <li className={cls6}>   <span className={cls7}> Tanggal : </span>   <span className={cls8}> {produk.tanggal} </span> </li> 
+                         <li className={cls6}>   <span className={cls7}> Tanggal : </span>   <span className={cls8}> {moment(produk.dateCreated).format('DD/MM/YYYY')} </span> </li>
                          <li className={cls6}>   <span className={cls7}> Waktu : </span>   <span className={cls8}> {produk.readingTime} Menit Baca </span> </li> 
                      </ul> 
                  </div> {/*<!--end grid-->*/} 

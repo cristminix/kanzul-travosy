@@ -14,9 +14,9 @@ const getWasmUrl = (file) => {
   //   return `https://sql.js.org/dist/${file}`
 }
 class Logger {
-  info() {}
-  error() {}
-  warning() {}
+  info() { }
+  error() { }
+  warning() { }
 }
 
 class DrizzleBaseModelRw {
@@ -172,7 +172,7 @@ class DrizzleBaseModelRw {
       const filebuffer = await this.fs.readFileSync(dbGitPath)
 
       const sqlPromise = await initSqlJs({
-        locateFile: (file) => (isBrowser() ? getWasmUrl(file) : sqlWasmGitPath),
+        // locateFile: (file) => (isBrowser() ? getWasmUrl(file) : sqlWasmGitPath),
       })
 
       this.sqldb = new sqlPromise.Database(filebuffer)

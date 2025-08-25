@@ -183,7 +183,7 @@ const BeritaDisplay = ({ berita, loading ,metaMode}) => {
             <>
               <div className={cls2}>
                 <div className={cls3}>
-                  <img className="twx-w-full" src={`/assets/images/berita/covers/${berita.cover}`} alt={berita.title} />
+                  <img className="twx-w-full" src={`${berita.cover}`} alt={berita.title} />
 
                   <div className={cls4}>
                     <BlockData data={berita.content}/>

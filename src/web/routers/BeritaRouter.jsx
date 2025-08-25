@@ -16,7 +16,7 @@ import BeritaApp,{loader as beritaLoader} from "@/web/apps/BeritaApp"
 import BeritaList from "@/web/apps/berita/BeritaList"
 import BeritaDetail from "@/web/apps/berita/BeritaDetail"
 import MBeritaRo from "@/global/git/orm/ro/models/MBeritaRo"
-const mBeritaRo = new MBeritaRo()
+const mBeritaRo = null
 
 const Router = ({}) => {
   const [reload,setReload]=useState('')
@@ -24,13 +24,13 @@ const Router = ({}) => {
 
   const initModel= async()=>{
     setLoadingModel(true)
-    await mBeritaRo.initOrm()
+    // await mBeritaRo.initOrm()
     setReload(crc32id())
     setLoadingModel(false)
   }
   
   useEffect(() => {
-    initModel()
+    // initModel()
   }, [setReload,setLoadingModel])
 
   // useEffect(()=>{

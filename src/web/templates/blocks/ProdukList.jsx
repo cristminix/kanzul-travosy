@@ -71,7 +71,7 @@ const ProdukList = ({ list, loading }) => {
                     <div className={cls5} key={index}>
                       <div className={cls6}>
                         <img
-                          src={`/assets/images/produk/covers/${item.cover}`}
+                          src={`${item.cover}`}
                           alt={item.title}
                           className={`${cls7}`}
                         />

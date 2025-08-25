@@ -1,9 +1,11 @@
 import MProdukRo from "@/global/git/orm/ro/models/MProdukRo"
 import { useEffect, useState } from "react"
 import { fixTags } from "@/global/fn/fixTags"
+import fetchProduk from "@/global/api/produk/fetchProduk"
 import { Clock as IconClock, User as IconUser } from "react-feather"
 import { slugify } from "../../../global/fn/slugify"
 import { getBlocksReadingTime } from "../../../global/fn/getBlocksReadingTime.js"
+import { getReadingTime } from "../../../global/fn/getReadingTime.js"
 const mProdukRo = new MProdukRo()
 
 const ShortProdukList = ({}) => {
@@ -15,12 +17,12 @@ const ShortProdukList = ({}) => {
     // const records = await fetchProdukList()
     // console.log(records)
     // setProdukList(records)
-    await mProdukRo.initOrm()
-    const list = await mProdukRo.getList(3, 1)
-    for (const row of list.records) {
-      row.readingTime = await mProdukRo.getReadingTime(row.id)
+    // await mProdukRo.initOrm()
+    const list = await fetchProduk(1, 3)
+    for (const row of list.produk) {
+      row.readingTime = await getReadingTime(row.content)
     }
-    setProdukList(list.records)
+    setProdukList(list.produk)
     setLoading(false)
   }
   useEffect(() => {
@@ -95,7 +97,7 @@ const ShortProdukList = ({}) => {
             return (
               <div className={cls5} key={index}>
                 <div className={cls6}>
-                  <img src={`/assets/images/produk/covers/${post.cover}`} alt={post.title} className={cls7} />
+                  <img src={`${post.cover}`} alt={post.title} className={cls7} />
                   <div className={cls8}>
                     <span className={cls9}> {fixTags(post.tags)} </span>
                   </div>

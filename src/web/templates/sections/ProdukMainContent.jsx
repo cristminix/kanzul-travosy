@@ -1,5 +1,7 @@
 // import Hero from "../blocks/Hero"
+import fetchProduk from "@/global/api/produk/fetchProduk"
 
+import { getReadingTime } from "../../../global/fn/getReadingTime.js"
 import BannerCrumb from "../blocks/BannerCrumb"
 
 // import Counter from "@/global/store/features/counter/Counter"
@@ -35,15 +37,9 @@ const ProdukMainContent = ({ produkData, model, reload, loadingModel, byKategori
     const page = parseInt(pageNumber || 1)
     let newList = null
     if (!byKategori) {
-      newList = await model.getList(limit, page)
+      newList = await fetchProduk(page, limit)
     } else {
-      newList = await model.getList({
-        limit,
-        page,
-        filter: {
-          kategori: `"${kategori}"`,
-        },
-      })
+      newList = await fetchProduk(page, limit, kategori)
 
       setBreadcrumbs((oData) => {
         return [
@@ -58,23 +54,26 @@ const ProdukMainContent = ({ produkData, model, reload, loadingModel, byKategori
       return
     }
     // console.log(newList)
-    for (const row of newList.records) {
-      row.readingTime = await model.getReadingTime(row.id)
+    for (const row of newList.produk) {
+      row.readingTime = await getReadingTime(row.content)
     }
-    setList((oList) => newList)
+    setList((oList) => ({
+      records: newList.produk
+    }))
     setPager((oPager) => ({
       ...oPager,
       limit,
       page,
-      totalRecords: newList.totalRecords,
-      totalPages: newList.totalPages,
+      totalRecords: newList.pagination.total,
+      totalPages: newList.pagination.totalPages,
     }))
     setLoading(false)
   }
   useEffect(() => {
     // console.log(model.ready,{pageNumber})
 
-    if (model && model.ready) updateList(pageNumber)
+    // if (model && model.ready) 
+      updateList(pageNumber)
   }, [setList, reload, setPager, pageNumber, setLoading, byKategori, kategori])
   const routeName = byKategori ? `penulis/${kategori}/page` : "page"
   return (

@@ -29,7 +29,7 @@ const Router = ({}) => {
   }
   
   useEffect(() => {
-    initModel()
+    // initModel()
   }, [setReload,setLoadingModel])
 
   // useEffect(()=>{

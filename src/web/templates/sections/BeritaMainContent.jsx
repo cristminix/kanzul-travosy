@@ -1,4 +1,5 @@
 import Hero from "../blocks/Hero"
+import fetchBerita from "@/global/api/berita/fetchBerita"
 
 import BannerCrumb from "../blocks/BannerCrumb"
 
@@ -8,6 +9,7 @@ import BeritaPager from "../blocks/BeritaPager"
 
 import { useState, useEffect } from "react"
 import { useLoaderData } from "react-router-dom"
+import { getReadingTime } from "../../../global/fn/getReadingTime.js"
 
 const BeritaMainContent = ({ beritaData, model, reload, loadingModel, byAuthor }) => {
   const { pageNumber, author } = useLoaderData()
@@ -19,7 +21,7 @@ const BeritaMainContent = ({ beritaData, model, reload, loadingModel, byAuthor }
     { title: "Berita", path: "/berita" },
   ])
   const [list, setList] = useState([])
-  const [loading, setLoading] = useState(loadingModel)
+  const [loading, setLoading] = useState(true)
   // const [page,setPage] = useState(pageNumber||1)
   const [limit, setLimit] = useState(6)
   const [pager, setPager] = useState({
@@ -32,20 +34,13 @@ const BeritaMainContent = ({ beritaData, model, reload, loadingModel, byAuthor }
   const updateList = async (pageNumber) => {
     setLoading(true)
     const page = parseInt(pageNumber || 1)
+    setList((oList) => [])
+
     let newList = null
     if (!byAuthor) {
-      newList = await model.getList(limit, page)
+      newList = await fetchBerita(page, limit)
     } else {
-      newList = await model.getList({
-        limit,
-        page,
-        filter: {
-          author: `"${author}"`,
-          // type: "single",
-          // field: "author",
-          // query: author,
-        },
-      })
+      newList = await fetchBerita(page, limit, author)
 
       setBreadcrumbs([
         { title: "Home", path: "/" },
@@ -58,23 +53,26 @@ const BeritaMainContent = ({ beritaData, model, reload, loadingModel, byAuthor }
       return
     }
     // console.log(newList)
-    for (const row of newList.records) {
-      row.readingTime = await model.getReadingTime(row.id)
+    for (const row of newList.berita) {
+      row.readingTime = await  getReadingTime(row.content)
     }
-    setList((oList) => newList)
+    setList((oList) => ({
+      records: newList.berita
+    }))
     setPager((oPager) => ({
       ...oPager,
       limit,
       page,
-      totalRecords: newList.totalRecords,
-      totalPages: newList.totalPages,
+      totalRecords: newList.pagination.total,
+      totalPages: newList.pagination.totalPages,
     }))
     setLoading(false)
   }
   useEffect(() => {
     // console.log(model.ready,{pageNumber})
 
-    if (model && model.ready) updateList(pageNumber)
+    // if (model && model.ready) 
+      updateList(pageNumber)
   }, [setList, reload, setPager, pageNumber, setLoading, byAuthor, author])
   const routeName = byAuthor ? `penulis/${author}/page` : "page"
   return (

@@ -183,7 +183,7 @@ const ProdukDisplay = ({ produk, loading ,metaMode }) => {
             <>
               <div className={cls2}>
                 <div className={cls3}>
-                  <img className="twx-w-full" src={`/assets/images/produk/covers/${produk.cover}`} alt={produk.title} />
+                  <img className="twx-w-full" src={`${produk.cover}`} alt={produk.title} />
 
                   <div className={cls4}>
                     <BlockData data={produk.content}/>
