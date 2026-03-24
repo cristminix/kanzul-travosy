@@ -32,11 +32,17 @@ class DrizzleBaseModelRw {
   dir = null
   sqldb = null
   searchFields = []
+  useKvStoreApi = true
+  kvStoreBaseUrl = "http://localhost:8787"
+  kvStorePath = ""
+  kvStoreSlug = ""
 
   constructor(git) {
-    this.git = git
-    this.fs = git.fs
-    this.dir = git.dir
+    if (!this.useKvStoreApi) {
+      this.git = git
+      this.fs = git.fs
+      this.dir = git.dir
+    }
   }
 
   getSearchFields() {
@@ -163,6 +169,7 @@ class DrizzleBaseModelRw {
     return `${this.dir}/${this.wasmPath}`
   }
   async initOrm() {
+    if (this.useKvStoreApi) return
     if (this.ready) return
 
     const dbGitPath = this.getDbPath()
@@ -184,7 +191,12 @@ class DrizzleBaseModelRw {
     }
   }
 
-  getAll() {
+  async getAll() {
+    if (this.useKvStoreApi) {
+      const response = await fetch(`${this.kvStoreBaseUrl}/${this.kvStorePath}`)
+      const data = await response.json()
+      return data[this.kvStoreSlug]
+    }
     return this.db.select().from(this.schema).all()
   }
   async getRecords(orderBy) {

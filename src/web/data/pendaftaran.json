@@ -20,6 +20,7 @@
 	"syarat-administrasi": [
 		{
 			"id": 2,
+			"category-slug": "administrasi",
 			"content": "Mengisi formulir pendaftaran"
 		},
 		{
@@ -42,6 +43,7 @@
 	"biaya-pendaftaran": [
 		{
 			"id": 1,
+			"category-slug": "main",
 			"legend": "Biaya awal pendaftaran",
 			"keterangan": "Biaya formulir pendaftaran",
 			"biaya": "200000"

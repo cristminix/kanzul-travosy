@@ -7,8 +7,8 @@ class DBGitError {
 
   report(errorCode, errorReason) {
     const errorMessage = `DBGitError:${this.dbInstance.type}:(${errorCode}) : ${errorReason}`
-    console.log(errorMessage)
-    alert(`${errorMessage}`)
+    console.error(errorMessage)
+    // alert(`${errorMessage}`)
   }
 }
 

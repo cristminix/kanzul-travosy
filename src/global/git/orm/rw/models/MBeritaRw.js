@@ -10,7 +10,10 @@ class MBeritaRw extends DrizzleModelRw {
   defaultOrder = { dateUpdated: "asc" }
   path = "web/data/berita/berita.db"
   schema = BeritaSchema
-
+  useKvStoreApi = true
+  kvStorePath = "api/berita"
+  kvStoreSlug = "berita"
+  kvStoreBaseUrl = CONFIG.API_BASE_URL_PROD
   compiler = {
     source: "baca-berita/index.html",
     outDir: "berita",

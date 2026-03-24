@@ -1,9 +1,9 @@
-import contentSlice from "@/global/store/features/contentSlice"
-import settingSlice from "@/global/store/features/settingSlice"
+// import contentSlice from "@/global/store/features/contentSlice"
+// import settingSlice from "@/global/store/features/settingSlice"
 
-import { useSelector, useDispatch } from "react-redux"
+// import { useSelector, useDispatch } from "react-redux"
 import { useEffect, useState, useRef } from "react"
-import MainContentLayout from "./MainContentLayout"
+import MainContentLayout from "./MainContentLayout.jsx"
 import { Button, Tabs, Tab, Form } from "react-bootstrap"
 
 import { createGit } from "@/global/git"
@@ -29,7 +29,7 @@ import beritaUiSchema from "@/web/data/forms/berita/ui.json"
 import metaSchema from "@/web/data/forms/pages/schema.json"
 import metaUiSchema from "@/web/data/forms/pages/ui.json"
 
-import BeritaList from "./components/BeritaList"
+import BeritaList from "./components/BeritaList.jsx"
 // import MBerita from "@/global/git/models/MBerita"
 import MBeritaRw from "@/global/git/orm/rw/models/MBeritaRw"
 import HTMLCompiler from "@/global/class/HTMLCompiler"
@@ -37,11 +37,11 @@ import HTMLCompiler from "@/global/class/HTMLCompiler"
 import MMetaBerita from "@/global/git/models/m-meta/MMetaBerita"
 import MBeritaBanner from "@/global/git/models/m-banner/MBeritaBanner"
 
-import JsonForm from "./JsonForm"
-import RowDataDisplay from "./RowDataDisplay"
+import JsonForm from "./JsonForm.jsx"
+import RowDataDisplay from "./RowDataDisplay.jsx"
 import { crc32id } from "@/global/fn/crc32id"
 
-import BannerEditor from "./components/BannerEditor"
+import BannerEditor from "./components/BannerEditor.jsx"
 import { getBlocksReadingTime } from "@/global/fn/getBlocksReadingTime"
 import { dateToSqlDateTime } from "@/global/fn/dateToSqlDateTime"
 import { createDateFromSqlDateTime } from "@/global/fn/createDateFromSqlDateTime"
@@ -49,7 +49,7 @@ import { createDateFromSqlDateTime } from "@/global/fn/createDateFromSqlDateTime
 import { Plus as IconPlus, RefreshCcw as IconReload, Save as IconSave } from "react-feather"
 import { getFileInfo } from "@/global/fn/getFileInfo"
 const git = createGit()
-// const mBerita = new MBerita(git, beritaSchema)
+const mBerita = new MBerita(git, beritaSchema)
 const mBeritaBanner = new MBeritaBanner(git, bannerSchema)
 const mMetaBerita = new MMetaBerita(git, metaSchema)
 const mBeritaRw = new MBeritaRw(git)
@@ -101,8 +101,8 @@ const BeritaContentPage = ({ subModule }) => {
     showLoading(true, "Memuat Berita")
     setBeritaListData([])
     await mBeritaRw.initOrm()
-    setTimeout(() => {
-      const data = mBeritaRw.getAll()
+    setTimeout(async () => {
+      const data = await mBeritaRw.getAll()
       setBeritaListData((oData) => [...data])
       showLoading(false)
     }, 256)

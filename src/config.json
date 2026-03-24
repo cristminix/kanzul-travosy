@@ -2,6 +2,8 @@
 	"ROUTER_BASE": "/",
 	"DEFAULT_DATA_URL": "data:image/gif;name=DEFAULT_DATA_URL_FILENAME;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
 	"BASE_URL": "https://ponpeskanzululumcirebon.com",
+	"API_BASE_URL": "http://localhost:8787/api",
+	"API_BASE_URL_PROD": "https://kv.ponpeskanzululumcirebon.com",
 	"ENABLE_AUTH": false,
 	"AUTH_BACKEND": "firebase"
 }

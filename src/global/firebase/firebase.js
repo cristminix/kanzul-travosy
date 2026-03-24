@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app"
 import { getFirestore } from "firebase/firestore"
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth"
 
-import firebaseConfig from "./cred.json"
+import firebaseConfig from "./cred.json" with { type: "json" }
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
